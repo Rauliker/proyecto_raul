@@ -5,7 +5,7 @@ class User {
   final int role;
   final String avatar;
   final bool banned;
-  final double? balance;
+  final int? balance;
   final String calle;
   final Provincia provincia;
   final Localidad localidad;
