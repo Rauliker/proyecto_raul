@@ -19,6 +19,8 @@ firebase_options.dart
 .env.local
 .env.development
 .env.production
+firebase.json
+
 
 # Firebase-related files
 android/app/google-services.json
