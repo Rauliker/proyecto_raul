@@ -13,6 +13,26 @@ doc/api/
 
 # dotenv environment variables file
 .env*
+.env
+.env.local
+.env.development
+.env.production
+
+# Firebase-related files
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+web/firebase-config.js
+
+# Flutter-specific files
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.metadata
+ios/Flutter/Flutter.podspec
+ios/.symlinks/
+ios/Pods/
+macos/Pods/
 
 # Avoid committing generated Javascript files:
 *.dart.js
@@ -23,5 +43,9 @@ doc/api/
 *.js.deps
 *.js.map
 
-.flutter-plugins
-.flutter-plugins-dependencies
+# IDE / Editor settings
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
