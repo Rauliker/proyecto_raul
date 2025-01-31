@@ -106,6 +106,7 @@ class NotificationService {
       platformChannelSpecifics,
       payload: message.data['screen'],
     );
+    debugPrint(_flutterLocalNotificationsPlugin.toString());
   }
 
   void _handleNotificationTap(String? screen, BuildContext context) {
