@@ -1,7 +1,7 @@
+import 'package:bidhub/presentations/appbars/default_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:proyecto_raul/presentations/appbars/default_appbar.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

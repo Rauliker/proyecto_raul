@@ -1,5 +1,5 @@
+import 'package:bidhub/config/theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:proyecto_raul/config/theme/theme.dart';
 
 import 'theme_events.dart';
 import 'theme_state.dart';

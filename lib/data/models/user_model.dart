@@ -1,4 +1,4 @@
-import 'package:proyecto_raul/domain/entities/users.dart';
+import 'package:bidhub/domain/entities/users.dart';
 
 class UserModel extends User {
   UserModel({

@@ -1,5 +1,5 @@
-import 'package:proyecto_raul/domain/entities/provincias.dart';
-import 'package:proyecto_raul/domain/repositories/prov_repository.dart';
+import 'package:bidhub/domain/entities/provincias.dart';
+import 'package:bidhub/domain/repositories/prov_repository.dart';
 
 class CaseProvInfo {
   final ProvRepository repository;

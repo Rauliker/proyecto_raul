@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:bidhub/config/notifications/notification_service.dart';
+import 'package:bidhub/data/models/user_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:proyecto_raul/config/notifications/notification_service.dart';
-import 'package:proyecto_raul/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class UserRemoteDataSource {

@@ -1,7 +1,7 @@
+import 'package:bidhub/domain/usercase/user_usecase.dart';
+import 'package:bidhub/presentations/bloc/users/users_event.dart';
+import 'package:bidhub/presentations/bloc/users/users_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:proyecto_raul/domain/usercase/user_usecase.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_event.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_state.dart';
 
 class LogoutUserBloc extends Bloc<UserEvent, UserState> {
   final CaseLogoutUser logout;

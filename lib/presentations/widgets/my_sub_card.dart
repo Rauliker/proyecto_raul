@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:proyecto_raul/domain/entities/subastas_entities.dart';
-import 'package:proyecto_raul/presentations/bloc/subastas/subasta_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/subastas/subastas_event.dart';
-import 'package:proyecto_raul/presentations/bloc/subastas/subastas_state.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_event.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_state.dart';
-import 'package:proyecto_raul/presentations/funcionalities/date_format.dart';
-import 'package:proyecto_raul/presentations/funcionalities/winners.dart';
+import 'package:bidhub/domain/entities/subastas_entities.dart';
+import 'package:bidhub/presentations/bloc/subastas/subasta_bloc.dart';
+import 'package:bidhub/presentations/bloc/subastas/subastas_event.dart';
+import 'package:bidhub/presentations/bloc/subastas/subastas_state.dart';
+import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/users_event.dart';
+import 'package:bidhub/presentations/bloc/users/users_state.dart';
+import 'package:bidhub/presentations/funcionalities/date_format.dart';
+import 'package:bidhub/presentations/funcionalities/winners.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MySubsBody extends StatefulWidget {

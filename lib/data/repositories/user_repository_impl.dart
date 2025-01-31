@@ -1,7 +1,7 @@
+import 'package:bidhub/data/datasources/user_datasource.dart';
+import 'package:bidhub/domain/entities/users.dart';
+import 'package:bidhub/domain/repositories/user_repisitory.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:proyecto_raul/data/datasources/user_datasource.dart';
-import 'package:proyecto_raul/domain/entities/users.dart';
-import 'package:proyecto_raul/domain/repositories/user_repisitory.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource remoteDataSource;

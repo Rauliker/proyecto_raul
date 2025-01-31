@@ -1,7 +1,7 @@
+import 'package:bidhub/domain/usercase/prov_usercase.dart';
+import 'package:bidhub/presentations/bloc/provincias/prov_event.dart';
+import 'package:bidhub/presentations/bloc/provincias/prov_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:proyecto_raul/domain/usercase/prov_usercase.dart';
-import 'package:proyecto_raul/presentations/bloc/provincias/prov_event.dart';
-import 'package:proyecto_raul/presentations/bloc/provincias/prov_state.dart';
 
 class ProvBloc extends Bloc<ProvEvent, ProvState> {
   final CaseProvInfo provInfo;

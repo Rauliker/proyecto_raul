@@ -1,5 +1,5 @@
+import 'package:bidhub/domain/entities/provincias.dart';
 import 'package:equatable/equatable.dart';
-import 'package:proyecto_raul/domain/entities/provincias.dart';
 
 abstract class ProvState extends Equatable {
   const ProvState();

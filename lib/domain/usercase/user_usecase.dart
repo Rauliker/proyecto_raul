@@ -1,6 +1,6 @@
+import 'package:bidhub/domain/entities/users.dart';
+import 'package:bidhub/domain/repositories/user_repisitory.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:proyecto_raul/domain/entities/users.dart';
-import 'package:proyecto_raul/domain/repositories/user_repisitory.dart';
 
 class CaseUser {
   final UserRepository repository;

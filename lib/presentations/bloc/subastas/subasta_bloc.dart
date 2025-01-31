@@ -1,7 +1,7 @@
+import 'package:bidhub/domain/usercase/subastas_usecase.dart';
+import 'package:bidhub/presentations/bloc/subastas/subastas_event.dart';
+import 'package:bidhub/presentations/bloc/subastas/subastas_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:proyecto_raul/domain/usercase/subastas_usecase.dart';
-import 'package:proyecto_raul/presentations/bloc/subastas/subastas_event.dart';
-import 'package:proyecto_raul/presentations/bloc/subastas/subastas_state.dart';
 
 class SubastasBloc extends Bloc<SubastasEvent, SubastasState> {
   final CaseFetchAllSubastas fetchAllSubastas;

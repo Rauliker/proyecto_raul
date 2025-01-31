@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:bidhub/domain/entities/provincias.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:proyecto_raul/domain/entities/provincias.dart';
 
 abstract class ProvRemoteDataSource {
   Future<List<Prov>> getProvsInfo();

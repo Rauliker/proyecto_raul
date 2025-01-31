@@ -1,5 +1,5 @@
+import 'package:bidhub/domain/entities/subastas_entities.dart';
 import 'package:equatable/equatable.dart';
-import 'package:proyecto_raul/domain/entities/subastas_entities.dart';
 
 abstract class SubastasState extends Equatable {
   @override

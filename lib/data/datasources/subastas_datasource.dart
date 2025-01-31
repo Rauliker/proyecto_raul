@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:bidhub/domain/entities/subastas_entities.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:proyecto_raul/domain/entities/subastas_entities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SubastasRemoteDataSource {

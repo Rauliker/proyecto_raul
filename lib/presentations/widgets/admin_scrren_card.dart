@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/ban_user_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/other_user_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_event.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_state.dart';
+import 'package:bidhub/presentations/bloc/users/ban_user_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/other_user_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/users_event.dart';
+import 'package:bidhub/presentations/bloc/users/users_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminListWidget extends StatefulWidget {

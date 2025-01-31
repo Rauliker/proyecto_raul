@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:proyecto_raul/presentations/widgets/dialog/error_dialog.dart';
+import 'package:bidhub/presentations/widgets/dialog/error_dialog.dart';
 
 void showFiltersDrawer(
     BuildContext context,

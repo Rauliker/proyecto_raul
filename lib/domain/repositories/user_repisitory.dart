@@ -1,5 +1,5 @@
+import 'package:bidhub/domain/entities/users.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:proyecto_raul/domain/entities/users.dart';
 
 abstract class UserRepository {
   Future<User> login(String email, String password, String deviceInfo);

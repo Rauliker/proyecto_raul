@@ -1,12 +1,12 @@
+import 'package:bidhub/presentations/appbars/default_appbar.dart';
+import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/users_event.dart';
+import 'package:bidhub/presentations/bloc/users/users_state.dart';
+import 'package:bidhub/presentations/widgets/dialog/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:proyecto_raul/presentations/appbars/default_appbar.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_event.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_state.dart';
-import 'package:proyecto_raul/presentations/widgets/dialog/error_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePassScreen extends StatefulWidget {

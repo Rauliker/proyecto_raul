@@ -1,4 +1,4 @@
-import 'package:proyecto_raul/domain/entities/subastas_entities.dart';
+import 'package:bidhub/domain/entities/subastas_entities.dart';
 
 class SubastaModel {
   final SubastaEntity subastaEntity;

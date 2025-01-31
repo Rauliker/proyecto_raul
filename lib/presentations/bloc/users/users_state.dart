@@ -1,5 +1,5 @@
+import 'package:bidhub/domain/entities/users.dart';
 import 'package:equatable/equatable.dart';
-import 'package:proyecto_raul/domain/entities/users.dart';
 
 abstract class UserState extends Equatable {
   const UserState();

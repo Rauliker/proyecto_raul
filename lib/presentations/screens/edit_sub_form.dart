@@ -1,14 +1,14 @@
+import 'package:bidhub/presentations/appbars/default_appbar.dart';
+import 'package:bidhub/presentations/bloc/subastas/subasta_bloc.dart';
+import 'package:bidhub/presentations/bloc/subastas/subastas_event.dart';
+import 'package:bidhub/presentations/bloc/subastas/subastas_state.dart';
+import 'package:bidhub/presentations/widgets/dialog/error_dialog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:proyecto_raul/presentations/appbars/default_appbar.dart';
-import 'package:proyecto_raul/presentations/bloc/subastas/subasta_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/subastas/subastas_event.dart';
-import 'package:proyecto_raul/presentations/bloc/subastas/subastas_state.dart';
-import 'package:proyecto_raul/presentations/widgets/dialog/error_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final String _baseUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000';

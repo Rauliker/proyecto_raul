@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:proyecto_raul/config/notifications/notification_service.dart';
-import 'package:proyecto_raul/config/routes.dart';
-import 'package:proyecto_raul/firebase_options.dart';
-import 'package:proyecto_raul/presentations/bloc/language/language_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/theme/theme_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/theme/theme_state.dart';
+import 'package:bidhub/config/notifications/notification_service.dart';
+import 'package:bidhub/config/routes.dart';
+import 'package:bidhub/firebase_options.dart';
+import 'package:bidhub/presentations/bloc/language/language_bloc.dart';
+import 'package:bidhub/presentations/bloc/theme/theme_bloc.dart';
+import 'package:bidhub/presentations/bloc/theme/theme_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'injection_container.dart' as injection_container;
@@ -45,7 +45,7 @@ class MyAppState extends State<MyApp> {
       locale = value;
     });
 
-    await NotificationService().initialize();
+    await NotificationService().initialize(context);
   }
 
   @override

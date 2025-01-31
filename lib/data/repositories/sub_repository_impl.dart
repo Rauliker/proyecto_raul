@@ -1,7 +1,7 @@
+import 'package:bidhub/data/datasources/subastas_datasource.dart';
+import 'package:bidhub/domain/entities/subastas_entities.dart';
+import 'package:bidhub/domain/repositories/sub_repository.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:proyecto_raul/data/datasources/subastas_datasource.dart';
-import 'package:proyecto_raul/domain/entities/subastas_entities.dart';
-import 'package:proyecto_raul/domain/repositories/sub_repository.dart';
 
 class SubastasRepositoryImpl implements SubastasRepository {
   final SubastasRemoteDataSource remoteDataSource;

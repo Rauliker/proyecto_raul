@@ -1,5 +1,5 @@
+import 'package:bidhub/domain/entities/subastas_entities.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:proyecto_raul/domain/entities/subastas_entities.dart';
 
 abstract class SubastasRepository {
   Future<void> createSubasta(

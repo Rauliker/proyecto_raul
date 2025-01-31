@@ -1,18 +1,18 @@
+import 'package:bidhub/domain/entities/provincias.dart';
+import 'package:bidhub/presentations/appbars/default_appbar.dart';
+import 'package:bidhub/presentations/bloc/provincias/prov_bloc.dart';
+import 'package:bidhub/presentations/bloc/provincias/prov_event.dart';
+import 'package:bidhub/presentations/bloc/provincias/prov_state.dart';
+import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/users_event.dart';
+import 'package:bidhub/presentations/bloc/users/users_state.dart';
+import 'package:bidhub/presentations/widgets/dialog/error_dialog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:proyecto_raul/domain/entities/provincias.dart';
-import 'package:proyecto_raul/presentations/appbars/default_appbar.dart';
-import 'package:proyecto_raul/presentations/bloc/provincias/prov_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/provincias/prov_event.dart';
-import 'package:proyecto_raul/presentations/bloc/provincias/prov_state.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_event.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_state.dart';
-import 'package:proyecto_raul/presentations/widgets/dialog/error_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CrearUsuarioPage extends StatefulWidget {

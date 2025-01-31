@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:proyecto_raul/presentations/bloc/theme/theme_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/theme/theme_events.dart';
-import 'package:proyecto_raul/presentations/funcionalities/get_role.dart';
+import 'package:bidhub/presentations/bloc/theme/theme_bloc.dart';
+import 'package:bidhub/presentations/bloc/theme/theme_events.dart';
+import 'package:bidhub/presentations/funcionalities/get_role.dart';
 
 class ThemeSelector extends StatelessWidget {
   const ThemeSelector({super.key});

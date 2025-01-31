@@ -1,4 +1,4 @@
-import 'package:proyecto_raul/domain/entities/provincias.dart';
+import 'package:bidhub/domain/entities/provincias.dart';
 
 class ProvModel extends Prov {
   ProvModel({

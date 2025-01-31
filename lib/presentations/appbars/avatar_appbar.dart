@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_state.dart';
+import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/users_state.dart';
 
 class AvatarAppBar extends StatelessWidget implements PreferredSizeWidget {
   const AvatarAppBar({super.key});

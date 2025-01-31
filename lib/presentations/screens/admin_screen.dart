@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:proyecto_raul/presentations/appbars/avatar_appbar.dart';
-import 'package:proyecto_raul/presentations/bloc/users/ban_user_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/other_user_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_bloc.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_event.dart';
-import 'package:proyecto_raul/presentations/bloc/users/users_state.dart';
-import 'package:proyecto_raul/presentations/widgets/admin_scrren_card.dart';
-import 'package:proyecto_raul/presentations/widgets/drewers.dart';
-import 'package:proyecto_raul/presentations/widgets/filter_users.dart';
+import 'package:bidhub/presentations/appbars/avatar_appbar.dart';
+import 'package:bidhub/presentations/bloc/users/ban_user_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/other_user_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/users_event.dart';
+import 'package:bidhub/presentations/bloc/users/users_state.dart';
+import 'package:bidhub/presentations/widgets/admin_scrren_card.dart';
+import 'package:bidhub/presentations/widgets/drewers.dart';
+import 'package:bidhub/presentations/widgets/filter_users.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:proyecto_raul/config/theme/theme.dart';
+import 'package:bidhub/config/theme/theme.dart';
 
 class ThemeState {
   final AppTheme currentTheme;
