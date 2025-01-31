@@ -22,7 +22,6 @@ class SubastasRemoteDataSource {
   ) async {
     int i = 0;
     final url = Uri.parse('$baseUrl/pujas');
-
     final request = http.MultipartRequest('Post', url);
     request.fields['nombre'] = nombre;
     request.fields['descripcion'] = descripcion;
@@ -43,6 +42,21 @@ class SubastasRemoteDataSource {
           http.MultipartFile.fromBytes(
             'files',
             file.bytes!,
+            filename: fileName,
+          ),
+        );
+      } else if (file.path != null) {
+        final extension = file.path!.contains('.')
+            ? file.path!.substring(file.path!.lastIndexOf('.'))
+            : '';
+
+        final fileName = '$creatorId-$nombre-$i$extension';
+
+        i++;
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'files',
+            file.path!,
             filename: fileName,
           ),
         );
@@ -172,6 +186,21 @@ class SubastasRemoteDataSource {
           http.MultipartFile.fromBytes(
             'files',
             file.bytes!,
+            filename: fileName,
+          ),
+        );
+      } else if (file.path != null) {
+        final extension = file.path!.contains('.')
+            ? file.path!.substring(file.path!.lastIndexOf('.'))
+            : '';
+
+        final fileName = '$email-$nombre-$i$extension';
+
+        i++;
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'files',
+            file.path!,
             filename: fileName,
           ),
         );

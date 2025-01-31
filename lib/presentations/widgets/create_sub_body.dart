@@ -1,13 +1,15 @@
+import 'dart:io';
+
+import 'package:bidhub/presentations/bloc/subastas/subasta_bloc.dart';
+import 'package:bidhub/presentations/bloc/subastas/subastas_event.dart';
+import 'package:bidhub/presentations/bloc/subastas/subastas_state.dart';
+import 'package:bidhub/presentations/widgets/dialog/error_dialog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:bidhub/presentations/bloc/subastas/subasta_bloc.dart';
-import 'package:bidhub/presentations/bloc/subastas/subastas_event.dart';
-import 'package:bidhub/presentations/bloc/subastas/subastas_state.dart';
-import 'package:bidhub/presentations/widgets/dialog/error_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MySubCreateBody extends StatefulWidget {
@@ -176,7 +178,8 @@ class MySubCreateBodyState extends State<MySubCreateBody> {
                     return kIsWeb
                         ? Image.memory(file.bytes!,
                             height: 50, width: 50, fit: BoxFit.cover)
-                        : Text(file.name);
+                        : Image.file(File(file.path!),
+                            height: 50, width: 50, fit: BoxFit.cover);
                   }).toList(),
                 ),
                 const SizedBox(height: 20),

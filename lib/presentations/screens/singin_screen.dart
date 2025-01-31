@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bidhub/domain/entities/provincias.dart';
 import 'package:bidhub/presentations/appbars/default_appbar.dart';
 import 'package:bidhub/presentations/bloc/provincias/prov_bloc.dart';
@@ -260,7 +262,8 @@ class CrearUsuarioPageState extends State<CrearUsuarioPage> {
                     return kIsWeb
                         ? Image.memory(file.bytes!,
                             height: 50, width: 50, fit: BoxFit.cover)
-                        : Text(file.name);
+                        : Image.file(File(file.path!),
+                            height: 50, width: 50, fit: BoxFit.cover);
                   }).toList(),
                 ),
                 ElevatedButton(

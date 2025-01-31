@@ -127,6 +127,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
               filename: file.name,
             ),
           );
+        } else if (file.path != null) {
+          request.files.add(
+            await http.MultipartFile.fromPath(
+              'files',
+              file.path!,
+              filename: file.name,
+            ),
+          );
         }
       }
 
@@ -220,6 +228,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
             http.MultipartFile.fromBytes(
               'files',
               file.bytes!,
+              filename: file.name,
+            ),
+          );
+        } else if (file.path != null) {
+          request.files.add(
+            await http.MultipartFile.fromPath(
+              'files',
+              file.path!,
               filename: file.name,
             ),
           );

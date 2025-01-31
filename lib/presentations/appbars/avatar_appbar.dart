@@ -1,8 +1,8 @@
+import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
+import 'package:bidhub/presentations/bloc/users/users_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
-import 'package:bidhub/presentations/bloc/users/users_state.dart';
 
 class AvatarAppBar extends StatelessWidget implements PreferredSizeWidget {
   const AvatarAppBar({super.key});
@@ -39,21 +39,22 @@ class AvatarAppBar extends StatelessWidget implements PreferredSizeWidget {
         BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
             if (state is UserLoaded) {
-              return Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.account_balance_wallet),
-                    onPressed: () {},
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Text('Saldo: ${state.user.balance}€'),
-                  )
-                ],
-              );
-            } else {
-              return const SizedBox();
+              if (state.user.role == 2) {
+                return Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.account_balance_wallet),
+                      onPressed: () {},
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text('Saldo: ${state.user.balance}€'),
+                    )
+                  ],
+                );
+              }
             }
+            return const SizedBox();
           },
         ),
       ],

@@ -25,7 +25,9 @@ class UserModel extends User {
       role: json['role'] ?? 2,
       avatar: json['avatar'],
       banned: json['banned'] ?? false,
-      balance: json['balance'],
+      balance: json['balance'] != null
+          ? int.tryParse(json['balance'].toString())
+          : null,
       calle: json['calle'] ?? '',
       provincia: Provincia(
         idProvincia: json['provincia']?['id_provincia'] ?? 0,

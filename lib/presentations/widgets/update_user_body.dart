@@ -1,9 +1,5 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
+import 'dart:io';
+
 import 'package:bidhub/domain/entities/provincias.dart';
 import 'package:bidhub/presentations/bloc/provincias/prov_bloc.dart';
 import 'package:bidhub/presentations/bloc/provincias/prov_event.dart';
@@ -12,6 +8,12 @@ import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
 import 'package:bidhub/presentations/bloc/users/users_event.dart';
 import 'package:bidhub/presentations/bloc/users/users_state.dart';
 import 'package:bidhub/presentations/widgets/dialog/error_dialog.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final String _baseUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000';
@@ -144,7 +146,9 @@ class UpdateUserBodyState extends State<UpdateUserBody> {
               CircleAvatar(
                 radius: 40,
                 backgroundImage: _imagenes.isNotEmpty
-                    ? MemoryImage(_imagenes[0].bytes!)
+                    ? _imagenes[0].bytes != null
+                        ? MemoryImage(_imagenes[0].bytes!)
+                        : FileImage(File(_imagenes[0].path!))
                     : _avatarUrl.isNotEmpty
                         ? NetworkImage(
                             "$_baseUrl$_avatarUrl?timestamp=${DateTime.now().millisecondsSinceEpoch}")
