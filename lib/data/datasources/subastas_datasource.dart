@@ -97,7 +97,14 @@ class SubastasRemoteDataSource {
   /// Obtener subastas de otro usuario
   Future<List<SubastaEntity>> getSubastasDeOtroUsuario(String userId,
       {String? search, bool? open, int? min, int? max, String? date}) async {
-    final url = Uri.parse('$baseUrl/pujas/?type=other&$userId');
+    String queryString = '?type=other&email=$userId';
+    if (search != null) queryString += '&search=$search';
+    if (open != null) queryString += '&open=$open';
+    if (min != null) queryString += '&min=$min';
+    if (max != null) queryString += '&max=$max';
+    if (date != null) queryString += '&date=$date';
+
+    final url = Uri.parse('$baseUrl/pujas/$queryString');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -111,7 +118,7 @@ class SubastasRemoteDataSource {
 
   /// Obtener subastas por email de usuario
   Future<List<SubastaEntity>> getSubastasPorUsuario(String email) async {
-    final url = Uri.parse('$baseUrl/pujas/my/$email');
+    final url = Uri.parse('$baseUrl/pujas?type=my&email=$email');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

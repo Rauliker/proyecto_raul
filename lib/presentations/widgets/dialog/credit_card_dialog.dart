@@ -8,6 +8,7 @@ class CreditCardDialog extends StatefulWidget {
 }
 
 class CreditCardDialogState extends State<CreditCardDialog> {
+  final TextEditingController _addBalance = TextEditingController();
   final TextEditingController _cardNumberController = TextEditingController();
   final TextEditingController _ccvController = TextEditingController();
   final TextEditingController _expiryDateController = TextEditingController();
@@ -54,47 +55,67 @@ class CreditCardDialogState extends State<CreditCardDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Agregar Tarjeta de Crédito'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _cardNumberController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(labelText: 'Número de tarjeta'),
-            onChanged: _detectCardType,
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: _ccvController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(labelText: 'CCV'),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: _expiryDateController,
-            keyboardType: TextInputType.datetime,
-            decoration:
-                const InputDecoration(labelText: 'Fecha de caducidad (MM/YY)'),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: _holderNameController,
-            decoration:
-                const InputDecoration(labelText: 'Titular de la tarjeta'),
-          ),
-          const SizedBox(height: 10),
-          Text('Tipo: $_cardType',
-              style: const TextStyle(fontWeight: FontWeight.bold)),
-          if (_errorMessage != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                _errorMessage!,
-                style: const TextStyle(
-                    color: Colors.red, fontWeight: FontWeight.bold),
-              ),
+      content: SingleChildScrollView(
+        // Add this to allow scrolling if content overflows
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _addBalance,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Número de tarjeta'),
+              onChanged: _detectCardType,
             ),
-        ],
+            const SizedBox(height: 10),
+            TextField(
+              controller: _cardNumberController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Número de tarjeta'),
+              onChanged: _detectCardType,
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  // Ensure text fields inside Row take up space properly
+                  child: TextField(
+                    controller: _ccvController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(labelText: 'CCV'),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  // Ensure text fields inside Row take up space properly
+                  child: TextField(
+                    controller: _expiryDateController,
+                    keyboardType: TextInputType.datetime,
+                    decoration: const InputDecoration(
+                        labelText: 'Fecha de caducidad (MM/YY)'),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _holderNameController,
+              decoration:
+                  const InputDecoration(labelText: 'Titular de la tarjeta'),
+            ),
+            const SizedBox(height: 10),
+            Text('Tipo: $_cardType',
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            if (_errorMessage != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  _errorMessage!,
+                  style: const TextStyle(
+                      color: Colors.red, fontWeight: FontWeight.bold),
+                ),
+              ),
+          ],
+        ),
       ),
       actions: [
         TextButton(
@@ -107,7 +128,7 @@ class CreditCardDialogState extends State<CreditCardDialog> {
               Navigator.pop(context);
             }
           },
-          child: const Text('Guardar'),
+          child: const Text('Añadir'),
         ),
       ],
     );
