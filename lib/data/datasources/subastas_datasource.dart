@@ -95,8 +95,9 @@ class SubastasRemoteDataSource {
   }
 
   /// Obtener subastas de otro usuario
-  Future<List<SubastaEntity>> getSubastasDeOtroUsuario(String userId) async {
-    final url = Uri.parse('$baseUrl/pujas/other/$userId');
+  Future<List<SubastaEntity>> getSubastasDeOtroUsuario(String userId,
+      {String? search, bool? open, int? min, int? max, String? date}) async {
+    final url = Uri.parse('$baseUrl/pujas/?type=other&$userId');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
