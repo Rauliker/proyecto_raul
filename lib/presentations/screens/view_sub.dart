@@ -237,8 +237,9 @@ class ViewSubInfoState extends State<ViewSubInfo> {
                         ),
                       ),
                       const SizedBox(height: 16.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 8.0,
                         children: [
                           Checkbox(
                             value: isAuto,

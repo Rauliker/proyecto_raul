@@ -60,22 +60,13 @@ dev_dependencies:
 #   android: true
 #   ios: true
 #   image_path: "assets/splash_screen.png"
-flutter_launcher_icons:
-  image_path: "assets/splash_screen.png"
-  android: "launcher_icon"
+flutter_icons:
+  android: true
   ios: true
-  web:
-    generate: true
-    image_path: "assets/splash_screen.png"
-    background_color: "#hexcode"
-    theme_color: "#hexcode"
-  windows:
-    generate: true
-    image_path: "assets/splash_screen.png"
-    icon_size: 48
-  macos:
-    generate: true
-    image_path: "assets/splash_screen.png"
+  image_path: "assets/splash_screen.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/splash_screen.png"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
