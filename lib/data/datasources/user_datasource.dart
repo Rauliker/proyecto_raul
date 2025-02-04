@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bidhub/config/notifications/notification_service.dart';
 import 'package:bidhub/data/models/user_model.dart';
+import 'package:bidhub/presentations/funcionalities/encript_values.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -58,11 +59,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final response = await client.post(url, body: body, headers: headers);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('email', email);
+        // await prefs.setString('email', email);
+        saveEncryptedString('email', email);
         final json = jsonDecode(response.body);
-        await prefs.setInt('role', UserModel.fromJson(json).role);
-        await prefs.setString('device', deviceInfo);
+        saveEncryptedInt('role', UserModel.fromJson(json).role);
+        saveEncryptedString('device', deviceInfo);
         return UserModel.fromJson(json);
       } else {
         throw Exception(
@@ -264,7 +265,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     String email,
   ) async {
     try {
-      final url = Uri.parse('$_baseUrl/users/$email');
+      final prefs = await SharedPreferences.getInstance();
+      final emailUser = prefs.getString('email');
+      final url = Uri.parse('$_baseUrl/users/ban/$email/$emailUser');
 
       final body = jsonEncode({"banned": banned});
 
