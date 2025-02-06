@@ -59,11 +59,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final response = await client.post(url, body: body, headers: headers);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // await prefs.setString('email', email);
-        saveEncryptedString('email', email);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('email', email);
+        // saveEncryptedString('email', email);
         final json = jsonDecode(response.body);
-        saveEncryptedInt('role', UserModel.fromJson(json).role);
-        saveEncryptedString('device', deviceInfo);
+        // saveEncryptedInt('role', UserModel.fromJson(json).role);
+        // saveEncryptedString('device', deviceInfo);
+        await prefs.setString('device', deviceInfo);
+        await prefs.setInt('role', UserModel.fromJson(json).role);
         return UserModel.fromJson(json);
       } else {
         throw Exception(

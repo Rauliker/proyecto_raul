@@ -65,7 +65,7 @@ class Creator {
   final String avatar;
   final int role;
   final bool banned;
-  final String balance;
+  final int balance;
   final String calle;
 
   Creator({
