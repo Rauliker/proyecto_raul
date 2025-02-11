@@ -50,96 +50,98 @@ class FilterUsersDrawerState extends State<FilterUsersDrawer> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DropdownButtonFormField<int>(
-                  value: roleContoller,
-                  decoration: const InputDecoration(
-                    labelText: "Selecciona el rol",
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DropdownButtonFormField<int>(
+                    value: roleContoller,
+                    decoration: const InputDecoration(
+                      labelText: "Selecciona el rol",
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 3,
+                        child: Text('Todos'),
+                      ),
+                      DropdownMenuItem(
+                        value: 2,
+                        child: Text('User'),
+                      ),
+                      DropdownMenuItem(
+                        value: 1,
+                        child: Text('Empleado'),
+                      ),
+                      DropdownMenuItem(
+                        value: 0,
+                        child: Text('Admin'),
+                      ),
+                    ],
+                    onChanged: (newRole) {
+                      setState(() {
+                        roleContoller = newRole!;
+                      });
+                    },
                   ),
-                  items: const [
-                    DropdownMenuItem(
-                      value: 3,
-                      child: Text('Todos'),
-                    ),
-                    DropdownMenuItem(
-                      value: 2,
-                      child: Text('User'),
-                    ),
-                    DropdownMenuItem(
-                      value: 1,
-                      child: Text('Empleado'),
-                    ),
-                    DropdownMenuItem(
-                      value: 0,
-                      child: Text('Admin'),
-                    ),
-                  ],
-                  onChanged: (newRole) {
-                    setState(() {
-                      roleContoller = newRole!;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Selecciona el estado del usuario:',
-                  style: TextStyle(fontSize: 18),
-                ),
-                Row(
-                  children: [
-                    Radio<bool?>(
-                      value: null,
-                      groupValue: bannedController,
-                      onChanged: _handleStatusChange,
-                    ),
-                    const Text('Todos'),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Radio<bool>(
-                      value: false,
-                      groupValue: bannedController,
-                      onChanged: _handleStatusChange,
-                    ),
-                    const Text('No Baneado'),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Radio<bool>(
-                      value: true,
-                      groupValue: bannedController,
-                      onChanged: _handleStatusChange,
-                    ),
-                    const Text('Baneado'),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    widget.onApplyFilters(
-                      roleContoller,
-                      bannedController,
-                    );
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Aplicar Filtros'),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    widget.onApplyFilters(
-                      3,
-                      null,
-                    );
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Reiniciar'),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Selecciona el estado del usuario:',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  Row(
+                    children: [
+                      Radio<bool?>(
+                        value: null,
+                        groupValue: bannedController,
+                        onChanged: _handleStatusChange,
+                      ),
+                      const Text('Todos'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Radio<bool>(
+                        value: false,
+                        groupValue: bannedController,
+                        onChanged: _handleStatusChange,
+                      ),
+                      const Text('No Baneado'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Radio<bool>(
+                        value: true,
+                        groupValue: bannedController,
+                        onChanged: _handleStatusChange,
+                      ),
+                      const Text('Baneado'),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      widget.onApplyFilters(
+                        roleContoller,
+                        bannedController,
+                      );
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Aplicar Filtros'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      widget.onApplyFilters(
+                        3,
+                        null,
+                      );
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Reiniciar'),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
