@@ -23,11 +23,11 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
   double? _minPrice;
   double? _maxPrice;
   bool _isPriceSort = false;
   bool _isDateSort = false;
+  bool subastasCheckbox = true;
   bool _isPriceSortAscending = true;
   bool _isDateSortAscending = true;
   int? precioMasAlto;
@@ -39,17 +39,30 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _loadSavedFilters();
     fetchUserData();
     fetchSubastas();
+  }
+
+  Future<void> _loadSavedFilters() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _minPrice = prefs.getDouble('minPrice');
+      _maxPrice = prefs.getDouble('maxPrice');
+    });
+  }
+
+  Future<void> _saveFilters() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (_minPrice != null) await prefs.setDouble('minPrice', _minPrice!);
+    if (_maxPrice != null) await prefs.setDouble('maxPrice', _maxPrice!);
   }
 
   Future<void> fetchUserData() async {
     final prefs = await SharedPreferences.getInstance();
     final email = prefs.getString('email');
-    if (email != null) {
-      if (!mounted) return;
+    if (email != null && mounted) {
       context.read<UserBloc>().add(UserDataRequest(email: email));
-      setState(() {});
     }
   }
 
@@ -57,31 +70,48 @@ class HomeScreenState extends State<HomeScreen> {
     final prefs = await SharedPreferences.getInstance();
     final email = prefs.getString('email');
 
-    if (email != null) {
-      if (!mounted) return;
-      context.read<SubastasBloc>().add(FetchSubastasDeOtroUsuarioEvent(email));
+    if (email != null && mounted) {
+      context.read<SubastasBloc>().add(FetchSubastasDeOtroUsuarioEvent(
+          email, null, subastasCheckbox, null, null, null));
     }
 
     if (!mounted) return;
     context.read<SubastasBloc>().stream.listen((state) {
       if (state is SubastasLoadedState) {
-        final precios =
-            state.subastas.map((subasta) => subasta.pujaActual).toList();
+        // final precios =
+        // state.subastas.map((subasta) => subasta.pujaActual).toList();
 
-        if (precios.isNotEmpty) {
-          setState(() {
-            precioMasAlto = precios.reduce((a, b) => a > b ? a : b);
-            precioMasBajo = precios.reduce((a, b) => a < b ? a : b);
-          });
-        }
+        // if (precios.isNotEmpty) {
+        //   setState(() {
+        //     precioMasAlto = precios.reduce((a, b) => a > b ? a : b);
+        //     precioMasBajo = precios.reduce((a, b) => a < b ? a : b);
+        //   });
+        // }
+      }
+      if (_maxPrice != null) {
+        precioMasAlto = _maxPrice?.toInt();
+      }
+      if (_minPrice != null) {
+        precioMasBajo = _minPrice?.toInt();
       }
     });
   }
 
-  void _filterSubastas(String query) {
+  Future<void> _filterSubastas(
+      String? query, bool? subastasCheckbox, int? min, int? max) async {
+    final prefs = await SharedPreferences.getInstance();
+    final email = prefs.getString('email');
+    if (email == null) return;
+
     setState(() {
-      _searchQuery = query;
+      _minPrice = min?.toDouble();
+      _maxPrice = max?.toDouble();
     });
+
+    await _saveFilters();
+    if (!mounted) return;
+    context.read<SubastasBloc>().add(FetchSubastasDeOtroUsuarioEvent(
+        email, query, subastasCheckbox, min, max, null));
   }
 
   void _applySorting(bool isPriceSort, bool isAscending) {
@@ -90,18 +120,10 @@ class HomeScreenState extends State<HomeScreen> {
       _isDateSort = !isPriceSort;
       if (isPriceSort) {
         _isPriceSortAscending = isAscending;
-        if (_isFirstTimeSortedPrice) {
-          _isFirstTimeSortedPrice = false;
-        } else {
-          _isFirstTimeSortedPrice = true;
-        }
+        _isFirstTimeSortedPrice = !_isFirstTimeSortedPrice;
       } else {
         _isDateSortAscending = isAscending;
-        if (_isFirstTimeSortedDate) {
-          _isFirstTimeSortedDate = false;
-        } else {
-          _isFirstTimeSortedDate = true;
-        }
+        _isFirstTimeSortedDate = !_isFirstTimeSortedDate;
       }
     });
   }
@@ -116,7 +138,8 @@ class HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
-              onChanged: _filterSubastas,
+              onChanged: (query) => _filterSubastas(query, subastasCheckbox,
+                  _minPrice?.toInt(), _maxPrice?.toInt()),
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context)!.search,
                 border: const OutlineInputBorder(),
@@ -125,9 +148,6 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             child: SubastasListWidget(
-              searchQuery: _searchQuery,
-              minPrice: _minPrice,
-              maxPrice: _maxPrice,
               isPriceSort: _isPriceSort,
               isPriceSortAscending: _isPriceSortAscending,
               isDateSort: _isDateSort,
@@ -140,13 +160,17 @@ class HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: () =>
-                showFiltersDrawer(context, _searchController, (min, max) {
+            onPressed: () => showFiltersDrawer(context, _searchController,
+                (min, max, checkbox) async {
               setState(() {
                 _minPrice = min;
                 _maxPrice = max;
+                subastasCheckbox = checkbox;
               });
-            }, precioMasBajo, precioMasAlto),
+              await _saveFilters();
+              _filterSubastas(_searchController.text, subastasCheckbox,
+                  _minPrice?.toInt(), _maxPrice?.toInt());
+            }, precioMasBajo, precioMasAlto, subastasCheckbox),
             child: const Icon(Icons.filter_list),
           ),
           const SizedBox(height: 16),

@@ -232,7 +232,7 @@ class CrearUsuarioPageState extends State<CrearUsuarioPage> {
                         value: 1,
                         child: Text('Empleado'),
                       ),
-                      if (role == 0)
+                      if (roleCreator == 0)
                         const DropdownMenuItem(
                           value: 0,
                           child: Text('Admin'),

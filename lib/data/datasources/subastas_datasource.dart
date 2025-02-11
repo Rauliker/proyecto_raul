@@ -96,10 +96,12 @@ class SubastasRemoteDataSource {
 
   /// Obtener subastas de otro usuario
   Future<List<SubastaEntity>> getSubastasDeOtroUsuario(String userId,
-      {String? search, bool? open, int? min, int? max, String? date}) async {
+      String? search, bool? open, int? min, int? max, String? date) async {
     String queryString = '?type=other&email=$userId';
     if (search != null) queryString += '&search=$search';
-    if (open != null) queryString += '&open=$open';
+    if (open != null && open == true) {
+      queryString += '&open=$open';
+    }
     if (min != null) queryString += '&min=$min';
     if (max != null) queryString += '&max=$max';
     if (date != null) queryString += '&date=$date';

@@ -1,19 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:bidhub/presentations/bloc/subastas/subasta_bloc.dart';
 import 'package:bidhub/presentations/bloc/subastas/subastas_event.dart';
 import 'package:bidhub/presentations/bloc/subastas/subastas_state.dart';
 import 'package:bidhub/presentations/funcionalities/date_format.dart';
 import 'package:bidhub/presentations/funcionalities/winners.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SubastasListWidget extends StatefulWidget {
-  final String searchQuery;
-  final double? minPrice;
-  final double? maxPrice;
   final bool isPriceSort;
   final bool isPriceSortAscending;
   final bool isDateSort;
@@ -21,9 +18,6 @@ class SubastasListWidget extends StatefulWidget {
 
   const SubastasListWidget({
     super.key,
-    required this.searchQuery,
-    this.minPrice,
-    this.maxPrice,
     required this.isPriceSort,
     required this.isPriceSortAscending,
     required this.isDateSort,
@@ -47,21 +41,7 @@ class SubastasListWidgetState extends State<SubastasListWidget> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is SubastasLoadedState) {
           // Filtrar las subastas
-          final subastas = state.subastas.where((subasta) {
-            final matchesQuery = subasta.nombre
-                    .toLowerCase()
-                    .contains(widget.searchQuery.toLowerCase()) ||
-                subasta.descripcion
-                    .toLowerCase()
-                    .contains(widget.searchQuery.toLowerCase());
-
-            final matchesMinPrice = widget.minPrice == null ||
-                subasta.pujaActual >= widget.minPrice!;
-            final matchesMaxPrice = widget.maxPrice == null ||
-                subasta.pujaActual <= widget.maxPrice!;
-
-            return matchesQuery && matchesMinPrice && matchesMaxPrice;
-          }).toList();
+          final subastas = state.subastas;
 
           if (widget.isPriceSort) {
             if (_isFirstTimeSortedPrice) {
@@ -252,7 +232,12 @@ class SubastasListWidgetState extends State<SubastasListWidget> {
                                               if (!context.mounted) return;
                                               context.read<SubastasBloc>().add(
                                                   FetchSubastasDeOtroUsuarioEvent(
-                                                      email!));
+                                                      email!,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null));
                                             });
                                           }
                                         },

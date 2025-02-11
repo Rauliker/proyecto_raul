@@ -28,8 +28,14 @@ class FetchSubastasPorIdEvent extends SubastasEvent {
 
 class FetchSubastasDeOtroUsuarioEvent extends SubastasEvent {
   final String userId;
+  final String? search;
+  final bool? open;
+  final int? min;
+  final int? max;
+  final String? date;
 
-  FetchSubastasDeOtroUsuarioEvent(this.userId);
+  FetchSubastasDeOtroUsuarioEvent(
+      this.userId, this.search, this.open, this.min, this.max, this.date);
 
   @override
   List<Object> get props => [userId];

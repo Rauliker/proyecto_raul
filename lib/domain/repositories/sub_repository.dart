@@ -12,7 +12,8 @@ abstract class SubastasRepository {
   );
   Future<List<SubastaEntity>> getAllSubastas();
   Future<void> deleteSubasta(int id);
-  Future<List<SubastaEntity>> getSubastasDeOtroUsuario(String userId);
+  Future<List<SubastaEntity>> getSubastasDeOtroUsuario(String userId,
+      String? search, bool? open, int? min, int? max, String? date);
   Future<List<SubastaEntity>> getSubastasPorUsuario(String email);
   Future<SubastaEntity> getSubastaById(int id);
   Future<void> updateSubasta(

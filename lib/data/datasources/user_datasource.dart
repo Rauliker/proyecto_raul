@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:bidhub/config/notifications/notification_service.dart';
 import 'package:bidhub/data/models/user_model.dart';
-import 'package:bidhub/presentations/funcionalities/encript_values.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -112,7 +111,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       List<PlatformFile> image,
       int role) async {
     try {
-      final url = Uri.parse('$_baseUrl/users');
+      final prefs = await SharedPreferences.getInstance();
+      final emailCreator = prefs.getString('email');
+      String urlPrase = '$_baseUrl/users';
+      if (emailCreator != null) {
+        urlPrase += '?email=$email';
+      }
+      final url = Uri.parse(urlPrase);
       final request = http.MultipartRequest('POST', url);
       request.fields['email'] = email;
       request.fields['username'] = username;

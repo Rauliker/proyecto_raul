@@ -32,8 +32,10 @@ class SubastasRepositoryImpl implements SubastasRepository {
   }
 
   @override
-  Future<List<SubastaEntity>> getSubastasDeOtroUsuario(String userId) async {
-    return await remoteDataSource.getSubastasDeOtroUsuario(userId);
+  Future<List<SubastaEntity>> getSubastasDeOtroUsuario(String userId,
+      String? search, bool? open, int? min, int? max, String? date) async {
+    return await remoteDataSource.getSubastasDeOtroUsuario(
+        userId, search, open, min, max, date);
   }
 
   @override

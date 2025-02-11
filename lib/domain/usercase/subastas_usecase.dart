@@ -37,8 +37,10 @@ class CaseFetchSubastasDeOtroUsuario {
 
   CaseFetchSubastasDeOtroUsuario(this.subastasRepository);
 
-  Future<List<SubastaEntity>> call(String userId) async {
-    return await subastasRepository.getSubastasDeOtroUsuario(userId);
+  Future<List<SubastaEntity>> call(String userId, String? search, bool? open,
+      int? min, int? max, String? date) async {
+    return await subastasRepository.getSubastasDeOtroUsuario(
+        userId, search, open, min, max, date);
   }
 }
 

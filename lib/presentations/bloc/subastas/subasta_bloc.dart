@@ -56,7 +56,8 @@ class SubastasBloc extends Bloc<SubastasEvent, SubastasState> {
     on<FetchSubastasDeOtroUsuarioEvent>((event, emit) async {
       emit(SubastasLoadingState());
       try {
-        final subastas = await fetchSubastasDeOtroUsuario.call(event.userId);
+        final subastas = await fetchSubastasDeOtroUsuario.call(event.userId,
+            event.search, event.open, event.min, event.max, event.date);
         emit(SubastasLoadedState(subastas));
       } catch (e) {
         emit(SubastasErrorState(e.toString()));
