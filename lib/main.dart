@@ -6,6 +6,7 @@ import 'package:bidhub/presentations/bloc/theme/theme_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart'; // Importa GetX
 
 import 'injection_container.dart' as injection_container;
 
@@ -25,6 +26,7 @@ class MyApp extends StatefulWidget {
 
   @override
   MyAppState createState() => MyAppState();
+
   static MyAppState? of(BuildContext context) =>
       context.findAncestorStateOfType<MyAppState>();
 }
@@ -49,11 +51,11 @@ class MyAppState extends State<MyApp> {
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
-          return MaterialApp.router(
-            routerConfig: router,
-            debugShowCheckedModeBanner: false,
-            theme: themeState.currentTheme.getTheme(),
-          );
+          return GetMaterialApp(
+              navigatorKey: navigatorKey,
+              debugShowCheckedModeBanner: false,
+              theme: themeState.currentTheme.getTheme(),
+              getPages: routes);
         },
       ),
     );
