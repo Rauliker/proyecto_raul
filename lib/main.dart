@@ -1,16 +1,11 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bidhub/config/notifications/notification_service.dart';
 import 'package:bidhub/config/routes.dart';
-import 'package:bidhub/firebase_options.dart';
 import 'package:bidhub/presentations/bloc/language/language_bloc.dart';
 import 'package:bidhub/presentations/bloc/theme/theme_bloc.dart';
 import 'package:bidhub/presentations/bloc/theme/theme_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'injection_container.dart' as injection_container;
 
@@ -22,9 +17,6 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   await injection_container.init();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   runApp(const MyApp());
 }
 
@@ -49,12 +41,6 @@ class MyAppState extends State<MyApp> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    setLocale(const Locale('es'));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
@@ -63,25 +49,7 @@ class MyAppState extends State<MyApp> {
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
-          SharedPreferences.getInstance().then((prefs) {
-            locale = Locale(prefs.getString('lang') ?? 'es');
-          });
           return MaterialApp.router(
-            locale: locale,
-            supportedLocales: const [
-              Locale('en'),
-              Locale('es'),
-              Locale('it'),
-              Locale('zh'),
-              Locale('ja'),
-              Locale('fr'),
-            ],
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
             routerConfig: router,
             debugShowCheckedModeBanner: false,
             theme: themeState.currentTheme.getTheme(),

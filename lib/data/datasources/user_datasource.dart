@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:bidhub/config/notifications/notification_service.dart';
 import 'package:bidhub/data/models/user_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class UserRemoteDataSource {
-  Future<UserModel> login(String email, String password, String deviceInfo);
+  Future<UserModel> login(String email, String password);
 
   Future<UserModel> getUserInfo(String email);
   Future<List<UserModel>> getUsersInfo(String email);
@@ -37,39 +36,25 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   UserRemoteDataSourceImpl(this.client);
   @override
-  Future<UserModel> login(
-      String email, String password, String deviceInfo) async {
+  Future<UserModel> login(String email, String password) async {
     try {
-      String? fcmToken;
-      if (await NotificationService().hasGrantedPermissions() == true) {
-        fcmToken = await NotificationService().getToken();
-      }
-
       final url = Uri.parse('$_baseUrl/users/login');
       final body = jsonEncode({
         'email': email,
         'password': password,
-        'deviceInfo': deviceInfo,
-        'fcmToken': fcmToken,
       });
 
       final headers = {'Content-Type': 'application/json'};
 
       final response = await client.post(url, body: body, headers: headers);
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('email', email);
-        // saveEncryptedString('email', email);
+        await prefs.setString('token', email);
         final json = jsonDecode(response.body);
-        // saveEncryptedInt('role', UserModel.fromJson(json).role);
-        // saveEncryptedString('device', deviceInfo);
-        await prefs.setString('device', deviceInfo);
-        await prefs.setInt('role', UserModel.fromJson(json).role);
         return UserModel.fromJson(json);
       } else {
-        throw Exception(
-            'Error al obtener datos del usuario. Código de estado: ${response.statusCode}');
+        throw Exception('Error al obtener datos del usuario.');
       }
     } catch (e) {
       throw Exception('Error inesperado al iniciar sesión: $e');

@@ -7,8 +7,8 @@ class CaseUser {
 
   CaseUser(this.repository);
 
-  Future<User> call(String email, String password, String deviceInfo) async {
-    User user = await repository.login(email, password, deviceInfo);
+  Future<User> call(String email, String password) async {
+    User user = await repository.login(email, password);
     return user;
   }
 }

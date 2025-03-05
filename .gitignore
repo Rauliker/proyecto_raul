@@ -21,6 +21,7 @@ firebase_options.dart
 .env.production
 firebase.json
 web/config.js
+flutter/**
 
 # Firebase-related files
 android/app/google-services.json

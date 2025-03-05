@@ -28,6 +28,14 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  get: 4.6.5
+  syncfusion_flutter_datepicker: ^20.1.59
+  image_picker: ^0.8.5+3
+  cached_network_image: ^3.2.1
+  google_fonts: ^6.2.1
+  flutter_spinkit: ^5.1.0
+  pull_to_refresh: ^2.0.0
+
   country_picker: ^2.0.27
   cupertino_icons: ^1.0.8
   device_info_plus: ^11.2.2
@@ -81,8 +89,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    - assets/splash_screen.png
-    - assets/splash_screen.ico
+    - assets/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

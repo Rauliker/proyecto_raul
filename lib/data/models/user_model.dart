@@ -5,16 +5,9 @@ class UserModel extends User {
     required super.email,
     required super.username,
     required super.password,
-    required super.avatar,
-    required super.role,
-    required super.banned,
-    super.balance,
-    required super.calle,
-    required super.provincia,
-    required super.localidad,
-    super.tokens,
-    super.createdPujas,
-    super.pujaBids,
+    required super.name,
+    required super.phone,
+    required super.address,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -22,33 +15,9 @@ class UserModel extends User {
       email: json['email'] ?? '',
       username: json['username'] ?? '',
       password: json['password'] ?? '',
-      role: json['role'] ?? 2,
-      avatar: json['avatar'],
-      banned: json['banned'] ?? false,
-      balance: json['balance'] != null
-          ? int.tryParse(json['balance'].toString())
-          : null,
-      calle: json['calle'] ?? '',
-      provincia: Provincia(
-        idProvincia: json['provincia']?['id_provincia'] ?? 0,
-        nombre: json['provincia']?['nombre'] ?? '',
-      ),
-      localidad: Localidad(
-        idLocalidad: json['localidad']?['id_localidad'] ?? 0,
-        nombre: json['localidad']?['nombre'] ?? '',
-      ),
-      // createdPujas: (json['createdPujas'] as List<dynamic>?)
-      //         ?.map((puja) => Puja.fromJson(puja))
-      //         .toList() ??
-      //     [],
-      // pujaBids: (json['pujaBids'] as List<dynamic>?)
-      //         ?.map((bid) => PujaBid.fromJson(bid))
-      //         .toList() ??
-      //     [],
-      tokens: (json['createdTokens'] as List<dynamic>?)
-              ?.map((token) => Token.fromJson(token))
-              .toList() ??
-          [],
+      name: json['name'] ?? '',
+      phone: json['phone'] ?? '',
+      address: json['address'] ?? '',
     );
   }
 
@@ -57,22 +26,9 @@ class UserModel extends User {
       'email': email,
       'username': username,
       'password': password,
-      'avatar': avatar,
-      'role': role,
-      'banned': banned,
-      'balance': balance,
-      'calle': calle,
-      'provincia': {
-        'id_provincia': provincia.idProvincia,
-        'nombre': provincia.nombre,
-      },
-      'localidad': {
-        'id_localidad': localidad.idLocalidad,
-        'nombre': localidad.nombre,
-      },
-      'createdTokens': tokens?.map((token) => token.toJson()).toList(),
-      // 'createdPujas': createdPujas?.map((puja) => puja.toJson()).toList(),
-      // 'pujaBids': pujaBids?.map((bid) => bid.toJson()).toList(),
+      'name': name,
+      'phone': phone,
+      'adress': address,
     };
   }
 }

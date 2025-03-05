@@ -9,8 +9,8 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<User> login(String email, String password, String deviceInfo) async {
-    return await remoteDataSource.login(email, password, deviceInfo);
+  Future<User> login(String email, String password) async {
+    return await remoteDataSource.login(email, password);
   }
 
   @override

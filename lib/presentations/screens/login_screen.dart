@@ -1,12 +1,63 @@
-import 'package:bidhub/presentations/appbars/default_appbar.dart';
+import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
+import 'package:bidhub/core/themes/font_themes.dart';
+import 'package:bidhub/core/values/assets.dart';
+import 'package:bidhub/core/values/colors.dart';
 import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
 import 'package:bidhub/presentations/bloc/users/users_event.dart';
 import 'package:bidhub/presentations/bloc/users/users_state.dart';
-import 'package:bidhub/presentations/funcionalities/get_device_info.dart';
+import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
+import 'package:bidhub/presentations/global_widgets/custom_textfield.dart';
+import 'package:bidhub/presentations/global_widgets/footer_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+
+class LoginController extends GetxController with StateMixin {
+  late final TextEditingController usernameController;
+  late final TextEditingController passwordController;
+
+  @override
+  void onInit() {
+    intializeController();
+    change(true, status: RxStatus.success());
+    super.onInit();
+  }
+
+  void intializeController() {
+    usernameController = TextEditingController();
+    passwordController = TextEditingController();
+  }
+
+  void handleLogin(
+    BuildContext context,
+  ) {
+    if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+      CustomSnackbar.failedSnackbar(
+        title: 'Failed',
+        message: 'Please input username and password',
+      );
+      return;
+    }
+    final userBloc = BlocProvider.of<UserBloc>(context);
+    userBloc.add(LoginRequested(
+        email: usernameController.text, password: passwordController.text));
+    if (state is LoginSuccess) {
+      CustomSnackbar.successSnackbar(
+        title: 'Success',
+        message: 'Login successful!',
+      );
+
+      return;
+    } else {
+      CustomSnackbar.failedSnackbar(
+        title: 'Failed',
+        message: 'Credenciales Incorrectas',
+      );
+      return;
+    }
+  }
+}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,89 +66,64 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class _LoginPageState extends State<LoginPage>
+    with SingleTickerProviderStateMixin {
+  final LoginController controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
+    final userBloc = BlocProvider.of<UserBloc>(context);
+
     return Scaffold(
-      appBar:
-          DefaultAppBar(mesage: AppLocalizations.of(context)!.appTitleLogin),
-      body: BlocConsumer<UserBloc, UserState>(
-        listener: (context, state) async {
-          if (state is LoginSuccess) {
-            // context
-            //     .read<UserBloc>()
-            //     .add(UserOtherDataRequest(email: state.user.email));
-
-            if (!context.mounted) return;
-            context
-                .read<UserBloc>()
-                .add(UserDataRequest(email: state.user.email));
-            if (!context.mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(AppLocalizations.of(context)!.loginSuccess)),
-            );
-
-            if (!context.mounted) return;
-            context.go('/home');
-          } else if (state is LoginFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(AppLocalizations.of(context)!
-                      .loginFailure(state.message))),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is LoginLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.emailLabel),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 35),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: Get.height * 0.15,
+              ),
+              Image.asset(heroLoginImage),
+              const SizedBox(height: 30),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Login',
+                  style: headline4,
                 ),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.passwordLabel),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    String deviceInfo = await getDeviceInfo();
-                    final email = _emailController.text.trim();
-                    final password = _passwordController.text.trim();
-                    if (!context.mounted) return;
-                    context.read<UserBloc>().add(LoginRequested(
-                        email: email,
-                        password: password,
-                        deviceInfo: deviceInfo));
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.loginButton,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                TextButton(
-                  onPressed: () {
-                    context.go('/signup');
-                  },
-                  child: Text(AppLocalizations.of(context)!.signupPrompt),
-                ),
-              ],
-            ),
-          );
-        },
+              ),
+              const SizedBox(height: 30),
+              CustomTextField(
+                textStyle: headline6,
+                isObscure: false,
+                controller: controller.usernameController,
+                label: 'Username',
+                icon: Icons.person,
+              ),
+              const SizedBox(height: 15),
+              CustomTextField(
+                textStyle: headline6,
+                isObscure: true,
+                controller: controller.passwordController,
+                label: 'Password',
+                icon: Icons.lock,
+              ),
+              const SizedBox(height: 30),
+              CustomMediumButton(
+                color: blue,
+                label: 'Login',
+                onTap: () => controller.handleLogin(context),
+              ),
+              const SizedBox(height: 50),
+              FooterText(
+                label: "¿No tienes una cuenta? ",
+                labelWithFunction: 'Unete',
+                ontap: () => context.go('/register'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

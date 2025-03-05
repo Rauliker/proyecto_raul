@@ -11,13 +11,11 @@ abstract class UserEvent extends Equatable {
 class LoginRequested extends UserEvent {
   final String email;
   final String password;
-  final String deviceInfo;
 
-  const LoginRequested(
-      {required this.email, required this.password, required this.deviceInfo});
+  const LoginRequested({required this.email, required this.password});
 
   @override
-  List<Object?> get props => [email, password, deviceInfo];
+  List<Object?> get props => [email, password];
 }
 
 class LogoutRequested extends UserEvent {
