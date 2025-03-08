@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bidhub/config/secure_storage.dart';
 import 'package:bidhub/data/models/user_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -31,6 +32,7 @@ abstract class UserRemoteDataSource {
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final String _baseUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000';
+  final SecureStorageService _secureStorage = SecureStorageService();
 
   final http.Client client;
 
@@ -47,12 +49,25 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final headers = {'Content-Type': 'application/json'};
 
       final response = await client.post(url, body: body, headers: headers);
+      final json = jsonDecode(response.body);
+      if (response.statusCode == 201 || json['token'] != null) {
+        _secureStorage.saveData('email', email);
+        _secureStorage.saveData('password', password);
+        final token = json['token'];
+        print(await _secureStorage.readData('email'));
+        print(await _secureStorage.readData('password'));
 
-      if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', email);
-        final json = jsonDecode(response.body);
-        return UserModel.fromJson(json);
+        await prefs.setString('token', token);
+
+        final url2 = Uri.parse('$_baseUrl/users');
+        final responseUser = await client.get(url2, headers: {
+          ...headers,
+          'Authorization': 'Bearer $token',
+        });
+
+        final jsonUser = jsonDecode(responseUser.body);
+        return UserModel.fromJson(jsonUser);
       } else {
         throw Exception('Error al obtener datos del usuario.');
       }

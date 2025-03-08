@@ -52,10 +52,12 @@ class MyAppState extends State<MyApp> {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
           return GetMaterialApp(
-              navigatorKey: navigatorKey,
-              debugShowCheckedModeBanner: false,
-              theme: themeState.currentTheme.getTheme(),
-              getPages: routes);
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            theme: themeState.currentTheme.getTheme(),
+            getPages: routes,
+            initialRoute: '/login',
+          );
         },
       ),
     );

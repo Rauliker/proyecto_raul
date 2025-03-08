@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage>
                 textStyle: headline6,
                 isObscure: false,
                 controller: controller.usernameController,
-                label: 'Username',
+                label: 'Email',
                 icon: Icons.person,
               ),
               const SizedBox(height: 15),
