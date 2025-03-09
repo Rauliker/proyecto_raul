@@ -2,6 +2,8 @@ import 'package:bidhub/core/values/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
+  final TextInputType? keyboardType; // Added keyboardType parameter
+
   const CustomTextField({
     Key? key,
     required this.controller,
@@ -9,6 +11,7 @@ class CustomTextField extends StatelessWidget {
     required this.label,
     required this.isObscure,
     required this.textStyle,
+    this.keyboardType,
   }) : super(key: key);
 
   final String label;
@@ -23,6 +26,7 @@ class CustomTextField extends StatelessWidget {
       obscureText: isObscure,
       controller: controller,
       style: textStyle,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         prefixIcon: Icon(icon),
         fillColor: grey,

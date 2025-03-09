@@ -20,9 +20,8 @@ class RegisterController extends GetxController with StateMixin {
   @override
   void onInit() {
     initializeController();
-
+    phoneNumberController.addListener(formatPhoneNumber);
     change(true, status: RxStatus.success());
-
     super.onInit();
   }
 
@@ -33,6 +32,36 @@ class RegisterController extends GetxController with StateMixin {
     emailController = TextEditingController();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+  }
+
+  void formatPhoneNumber() {
+    // Obtiene el texto del controlador del número de teléfono y elimina todos los caracteres que no sean dígitos.
+    String input = phoneNumberController.text.replaceAll(RegExp(r'\D'), '');
+
+    // Si la longitud del texto es mayor a 9, corta el texto a los primeros 9 caracteres.
+    if (input.length > 9) {
+      input = input.substring(0, 9);
+    }
+
+    // Inicializa una cadena vacía para el número de teléfono formateado.
+    String formatted = '';
+
+    // Itera sobre cada carácter del texto de entrada.
+    for (int i = 0; i < input.length; i++) {
+      // Añade un espacio después de los 3er, 5to, 7mo y 9no caracteres.
+      if (i == 3 || i == 5 || i == 7 || i == 9) {
+        formatted += ' ';
+      }
+      // Añade el carácter actual a la cadena formateada.
+      formatted += input[i];
+    }
+
+    // Actualiza el valor del controlador del número de teléfono con el texto formateado.
+    phoneNumberController.value = TextEditingValue(
+      text: formatted,
+      // Coloca el cursor al final del texto formateado.
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
   }
 
   bool isAnyEmptyField() {
@@ -49,8 +78,8 @@ class RegisterController extends GetxController with StateMixin {
       RegExp(r'[0-9]'),
     );
     final isValidPhoneNumber =
-        int.tryParse(phoneNumberController.text) != null &&
-            phoneNumberController.text.length == 9;
+        int.tryParse(phoneNumberController.text.replaceAll(' ', '')) != null &&
+            phoneNumberController.text.replaceAll(' ', '').length == 9;
     final isValidEmail = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
     ).hasMatch(emailController.text);
@@ -116,6 +145,7 @@ class _RegisterPageState extends State<RegisterPage>
         textStyle: textfieldText,
         controller: controller.phoneNumberController,
         icon: Icons.phone,
+        keyboardType: TextInputType.phone,
         label: 'Phone Number',
         isObscure: false,
       ),
@@ -123,6 +153,7 @@ class _RegisterPageState extends State<RegisterPage>
         textStyle: textfieldText,
         controller: controller.emailController,
         icon: Icons.email,
+        keyboardType: TextInputType.emailAddress,
         label: 'Email',
         isObscure: false,
       ),
