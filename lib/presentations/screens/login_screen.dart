@@ -29,33 +29,32 @@ class LoginController extends GetxController with StateMixin {
     passwordController = TextEditingController();
   }
 
-  void handleLogin(
-    BuildContext context,
-  ) {
+  void handleLogin(BuildContext context) {
     if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
       CustomSnackbar.failedSnackbar(
         title: 'Failed',
-        message: 'Please input username and password',
+        message: 'Por favor ingrese su usuario y contraseña',
       );
       return;
     }
     final userBloc = BlocProvider.of<UserBloc>(context);
     userBloc.add(LoginRequested(
         email: usernameController.text, password: passwordController.text));
-    if (state is LoginSuccess) {
-      CustomSnackbar.successSnackbar(
-        title: 'Success',
-        message: 'Login successful!',
-      );
-
-      return;
-    } else {
-      CustomSnackbar.failedSnackbar(
-        title: 'Failed',
-        message: 'Credenciales Incorrectas',
-      );
-      return;
-    }
+    userBloc.stream.listen((state) {
+      if (state is LoginFailure) {
+        CustomSnackbar.failedSnackbar(
+          title: 'Failed',
+          message: 'Credenciales incorrectas',
+        );
+        return;
+      } else if (state is LoginSuccess) {
+        CustomSnackbar.successSnackbar(
+          title: 'Success',
+          message: 'Login Correcto',
+        );
+        return;
+      }
+    });
   }
 }
 

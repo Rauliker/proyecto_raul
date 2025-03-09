@@ -50,13 +50,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
       final response = await client.post(url, body: body, headers: headers);
       final json = jsonDecode(response.body);
-      if (response.statusCode == 201 || json['token'] != null) {
+      if (response.statusCode == 201) {
         _secureStorage.saveData('email', email);
         _secureStorage.saveData('password', password);
         final token = json['token'];
-        print(await _secureStorage.readData('email'));
-        print(await _secureStorage.readData('password'));
-
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
 
@@ -67,7 +64,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         });
 
         final jsonUser = jsonDecode(responseUser.body);
-        return UserModel.fromJson(jsonUser);
+        return UserModel.fromJson(jsonUser[0]);
       } else {
         throw Exception('Error al obtener datos del usuario.');
       }
