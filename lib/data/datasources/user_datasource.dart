@@ -81,10 +81,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         final jsonResponse = jsonDecode(responseBody);
         return UserModel.fromJson(jsonResponse);
       } else {
-        throw Exception(response.body);
+        final responseBody = response.body;
+        final jsonResponse = jsonDecode(responseBody);
+        final errorMessage = jsonResponse['message'] ?? 'Error desconocido';
+        throw Exception(errorMessage);
       }
-    } catch (e) {
-      throw Exception('Error al conectarse al servidor');
+    } on http.ClientException catch (e) {
+      throw Exception('Error de conexión con el servidor');
     }
   }
 }

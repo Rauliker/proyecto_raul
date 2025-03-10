@@ -126,7 +126,7 @@ class RegisterController extends GetxController with StateMixin {
       if (state is RegisterFailure) {
         CustomSnackbar.failedSnackbar(
           title: 'Failed',
-          message: state.message,
+          message: state.message.replaceAll('Exception:', ''),
         );
         return;
       } else if (state is RegisterSuccess) {

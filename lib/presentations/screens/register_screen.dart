@@ -1,5 +1,4 @@
 import 'package:bidhub/core/themes/font_themes.dart';
-import 'package:bidhub/core/values/assets.dart';
 import 'package:bidhub/core/values/colors.dart';
 import 'package:bidhub/presentations/controllers/registrer_controller.dart';
 import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
@@ -77,13 +76,6 @@ class _RegisterPageState extends State<RegisterPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              heroRegisterImage,
-              width: Get.width * 0.49,
-            ),
-            const SizedBox(
-              height: 25,
-            ),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
