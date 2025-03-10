@@ -17,10 +17,15 @@ class CreateUser {
 
   CreateUser(this.repository);
 
-  Future<User> call(final String name, final String email,
-      final String password, final String username, final String phone) async {
-    User userInfo =
-        await repository.createUser(email, password, username, name, phone);
+  Future<User> call(
+      final String email,
+      final String password,
+      final String address,
+      final String name,
+      final String username,
+      final String phone) async {
+    User userInfo = await repository.createUser(
+        email, password, username, name, phone, address);
     return userInfo;
   }
 }

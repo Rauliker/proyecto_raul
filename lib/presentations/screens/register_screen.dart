@@ -107,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage>
             ),
             CustomMediumButton(
               label: 'Registro',
-              onTap: controller.handleRegister,
+              onTap: () => controller.handleRegister(context),
               color: blue,
             ),
             SizedBox(
@@ -121,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage>
             ),
             FooterText(
               label: '¿Ya tienes una cuenta? ',
-              labelWithFunction: '',
+              labelWithFunction: 'Inicia sesión',
               ontap: () => Get.toNamed('/login'),
             ),
           ],

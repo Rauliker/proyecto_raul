@@ -10,6 +10,7 @@ abstract class RegisterEvent extends Equatable {
 class RegisterRequested extends RegisterEvent {
   final String name;
   final String email;
+  final String address;
   final String password;
   final String username;
   final String phone;
@@ -17,12 +18,13 @@ class RegisterRequested extends RegisterEvent {
   const RegisterRequested(
       {required this.email,
       required this.password,
+      required this.address,
       required this.name,
       required this.username,
       required this.phone});
 
   @override
-  List<Object?> get props => [email, password, name, username, phone];
+  List<Object?> get props => [email, password, name, username, phone, address];
 }
 
 class LogoutRequested extends RegisterEvent {

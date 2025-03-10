@@ -1,5 +1,8 @@
 import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
+import 'package:bidhub/presentations/bloc/register/register_bloc.dart';
+import 'package:bidhub/presentations/bloc/register/register_status.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController with StateMixin {
@@ -84,7 +87,9 @@ class RegisterController extends GetxController with StateMixin {
     return phoneNumberController.text.replaceAll(' ', '');
   }
 
-  void handleRegister() async {
+  void handleRegister(
+    BuildContext context,
+  ) async {
     if (isAnyEmptyField()) {
       CustomSnackbar.failedSnackbar(
         title: 'Error de Registro',
@@ -107,5 +112,14 @@ class RegisterController extends GetxController with StateMixin {
     final email = emailController.text;
     final username = usernameController.text;
     final password = passwordController.text;
+    final userBloc = BlocProvider.of<RegisterBloc>(context);
+    userBloc.add(RegisterRequested(
+      name: name,
+      address: address,
+      phone: phoneNumber,
+      email: email,
+      username: username,
+      password: password,
+    ));
   }
 }

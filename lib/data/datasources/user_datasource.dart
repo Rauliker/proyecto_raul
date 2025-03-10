@@ -9,8 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class UserRemoteDataSource {
   Future<UserModel> login(String email, String password);
 
-  Future<UserModel> createUser(final String name, final String email,
-      final String password, final String username, final String phone);
+  Future<UserModel> createUser(String email, String password, String username,
+      String name, String phone, String address);
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -58,8 +58,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<UserModel> createUser(final String name, final String email,
-      final String password, final String username, final String phone) async {
+  Future<UserModel> createUser(String email, String password, String username,
+      String name, String phone, String address) async {
     try {
       String urlPrase = '$_baseUrl/users';
       final url = Uri.parse(urlPrase);
@@ -68,7 +68,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         "email": email,
         "password": password,
         "username": username,
-        "phone": phone
+        "phone": phone,
+        "address": address
       });
 
       final headers = {'Content-Type': 'application/json'};
