@@ -1,31 +1,35 @@
-import 'package:bidhub/domain/entities/users.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class RegisterState extends Equatable {
-  const RegisterState();
+abstract class RegisterEvent extends Equatable {
+  const RegisterEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class RegisterInitial extends RegisterState {}
+class RegisterRequested extends RegisterEvent {
+  final String name;
+  final String email;
+  final String address;
+  final String password;
+  final String username;
+  final String phone;
 
-class RegisterLoading extends RegisterState {}
-
-class RegisterSuccess extends RegisterState {
-  final User user;
-
-  const RegisterSuccess(this.user);
+  const RegisterRequested(
+      {required this.email,
+      required this.password,
+      required this.address,
+      required this.name,
+      required this.username,
+      required this.phone});
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [email, password, name, username, phone, address];
 }
 
-class RegisterFailure extends RegisterState {
-  final String message;
-
-  const RegisterFailure(this.message);
+class LogoutRequested extends RegisterEvent {
+  const LogoutRequested();
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [];
 }

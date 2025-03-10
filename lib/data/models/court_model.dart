@@ -1,6 +1,6 @@
-import 'package:bidhub/data/datasources/availability_model.dart';
-import 'package:bidhub/data/datasources/court_status_model.dart';
-import 'package:bidhub/data/datasources/court_type_model.dart';
+import 'package:bidhub/data/models/availability_model.dart';
+import 'package:bidhub/data/models/court_status_model.dart';
+import 'package:bidhub/data/models/court_type_model.dart';
 import 'package:bidhub/domain/entities/court.dart';
 
 class PistaModel extends PistaEntity {

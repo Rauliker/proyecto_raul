@@ -1,6 +1,6 @@
 import 'package:bidhub/domain/usercase/user_usecase.dart';
 import 'package:bidhub/presentations/bloc/register/register_event.dart';
-import 'package:bidhub/presentations/bloc/register/register_status.dart';
+import 'package:bidhub/presentations/bloc/register/register_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {

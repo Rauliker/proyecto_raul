@@ -52,7 +52,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         throw Exception('Error al obtener datos del usuario.');
       }
     } catch (e) {
-      print(e);
       throw Exception('Error inesperado al iniciar sesión: $e');
     }
   }
