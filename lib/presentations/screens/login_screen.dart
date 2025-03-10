@@ -1,61 +1,12 @@
-import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
 import 'package:bidhub/core/themes/font_themes.dart';
 import 'package:bidhub/core/values/assets.dart';
 import 'package:bidhub/core/values/colors.dart';
-import 'package:bidhub/presentations/bloc/users/users_bloc.dart';
-import 'package:bidhub/presentations/bloc/users/users_event.dart';
-import 'package:bidhub/presentations/bloc/users/users_state.dart';
+import 'package:bidhub/presentations/controllers/login_controller.dart';
 import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
 import 'package:bidhub/presentations/global_widgets/custom_textfield.dart';
 import 'package:bidhub/presentations/global_widgets/footer_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-
-class LoginController extends GetxController with StateMixin {
-  late final TextEditingController usernameController;
-  late final TextEditingController passwordController;
-
-  @override
-  void onInit() {
-    intializeController();
-    change(true, status: RxStatus.success());
-    super.onInit();
-  }
-
-  void intializeController() {
-    usernameController = TextEditingController();
-    passwordController = TextEditingController();
-  }
-
-  void handleLogin(BuildContext context) {
-    if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
-      CustomSnackbar.failedSnackbar(
-        title: 'Failed',
-        message: 'Por favor ingrese su usuario y contraseña',
-      );
-      return;
-    }
-    final userBloc = BlocProvider.of<UserBloc>(context);
-    userBloc.add(LoginRequested(
-        email: usernameController.text, password: passwordController.text));
-    userBloc.stream.listen((state) {
-      if (state is LoginFailure) {
-        CustomSnackbar.failedSnackbar(
-          title: 'Failed',
-          message: 'Credenciales incorrectas',
-        );
-        return;
-      } else if (state is LoginSuccess) {
-        CustomSnackbar.successSnackbar(
-          title: 'Success',
-          message: 'Login Correcto',
-        );
-        return;
-      }
-    });
-  }
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -70,8 +21,6 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
-    final userBloc = BlocProvider.of<UserBloc>(context);
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 35),
