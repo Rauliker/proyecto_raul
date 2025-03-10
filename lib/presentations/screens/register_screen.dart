@@ -26,14 +26,14 @@ class _RegisterPageState extends State<RegisterPage>
         textStyle: textfieldText,
         controller: controller.fullNameController,
         icon: Icons.account_circle,
-        label: 'Full Name',
+        label: 'Nombre Completo',
         isObscure: false,
       ),
       CustomTextField(
         textStyle: textfieldText,
         controller: controller.addressController,
         icon: Icons.home,
-        label: 'Address',
+        label: 'Dirección',
         isObscure: false,
       ),
       CustomTextField(
@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage>
         controller: controller.phoneNumberController,
         icon: Icons.phone,
         keyboardType: TextInputType.phone,
-        label: 'Phone Number',
+        label: 'Número de Teléfono',
         isObscure: false,
       ),
       CustomTextField(
@@ -56,14 +56,14 @@ class _RegisterPageState extends State<RegisterPage>
         textStyle: textfieldText,
         controller: controller.usernameController,
         icon: Icons.person,
-        label: 'Username',
+        label: 'Nombre de Usuario',
         isObscure: false,
       ),
       CustomTextField(
         textStyle: textfieldText,
         controller: controller.passwordController,
         icon: Icons.lock,
-        label: 'Password',
+        label: 'Contraseña',
         isObscure: true,
       ),
     ];
@@ -87,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage>
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Register',
+                'Registro',
                 style: headline4,
               ),
             ),
@@ -106,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage>
               height: 25,
             ),
             CustomMediumButton(
-              label: 'Sign Up',
+              label: 'Registro',
               onTap: controller.handleRegister,
               color: blue,
             ),
@@ -120,8 +120,8 @@ class _RegisterPageState extends State<RegisterPage>
               ),
             ),
             FooterText(
-              label: 'Already Registered? ',
-              labelWithFunction: 'Login',
+              label: '¿Ya tienes una cuenta? ',
+              labelWithFunction: '',
               ontap: () => Get.toNamed('/login'),
             ),
           ],

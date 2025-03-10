@@ -103,10 +103,9 @@ class RegisterController extends GetxController with StateMixin {
 
     final name = fullNameController.text;
     final address = addressController.text;
-    final phoneNumber = phoneNumberController.text;
+    final phoneNumber = getFormattedPhoneNumber();
     final email = emailController.text;
     final username = usernameController.text;
-    final password = getFormattedPhoneNumber();
-    print('phone: $phoneNumber');
+    final password = passwordController.text;
   }
 }
