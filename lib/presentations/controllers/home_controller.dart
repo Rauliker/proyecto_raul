@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  final String username = Get.arguments;
-
   var pageIndex = 0.obs;
   var pageController = PageController(initialPage: 0);
   var bySlide = false.obs;

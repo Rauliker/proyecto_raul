@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class PistaTypeRemoteDataSource {
-  Future<PistaTypeModel> getAll();
+  Future<List<PistaTypeModel>> getAll();
 }
 
 class PistaTypeRemoteDataSourceImpl implements PistaTypeRemoteDataSource {
@@ -18,7 +18,7 @@ class PistaTypeRemoteDataSourceImpl implements PistaTypeRemoteDataSource {
 
   PistaTypeRemoteDataSourceImpl(this.client);
   @override
-  Future<PistaTypeModel> getAll() async {
+  Future<List<PistaTypeModel>> getAll() async {
     try {
       final headers = {'Content-Type': 'application/json'};
       final prefs = await SharedPreferences.getInstance();
@@ -28,9 +28,11 @@ class PistaTypeRemoteDataSourceImpl implements PistaTypeRemoteDataSource {
         ...headers,
         'Authorization': 'Bearer $token',
       });
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         final jsonPista = jsonDecode(response.body);
-        return PistaTypeModel.fromJson(jsonPista[0]);
+        return (jsonPista as List)
+            .map((item) => PistaTypeModel.fromJson(item))
+            .toList();
       } else {
         throw Exception('Error al obtener datos del usuario.');
       }

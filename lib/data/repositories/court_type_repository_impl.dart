@@ -8,7 +8,7 @@ class PistaTypeRepositoryImpl implements PistaTypeRepository {
   PistaTypeRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<PistaTypeEntity> getAll() async {
+  Future<List<PistaTypeEntity>> getAll() async {
     return await remoteDataSource.getAll();
   }
 }

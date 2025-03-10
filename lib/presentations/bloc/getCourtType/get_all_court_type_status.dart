@@ -13,7 +13,7 @@ class CourtTypeInitial extends CourtTypeState {}
 class CourtTypeLoading extends CourtTypeState {}
 
 class CourtTypeSuccess extends CourtTypeState {
-  final PistaTypeEntity courtType;
+  final List<PistaTypeEntity> courtType;
 
   const CourtTypeSuccess(this.courtType);
 
