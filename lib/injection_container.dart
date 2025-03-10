@@ -27,7 +27,7 @@ Future<void> init() async {
   sl.registerLazySingleton<UserRepository>(
       () => UserRepositoryImpl(remoteDataSource: sl()));
   sl.registerLazySingleton<PistaTypeRepository>(
-      () => PistaTypeRepositoryyImpl(remoteDataSource: sl()));
+      () => PistaTypeRepositoryImpl(remoteDataSource: sl()));
 
   // Use Cases
 

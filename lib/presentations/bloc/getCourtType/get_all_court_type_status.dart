@@ -13,12 +13,12 @@ class CourtTypeInitial extends CourtTypeState {}
 class CourtTypeLoading extends CourtTypeState {}
 
 class CourtTypeSuccess extends CourtTypeState {
-  final PistaTypeEntity user;
+  final PistaTypeEntity courtType;
 
-  const CourtTypeSuccess(this.user);
+  const CourtTypeSuccess(this.courtType);
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [courtType];
 }
 
 class CourtTypeFailure extends CourtTypeState {

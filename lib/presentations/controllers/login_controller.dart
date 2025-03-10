@@ -41,6 +41,7 @@ class LoginController extends GetxController with StateMixin {
         );
         return;
       } else if (state is LoginSuccess) {
+        Get.offAllNamed('/home');
         CustomSnackbar.successSnackbar(
           title: 'Success',
           message: 'Login Correcto',
