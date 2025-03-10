@@ -1,6 +1,6 @@
-class CourtStatus {
+class PistaStatusEntity {
   final int id;
   final String name;
 
-  CourtStatus({required this.id, required this.name});
+  PistaStatusEntity({required this.id, required this.name});
 }
