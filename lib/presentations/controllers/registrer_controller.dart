@@ -1,5 +1,6 @@
 import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
 import 'package:bidhub/presentations/bloc/register/register_bloc.dart';
+import 'package:bidhub/presentations/bloc/register/register_event.dart';
 import 'package:bidhub/presentations/bloc/register/register_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -121,5 +122,21 @@ class RegisterController extends GetxController with StateMixin {
       username: username,
       password: password,
     ));
+    userBloc.stream.listen((state) {
+      if (state is RegisterFailure) {
+        CustomSnackbar.failedSnackbar(
+          title: 'Failed',
+          message: state.message,
+        );
+        return;
+      } else if (state is RegisterSuccess) {
+        Get.toNamed('/login');
+        CustomSnackbar.successSnackbar(
+          title: 'Success',
+          message: 'Login Correcto',
+        );
+        return;
+      }
+    });
   }
 }

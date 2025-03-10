@@ -81,11 +81,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         final jsonResponse = jsonDecode(responseBody);
         return UserModel.fromJson(jsonResponse);
       } else {
-        throw Exception(
-            'Error al crear el usuario. Código de estado: ${response.statusCode}.');
+        throw Exception(response.body);
       }
     } catch (e) {
-      throw Exception('Error inesperado al crear el usuario: $e');
+      throw Exception('Error al conectarse al servidor');
     }
   }
 }
