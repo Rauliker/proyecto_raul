@@ -88,11 +88,13 @@ class _AllCourtViewState extends State<AllCourtView> {
                             ],
                           ),
                           trailing: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed('/court-detail/${court.id}');
+                            },
                             child: const Text("Reservar"),
                           ),
                           onTap: () {
-                            Get.toNamed('/court-detail', arguments: court.id);
+                            Get.toNamed('/court-detail/${court.id}');
                           },
                         );
                       },
