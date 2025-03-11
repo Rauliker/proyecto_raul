@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class PistaRemoteDataSource {
-  Future<List<PistaModel>> getAll();
+  Future<List<PistaModel>> getAll(int? idType);
 }
 
 class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
@@ -19,7 +19,7 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
 
   PistaRemoteDataSourceImpl(this.client);
   @override
-  Future<List<PistaModel>> getAll() async {
+  Future<List<PistaModel>> getAll(int? idType) async {
     try {
       final userRemoteDataSource = UserRemoteDataSourceImpl(client);
       await userRemoteDataSource.autoLogin();
@@ -27,7 +27,9 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
       final headers = {'Content-Type': 'application/json'};
       final prefs = await SharedPreferences.getInstance();
       final token = await prefs.getString('token') ?? '';
-      final url = Uri.parse('$_baseUrl/court');
+      final urlRequest =
+          idType != null ? '$_baseUrl/court?type=$idType' : '$_baseUrl/court';
+      final url = Uri.parse(urlRequest);
       final response = await client.get(url, headers: {
         ...headers,
         'Authorization': 'Bearer $token',

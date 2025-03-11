@@ -6,8 +6,8 @@ class GetAllPista {
 
   GetAllPista(this.repository);
 
-  Future<List<PistaEntity>> call() async {
-    List<PistaEntity> courtTypes = await repository.getAll();
+  Future<List<PistaEntity>> call(int? idType) async {
+    List<PistaEntity> courtTypes = await repository.getAll(idType);
     return courtTypes;
   }
 }

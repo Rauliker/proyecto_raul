@@ -10,7 +10,7 @@ class CourtBloc extends Bloc<CourtEvent, CourtState> {
     on<CourtEventRequested>((event, emit) async {
       emit(CourtLoading());
       try {
-        final user = await getAllPista();
+        final user = await getAllPista(event.idType);
         emit(CourtSuccess(user));
       } catch (e) {
         emit(CourtFailure(e.toString()));

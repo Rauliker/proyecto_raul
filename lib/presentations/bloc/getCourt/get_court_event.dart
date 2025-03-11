@@ -8,7 +8,8 @@ abstract class CourtEvent extends Equatable {
 }
 
 class CourtEventRequested extends CourtEvent {
-  const CourtEventRequested();
+  final int? idType;
+  const CourtEventRequested(this.idType);
 
   @override
   List<Object?> get props => [];

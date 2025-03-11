@@ -1,12 +1,11 @@
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
-import 'package:bidhub/presentations/bloc/getCourt/get_court_event.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_status.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
-import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_event.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_status.dart';
+import 'package:bidhub/presentations/controllers/all_court_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 
 class AllCourtView extends StatefulWidget {
   const AllCourtView({super.key});
@@ -16,24 +15,13 @@ class AllCourtView extends StatefulWidget {
 }
 
 class _AllCourtViewState extends State<AllCourtView> {
-  final String _baseUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000';
-  String? _selectedCourtType;
+  late AllCourtController _controller;
 
   @override
   void initState() {
     super.initState();
-    _fetchCourtTypeData();
-    _fetchCourtData();
-    _selectedCourtType = 'Todos';
-  }
-
-  void _fetchCourtTypeData() {
-    BlocProvider.of<CourtTypeBloc>(context)
-        .add(const CourtTypeEventRequested());
-  }
-
-  void _fetchCourtData() {
-    BlocProvider.of<CourtBloc>(context).add(const CourtEventRequested());
+    _controller = AllCourtController(context);
+    _controller.initialize();
   }
 
   @override
@@ -44,26 +32,7 @@ class _AllCourtViewState extends State<AllCourtView> {
         centerTitle: true,
       ),
       body: MultiBlocListener(
-        listeners: [
-          BlocListener<CourtTypeBloc, CourtTypeState>(
-            listener: (context, state) {
-              if (state is CourtTypeFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message)),
-                );
-              }
-            },
-          ),
-          BlocListener<CourtBloc, CourtState>(
-            listener: (context, state) {
-              if (state is CourtFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message)),
-                );
-              }
-            },
-          ),
-        ],
+        listeners: _controller.buildBlocListeners(),
         child: Column(
           children: [
             BlocBuilder<CourtTypeBloc, CourtTypeState>(
@@ -74,34 +43,15 @@ class _AllCourtViewState extends State<AllCourtView> {
                   return Row(
                     children: [
                       Text(
-                        _selectedCourtType != null
-                            ? "$_selectedCourtType"
-                            : "Todos",
+                        _controller.selectedCourtType ?? "Todos",
                         style: const TextStyle(color: Colors.orange),
                       ),
                       const Spacer(),
                       DropdownButton<String>(
                         hint: const Text("Selecciona el tipo de pista"),
-                        value: _selectedCourtType,
-                        items: [
-                          'Todos',
-                          ...state.courtType.map((courtType) => courtType.name)
-                        ].map((courtType) {
-                          return DropdownMenuItem<String>(
-                            value: courtType,
-                            child: Row(
-                              children: [
-                                const SizedBox(width: 10),
-                                Text(courtType),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedCourtType = value;
-                          });
-                        },
+                        value: _controller.selectedCourtType,
+                        items: _controller.buildDropdownItems(state),
+                        onChanged: _controller.onCourtTypeChanged,
                       ),
                     ],
                   );
@@ -124,14 +74,26 @@ class _AllCourtViewState extends State<AllCourtView> {
                         final court = state.court[index];
                         return ListTile(
                           leading: Image.network(
-                            court.imageUrl != null
-                                ? "$_baseUrl${court.imageUrl}"
-                                : 'assets/hero_onboarding.png',
+                            _controller.getCourtImageUrl(court.imageUrl),
                             width: 100,
                             height: 100,
                             fit: BoxFit.cover,
                           ),
                           title: Text(court.name),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Tipo de pista: ${court.type.name}"),
+                              Text("Precio por hora: ${court.price}"),
+                            ],
+                          ),
+                          trailing: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text("Reservar"),
+                          ),
+                          onTap: () {
+                            Get.toNamed('/court-detail', arguments: court.id);
+                          },
                         );
                       },
                     );
