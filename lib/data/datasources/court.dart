@@ -21,10 +21,8 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
   @override
   Future<List<PistaModel>> getAll() async {
     try {
-      final email = await _secureStorage.readData('email') ?? '';
-      final password = await _secureStorage.readData('password') ?? '';
       final userRemoteDataSource = UserRemoteDataSourceImpl(client);
-      await userRemoteDataSource.login(email, password);
+      await userRemoteDataSource.autoLogin();
 
       final headers = {'Content-Type': 'application/json'};
       final prefs = await SharedPreferences.getInstance();

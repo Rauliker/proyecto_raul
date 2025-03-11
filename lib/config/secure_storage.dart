@@ -19,11 +19,16 @@ class SecureStorageService {
 
   // Leer datos
   Future<String?> readData(String key) async {
-    return await _storage.read(key: key);
+    final value = await _storage.read(key: key);
+    return value;
   }
 
   // Eliminar datos
   Future<void> deleteData(String key) async {
-    await _storage.delete(key: key);
+    try {
+      await _storage.delete(key: key);
+    } catch (e) {
+      print('Error deleting data: $e');
+    }
   }
 }

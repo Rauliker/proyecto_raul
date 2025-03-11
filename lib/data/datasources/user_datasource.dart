@@ -20,6 +20,22 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final http.Client client;
 
   UserRemoteDataSourceImpl(this.client);
+  Future<UserModel> autoLogin() async {
+    try {
+      final email = await _secureStorage.readData('email');
+      final password = await _secureStorage.readData('password');
+
+      if (email != null && password != null) {
+        return await login(email, password);
+      } else {
+        throw Exception('No se encontraron credenciales guardadas.');
+      }
+    } catch (e) {
+      throw Exception(
+          'Error inesperado al intentar iniciar sesión automáticamente: $e');
+    }
+  }
+
   @override
   Future<UserModel> login(String email, String password) async {
     try {
@@ -34,8 +50,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final response = await client.post(url, body: body, headers: headers);
       final json = jsonDecode(response.body);
       if (response.statusCode == 201) {
-        _secureStorage.saveData('email', email);
-        _secureStorage.saveData('password', password);
+        await _secureStorage.saveData('email', email);
+        await _secureStorage.saveData('password', password);
         final token = json['token'];
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
@@ -85,7 +101,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         final errorMessage = jsonResponse['message'] ?? 'Error desconocido';
         throw Exception(errorMessage);
       }
-    } on http.ClientException catch (e) {
+    } on http.ClientException {
       throw Exception('Error de conexión con el servidor');
     }
   }
