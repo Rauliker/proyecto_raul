@@ -7,6 +7,7 @@ class PistaModel extends PistaEntity {
   PistaModel({
     required int id,
     required String name,
+    required int price,
     String? imageUrl,
     required AvailabilityModel availability,
     required PistaTypeModel type,
@@ -14,6 +15,7 @@ class PistaModel extends PistaEntity {
   }) : super(
           id: id,
           name: name,
+          price: price,
           imageUrl: imageUrl,
           availability: availability,
           type: type,
@@ -25,6 +27,7 @@ class PistaModel extends PistaEntity {
       id: json['id'],
       name: json['name'],
       imageUrl: json['imageUrl'],
+      price: json['price'],
       availability: AvailabilityModel.fromJson(json['availability']),
       type: PistaTypeModel.fromJson(json['type']),
       status: PistaStatusModel.fromJson(json['status']),
@@ -35,6 +38,7 @@ class PistaModel extends PistaEntity {
     return {
       'id': id,
       'name': name,
+      'price': price,
       'imageUrl': imageUrl,
       'availability': (availability as AvailabilityModel).toJson(),
       'type': (type as PistaTypeModel).toJson(),

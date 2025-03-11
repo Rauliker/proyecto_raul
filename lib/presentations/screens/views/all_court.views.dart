@@ -1,3 +1,6 @@
+import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
+import 'package:bidhub/presentations/bloc/getCourt/get_court_event.dart';
+import 'package:bidhub/presentations/bloc/getCourt/get_court_status.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_event.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_status.dart';
@@ -14,19 +17,23 @@ class AllCourtView extends StatefulWidget {
 
 class _AllCourtViewState extends State<AllCourtView> {
   final String _baseUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000';
-  String? _selectedCourtType; // Store the selected court type
+  String? _selectedCourtType;
 
   @override
   void initState() {
     super.initState();
     _fetchCourtTypeData();
-    // Set default value to show all court types at the beginning
-    _selectedCourtType = 'Todos'; // Default value for "All"
+    _fetchCourtData();
+    _selectedCourtType = 'Todos';
   }
 
   void _fetchCourtTypeData() {
     BlocProvider.of<CourtTypeBloc>(context)
         .add(const CourtTypeEventRequested());
+  }
+
+  void _fetchCourtData() {
+    BlocProvider.of<CourtBloc>(context).add(const CourtEventRequested());
   }
 
   @override
@@ -36,15 +43,34 @@ class _AllCourtViewState extends State<AllCourtView> {
         title: const Text("Explora", style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
-      body: BlocBuilder<CourtTypeBloc, CourtTypeState>(
-        builder: (context, state) {
-          if (state is CourtTypeLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is CourtTypeSuccess) {
-            return ListView.builder(
-              itemCount: state.courtType.length + 1, // Include one for "Todos"
-              itemBuilder: (context, index) {
-                if (index == 0) {
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<CourtTypeBloc, CourtTypeState>(
+            listener: (context, state) {
+              if (state is CourtTypeFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.message)),
+                );
+              }
+            },
+          ),
+          BlocListener<CourtBloc, CourtState>(
+            listener: (context, state) {
+              if (state is CourtFailure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.message)),
+                );
+              }
+            },
+          ),
+        ],
+        child: Column(
+          children: [
+            BlocBuilder<CourtTypeBloc, CourtTypeState>(
+              builder: (context, state) {
+                if (state is CourtTypeLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is CourtTypeSuccess) {
                   return Row(
                     children: [
                       Text(
@@ -79,20 +105,38 @@ class _AllCourtViewState extends State<AllCourtView> {
                       ),
                     ],
                   );
-                } else {
-                  final court = state.courtType[index - 1];
-                  return ListTile(
-                    leading: const Icon(Icons.sports_tennis),
-                    title: Text(court.name),
-                  );
+                } else if (state is CourtTypeFailure) {
+                  return Center(child: Text(state.message));
                 }
+                return const Center(
+                    child: Text("No hay tipos de pistas disponibles"));
               },
-            );
-          } else if (state is CourtTypeFailure) {
-            return Center(child: Text(state.message));
-          }
-          return const Center(child: Text("No hay pistas disponibles"));
-        },
+            ),
+            Expanded(
+              child: BlocBuilder<CourtBloc, CourtState>(
+                builder: (context, state) {
+                  if (state is CourtLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is CourtSuccess) {
+                    return ListView.builder(
+                      itemCount: state.court.length,
+                      itemBuilder: (context, index) {
+                        final court = state.court[index];
+                        return ListTile(
+                          leading: const Icon(Icons.sports_tennis),
+                          title: Text(court.name),
+                        );
+                      },
+                    );
+                  } else if (state is CourtFailure) {
+                    return Center(child: Text(state.message));
+                  }
+                  return const Center(child: Text("No hay pistas disponibles"));
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

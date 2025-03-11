@@ -1,4 +1,5 @@
 import 'package:bidhub/injection_container.dart' as di;
+import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
 import 'package:bidhub/presentations/bloc/login/login_bloc.dart';
 import 'package:bidhub/presentations/bloc/register/register_bloc.dart';
@@ -25,8 +26,15 @@ final List<GetPage> routes = [
   ),
   GetPage(
     name: '/home',
-    page: () => BlocProvider(
-      create: (context) => di.sl<CourtTypeBloc>(),
+    page: () => MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<CourtTypeBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<CourtBloc>(),
+        ),
+      ],
       child: const HomePage(),
     ),
   ),
