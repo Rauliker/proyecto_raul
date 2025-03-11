@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OneCourtOneView extends StatefulWidget {
-  const OneCourtOneView({super.key});
+  final int id;
+  const OneCourtOneView({super.key, required this.id});
 
   @override
   State<OneCourtOneView> createState() => _OneCourtOneViewState();
@@ -13,11 +14,10 @@ class OneCourtOneView extends StatefulWidget {
 
 class _OneCourtOneViewState extends State<OneCourtOneView> {
   late OneCourtController _controller;
-  late int id;
   @override
   void initState() {
     super.initState();
-    _controller = OneCourtController(context, id);
+    _controller = OneCourtController(context, widget.id);
     _controller.initialize();
   }
 

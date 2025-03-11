@@ -1,14 +1,14 @@
 import 'package:bidhub/injection_container.dart' as di;
-import 'package:bidhub/presentations/bloc/getCourt%20copy/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
 import 'package:bidhub/presentations/bloc/login/login_bloc.dart';
 import 'package:bidhub/presentations/bloc/register/register_bloc.dart';
 import 'package:bidhub/presentations/screens/home_screen.dart';
 import 'package:bidhub/presentations/screens/login_screen.dart';
+import 'package:bidhub/presentations/screens/one_court_view.dart';
 import 'package:bidhub/presentations/screens/register_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:get/get.dart';
 
 final List<GetPage> routes = [
   GetPage(
@@ -35,11 +35,19 @@ final List<GetPage> routes = [
         BlocProvider(
           create: (context) => di.sl<CourtBloc>(),
         ),
-        BlocProvider(
-          create: (context) => di.sl<CourtOneBloc>(),
-        ),
       ],
       child: const HomePage(),
+    ),
+  ),
+  GetPage(
+    name: '/court-detail',
+    page: () => MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<CourtBloc>(),
+        ),
+      ],
+      child: OneCourtOneView(id: Get.arguments),
     ),
   ),
 ];

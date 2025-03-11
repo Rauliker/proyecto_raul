@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:bidhub/config/secure_storage.dart';
 import 'package:bidhub/data/datasources/user_datasource.dart';
 import 'package:bidhub/data/models/court_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -14,7 +13,6 @@ abstract class PistaRemoteDataSource {
 
 class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
   final String _baseUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000';
-  final SecureStorageService _secureStorage = SecureStorageService();
 
   final http.Client client;
 
@@ -56,7 +54,7 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
       final headers = {'Content-Type': 'application/json'};
       final prefs = await SharedPreferences.getInstance();
       final token = await prefs.getString('token') ?? '';
-      final urlRequest = '$_baseUrl/court?type=$id';
+      final urlRequest = '$_baseUrl/court/$id';
       final url = Uri.parse(urlRequest);
       final response = await client.get(url, headers: {
         ...headers,
