@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class PistaRemoteDataSource {
   Future<List<PistaModel>> getAll(int? idType);
+  Future<PistaModel> getOne(int id);
 }
 
 class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
@@ -40,7 +41,32 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
             .map((item) => PistaModel.fromJson(item))
             .toList();
       } else {
-        throw Exception('Error al obtener datos del usuario.');
+        throw Exception('Error al obtener datos  de las pistas.');
+      }
+    } catch (e) {
+      throw Exception('Error inesperado al iniciar sesión: $e');
+    }
+  }
+
+  Future<PistaModel> getOne(int id) async {
+    try {
+      final userRemoteDataSource = UserRemoteDataSourceImpl(client);
+      await userRemoteDataSource.autoLogin();
+
+      final headers = {'Content-Type': 'application/json'};
+      final prefs = await SharedPreferences.getInstance();
+      final token = await prefs.getString('token') ?? '';
+      final urlRequest = '$_baseUrl/court?type=$id';
+      final url = Uri.parse(urlRequest);
+      final response = await client.get(url, headers: {
+        ...headers,
+        'Authorization': 'Bearer $token',
+      });
+      if (response.statusCode == 200) {
+        final jsonPista = jsonDecode(response.body);
+        return PistaModel.fromJson(jsonPista);
+      } else {
+        throw Exception('Error al obtener datos de la pista.');
       }
     } catch (e) {
       throw Exception('Error inesperado al iniciar sesión: $e');

@@ -1,4 +1,5 @@
 import 'package:bidhub/presentations/screens/all_court_views.dart';
+import 'package:bidhub/presentations/screens/one_court_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +15,7 @@ class HomeController extends GetxController {
 
   List<Widget> pages = [
     const AllCourtView(),
+    OneCourtOneView(),
   ];
 
   void changePageBySlide(int index) {

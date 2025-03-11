@@ -10,6 +10,7 @@ import 'package:bidhub/domain/repositories/user_repisitory.dart';
 import 'package:bidhub/domain/usercase/court_type_usecase.dart';
 import 'package:bidhub/domain/usercase/court_usecase.dart';
 import 'package:bidhub/domain/usercase/user_usecase.dart';
+import 'package:bidhub/presentations/bloc/getCourt%20copy/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
 import 'package:bidhub/presentations/bloc/language/language_bloc.dart';
@@ -44,12 +45,14 @@ Future<void> init() async {
   sl.registerLazySingleton(() => CreateUser(sl()));
   sl.registerLazySingleton(() => GetAllPistaType(sl()));
   sl.registerLazySingleton(() => GetAllPista(sl()));
+  sl.registerLazySingleton(() => GetOnePista(sl()));
   // Blocs
   sl.registerFactory(() => LanguageBloc());
   sl.registerFactory(() => LoginBloc(sl()));
   sl.registerFactory(() => RegisterBloc(sl()));
   sl.registerCachedFactory(() => CourtTypeBloc(sl()));
   sl.registerCachedFactory(() => CourtBloc(sl()));
+  sl.registerCachedFactory(() => CourtOneBloc(sl()));
 
   // External
   sl.registerLazySingleton(() => http.Client());

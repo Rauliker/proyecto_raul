@@ -11,3 +11,14 @@ class GetAllPista {
     return courtTypes;
   }
 }
+
+class GetOnePista {
+  final PistaRepository repository;
+
+  GetOnePista(this.repository);
+
+  Future<PistaEntity> call(int id) async {
+    PistaEntity courtTypes = await repository.getOne(id);
+    return courtTypes;
+  }
+}
