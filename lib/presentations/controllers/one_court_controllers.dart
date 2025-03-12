@@ -1,6 +1,10 @@
+import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_event.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_status.dart';
+import 'package:bidhub/presentations/bloc/reservation/reservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/reservation/reservation_event.dart';
+import 'package:bidhub/presentations/bloc/reservation/reservation_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -23,6 +27,17 @@ class OneCourtController {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchCourtData(id);
     });
+
+    // Establecer la fecha actual por defecto
+    final now = DateTime.now();
+    dateController.text =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+    // Establecer la hora de inicio y fin con la hora actual, pero con un incremento de 1 hora para la hora de inicio
+    startTimeController.text =
+        "${now.hour.toString().padLeft(2, '0')}:${(now.minute ~/ 15 * 15).toString().padLeft(2, '0')}";
+    endTimeController.text =
+        "${(now.hour + 1).toString().padLeft(2, '0')}:${(now.minute ~/ 15 * 15).toString().padLeft(2, '0')}";
   }
 
   void _fetchCourtData(int id) {
@@ -47,6 +62,42 @@ class OneCourtController {
     return imageUrl != null
         ? Uri.parse("$_baseUrl$imageUrl").toString()
         : 'assets/hero_onboarding.png';
+  }
+
+  // Método para incrementar o decrementar la hora
+  void incrementHour(TextEditingController controller) {
+    final currentTime = TimeOfDay.fromDateTime(
+        DateTime.parse('1970-01-01 ${controller.text}:00'));
+    final incrementedTime = currentTime.replacing(hour: currentTime.hour + 1);
+    controller.text =
+        "${incrementedTime.hour.toString().padLeft(2, '0')}:${incrementedTime.minute.toString().padLeft(2, '0')}";
+  }
+
+  void decrementHour(TextEditingController controller) {
+    final currentTime = TimeOfDay.fromDateTime(
+        DateTime.parse('1970-01-01 ${controller.text}:00'));
+    final decrementedTime = currentTime.replacing(hour: currentTime.hour - 1);
+    controller.text =
+        "${decrementedTime.hour.toString().padLeft(2, '0')}:${decrementedTime.minute.toString().padLeft(2, '0')}";
+  }
+
+  // Método para incrementar o decrementar los minutos
+  void incrementMinutes(TextEditingController controller) {
+    final currentTime = TimeOfDay.fromDateTime(
+        DateTime.parse('1970-01-01 ${controller.text}:00'));
+    final incrementedTime =
+        currentTime.replacing(minute: (currentTime.minute + 15) % 60);
+    controller.text =
+        "${incrementedTime.hour.toString().padLeft(2, '0')}:${incrementedTime.minute.toString().padLeft(2, '0')}";
+  }
+
+  void decrementMinutes(TextEditingController controller) {
+    final currentTime = TimeOfDay.fromDateTime(
+        DateTime.parse('1970-01-01 ${controller.text}:00'));
+    final decrementedTime =
+        currentTime.replacing(minute: (currentTime.minute - 15 + 60) % 60);
+    controller.text =
+        "${decrementedTime.hour.toString().padLeft(2, '0')}:${decrementedTime.minute.toString().padLeft(2, '0')}";
   }
 
   Future<void> submitForm() async {
@@ -102,13 +153,23 @@ class OneCourtController {
     final startTimeParts = startTimeController.text.split(':');
     final endTimeParts = endTimeController.text.split(':');
 
+    final startTimeVal = DateTime(today.month, today.day,
+        int.parse(startTimeParts[0]), int.parse(startTimeParts[1]));
+    final endTimeVal = DateTime(today.year, today.month, today.day,
+        int.parse(endTimeParts[0]), int.parse(endTimeParts[1]));
+
     final startTime = DateTime(today.year, today.month, today.day,
         int.parse(startTimeParts[0]), int.parse(startTimeParts[1]));
     final endTime = DateTime(today.year, today.month, today.day,
         int.parse(endTimeParts[0]), int.parse(endTimeParts[1]));
 
+    String formattedStartTime =
+        "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}";
+    String formattedEndTime =
+        "${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}";
+
     // Validar que la hora de inicio es antes que la hora de fin
-    if (startTime.isAfter(endTime)) {
+    if (startTimeVal.isAfter(endTimeVal)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
             content:
@@ -116,12 +177,28 @@ class OneCourtController {
       );
       return;
     }
-
     final date = dateController.text;
-    final courtBloc = BlocProvider.of<CourtOneBloc>(context);
-    courtBloc.add(CourtOneEventRequested(id));
+    final courtBloc = BlocProvider.of<ReservationBloc>(context);
+    courtBloc.add(ReservationCreate(
+      id: id,
+      data: date,
+      startTime: formattedStartTime,
+      endTime: formattedEndTime,
+    ));
     courtBloc.stream.listen((state) {
-      if (state is CourtOneSuccess) {}
+      if (state is ReservationFailure) {
+        CustomSnackbar.failedSnackbar(
+          title: 'Failed',
+          message: state.message.replaceAll('Exception: ', ''),
+        );
+        return;
+      } else if (state is ReservationSuccess) {
+        CustomSnackbar.successSnackbar(
+          title: 'Success',
+          message: state.message,
+        );
+        return;
+      }
     });
 
     // Aquí puedes manejar la lógica de envío del formulario

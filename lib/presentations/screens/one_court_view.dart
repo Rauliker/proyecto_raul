@@ -34,54 +34,64 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
   }
 
   Widget buildAvailabilitySchedule(AvailabilityEntity availability) {
-    List<Widget> dayWidgets = [];
     List<String> daysOfWeek = [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday"
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
     ];
 
-    for (var day in daysOfWeek) {
-      final dayName = daysOfWeek[day.indexOf(day)];
-      var dayAvalability = [];
-      switch (dayName) {
-        case 'monday':
-          dayAvalability = availability.monday;
-          break;
-        case 'tuesday':
-          dayAvalability = availability.tuesday;
-          break;
-        case 'wednesday':
-          dayAvalability = availability.wednesday;
-          break;
-        case 'thursday':
-          dayAvalability = availability.thursday;
-          break;
-        case 'friday':
-          dayAvalability = availability.friday;
-          break;
-        case 'saturday':
-          dayAvalability = availability.saturday;
-          break;
-        case 'sunday':
-          dayAvalability = availability.sunday;
-          break;
-      }
-      dayWidgets.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(
-            "${day[0].toUpperCase() + day.substring(1)}: ${dayAvalability?.join(" ") ?? "No disponible"}",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+    Map<String, List<String>> availabilityMap = {
+      "Monday": availability.monday,
+      "Tuesday": availability.tuesday,
+      "Wednesday": availability.wednesday,
+      "Thursday": availability.thursday,
+      "Friday": availability.friday,
+      "Saturday": availability.saturday,
+      "Sunday": availability.sunday,
+    };
+
+    String selectedDay = daysOfWeek.first;
+
+    return StatefulBuilder(
+      builder: (context, setState) => Column(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: daysOfWeek.map((day) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: ChoiceChip(
+                    label: Text(day),
+                    selected: selectedDay == day,
+                    onSelected: (bool selected) {
+                      if (selected) {
+                        setState(() => selectedDay = day);
+                      }
+                    },
+                  ),
+                );
+              }).toList(),
+            ),
           ),
-        ),
-      );
-    }
-    return Column(children: dayWidgets);
+          const SizedBox(height: 8),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 8,
+            children: availabilityMap[selectedDay]!.isNotEmpty
+                ? availabilityMap[selectedDay]!
+                    .map((hour) => Chip(label: Text(hour)))
+                    .toList()
+                : [const Text("No hay horarios disponibles")],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -131,30 +141,106 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                           labelText: 'Fecha',
                           hintText: 'YYYY-MM-DD',
                         ),
+                        readOnly: true,
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2101),
+                          );
+
+                          if (pickedDate != null) {
+                            String formattedDate =
+                                "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+                            _controller.dateController.text = formattedDate;
+                          }
+                        },
                       ),
                       const SizedBox(height: 8),
-                      TextFormField(
+                      TextField(
                         controller: _controller.startTimeController,
-                        decoration: const InputDecoration(
-                          labelText: 'Hora de inicio',
-                          hintText: 'HH:MM',
-                        ),
+                        readOnly: true,
+                        decoration:
+                            const InputDecoration(labelText: 'Hora de inicio'),
                       ),
-                      const SizedBox(height: 8),
-                      TextFormField(
+                      Row(
+                        children: [
+                          const Text(
+                            "Horas",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () => _controller
+                                .decrementHour(_controller.startTimeController),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () => _controller
+                                .incrementHour(_controller.startTimeController),
+                          ),
+                          const Text(
+                            "Minutos",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () => _controller.decrementMinutes(
+                                _controller.startTimeController),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () => _controller.incrementMinutes(
+                                _controller.startTimeController),
+                          ),
+                        ],
+                      ),
+                      TextField(
                         controller: _controller.endTimeController,
-                        decoration: const InputDecoration(
-                          labelText: 'Hora de finalización',
-                          hintText: 'HH:MM',
-                        ),
+                        readOnly: true,
+                        decoration:
+                            const InputDecoration(labelText: 'Hora de fin'),
                       ),
-                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          const Text(
+                            "Horas",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () => _controller
+                                .decrementHour(_controller.endTimeController),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () => _controller
+                                .incrementHour(_controller.endTimeController),
+                          ),
+                          const Text(
+                            "Minutos",
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () => _controller.decrementMinutes(
+                                _controller.endTimeController),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () => _controller.incrementMinutes(
+                                _controller.endTimeController),
+                          ),
+                        ],
+                      ),
                       Center(
                         child: ElevatedButton(
                           onPressed: _controller.submitForm,
                           child: const Text("Reservar"),
                         ),
                       ),
+                      const Padding(padding: EdgeInsets.only(top: 20)),
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
