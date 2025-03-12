@@ -75,7 +75,7 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
-            "${day[0].toUpperCase() + day.substring(1)}: ${dayAvalability?.join(", ") ?? "No disponible"}",
+            "${day[0].toUpperCase() + day.substring(1)}: ${dayAvalability?.join(" ") ?? "No disponible"}",
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
         ),

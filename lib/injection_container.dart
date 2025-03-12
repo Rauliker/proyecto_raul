@@ -1,5 +1,5 @@
-import 'package:bidhub/data/datasources/court.dart';
-import 'package:bidhub/data/datasources/court_type.dart';
+import 'package:bidhub/data/datasources/court_datasource.dart';
+import 'package:bidhub/data/datasources/court_type_datasource.dart';
 import 'package:bidhub/data/datasources/user_datasource.dart';
 import 'package:bidhub/data/repositories/court_repository_impl.dart';
 import 'package:bidhub/data/repositories/court_type_repository_impl.dart';
