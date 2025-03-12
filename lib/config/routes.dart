@@ -4,6 +4,7 @@ import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.d
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/login/login_bloc.dart';
 import 'package:bidhub/presentations/bloc/register/register_bloc.dart';
+import 'package:bidhub/presentations/bloc/reservation/reservation_bloc.dart';
 import 'package:bidhub/presentations/screens/home_screen.dart';
 import 'package:bidhub/presentations/screens/login_screen.dart';
 import 'package:bidhub/presentations/screens/one_court_view.dart';
@@ -46,6 +47,9 @@ final List<GetPage> routes = [
       providers: [
         BlocProvider(
           create: (context) => di.sl<CourtOneBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<ReservationBloc>(),
         ),
       ],
       child: const OneCourtOneView(),

@@ -61,7 +61,7 @@ class OneCourtController {
     }
 
     // Validar la fecha: formato correcto (YYYY-MM-DD)
-    final datePattern = r'^\d{4}-\d{2}-\d{2}$';
+    const datePattern = r'^\d{4}-\d{2}-\d{2}$';
     final dateRegex = RegExp(datePattern);
     if (!dateRegex.hasMatch(dateController.text)) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -87,7 +87,7 @@ class OneCourtController {
       return;
     }
 
-    final timePattern = r'^\d{2}:\d{2}$';
+    const timePattern = r'^\d{2}:\d{2}$';
     final timeRegex = RegExp(timePattern);
     if (!timeRegex.hasMatch(startTimeController.text) ||
         !timeRegex.hasMatch(endTimeController.text)) {
@@ -116,19 +116,13 @@ class OneCourtController {
       );
       return;
     }
+
+    final date = dateController.text;
     final courtBloc = BlocProvider.of<CourtOneBloc>(context);
     courtBloc.add(CourtOneEventRequested(id));
     courtBloc.stream.listen((state) {
       if (state is CourtOneSuccess) {}
     });
-
-    // Si pasa todas las validaciones, proceder con el envío del formulario
-
-    final date = dateController.text;
-
-    print(date);
-    print(startTime);
-    print(endTime);
 
     // Aquí puedes manejar la lógica de envío del formulario
     // Por ejemplo, enviar los datos a un servidor o almacenarlos localmente
