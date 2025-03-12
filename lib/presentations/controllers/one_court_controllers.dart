@@ -1,7 +1,6 @@
-import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
-import 'package:bidhub/presentations/bloc/getCourt%20copy/get_one_court_bloc.dart';
-import 'package:bidhub/presentations/bloc/getCourt%20copy/get_one_court_event.dart';
-import 'package:bidhub/presentations/bloc/getCourt%20copy/get_one_court_status.dart';
+import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
+import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_event.dart';
+import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -50,8 +49,7 @@ class OneCourtController {
         : 'assets/hero_onboarding.png';
   }
 
-  // Lógica de validación y envío del formulario
-  void submitForm() {
+  Future<void> submitForm() async {
     // Validar que todos los campos estén completos
     if (dateController.text.isEmpty ||
         startTimeController.text.isEmpty ||
@@ -62,15 +60,26 @@ class OneCourtController {
       return;
     }
 
+    // Validar la fecha: formato correcto (YYYY-MM-DD)
+    final datePattern = r'^\d{4}-\d{2}-\d{2}$';
+    final dateRegex = RegExp(datePattern);
+    if (!dateRegex.hasMatch(dateController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Por favor, ingrese una fecha válida (YYYY-MM-DD)')),
+      );
+      return;
+    }
+
     // Obtener la fecha actual
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
     // Convertir la fecha ingresada en el formulario a DateTime
-    final selectedDate = DateTime.parse(dateController.text);
+    final selectedDate = DateTime.tryParse(dateController.text);
 
     // Validar que la fecha seleccionada no sea anterior a la fecha actual
-    if (selectedDate.isBefore(today)) {
+    if (selectedDate == null || selectedDate.isBefore(today)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
             content: Text('No se puede reservar para una fecha pasada')),
@@ -78,33 +87,44 @@ class OneCourtController {
       return;
     }
 
-    // Validar que la fecha seleccionada no sea más de un día después de la fecha actual
-    final maxAllowedDate = today.add(const Duration(days: 1));
-    if (selectedDate.isAfter(maxAllowedDate)) {
+    final timePattern = r'^\d{2}:\d{2}$';
+    final timeRegex = RegExp(timePattern);
+    if (!timeRegex.hasMatch(startTimeController.text) ||
+        !timeRegex.hasMatch(endTimeController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Por favor, ingrese una hora válida (HH:MM)')),
+      );
+      return;
+    }
+
+    // Convertir las horas a DateTime para validarlas
+    final startTimeParts = startTimeController.text.split(':');
+    final endTimeParts = endTimeController.text.split(':');
+
+    final startTime = DateTime(today.year, today.month, today.day,
+        int.parse(startTimeParts[0]), int.parse(startTimeParts[1]));
+    final endTime = DateTime(today.year, today.month, today.day,
+        int.parse(endTimeParts[0]), int.parse(endTimeParts[1]));
+
+    // Validar que la hora de inicio es antes que la hora de fin
+    if (startTime.isAfter(endTime)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
             content:
-                Text('No se puede reservar para más de un día después de hoy')),
+                Text('La hora de inicio debe ser antes de la hora de fin')),
       );
       return;
     }
     final courtBloc = BlocProvider.of<CourtOneBloc>(context);
+    courtBloc.add(CourtOneEventRequested(id));
     courtBloc.stream.listen((state) {
-      if (state is CourtOneSuccess) {
-        if (state.courtOne.availability.monday == null) {
-          CustomSnackbar.failedSnackbar(
-            title: 'Failed',
-            message: 'No hay horas disponibles para esta fecha',
-          );
-          return;
-        }
-      }
+      if (state is CourtOneSuccess) {}
     });
 
     // Si pasa todas las validaciones, proceder con el envío del formulario
+
     final date = dateController.text;
-    final startTime = startTimeController.text;
-    final endTime = endTimeController.text;
 
     print(date);
     print(startTime);
@@ -112,6 +132,5 @@ class OneCourtController {
 
     // Aquí puedes manejar la lógica de envío del formulario
     // Por ejemplo, enviar los datos a un servidor o almacenarlos localmente
-    // Sin imprimir en la consola
   }
 }

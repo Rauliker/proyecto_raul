@@ -1,6 +1,7 @@
 import 'package:bidhub/data/models/availability_model.dart';
 import 'package:bidhub/data/models/court_status_model.dart';
 import 'package:bidhub/data/models/court_type_model.dart';
+import 'package:bidhub/data/models/resrvation_model.dart';
 import 'package:bidhub/domain/entities/court.dart';
 
 class PistaModel extends PistaEntity {
@@ -10,8 +11,9 @@ class PistaModel extends PistaEntity {
     required int price,
     String? imageUrl,
     required AvailabilityModel availability,
-    required PistaTypeModel type,
-    required PistaStatusModel status,
+    List<ReservationModel>? reservations,
+    PistaTypeModel? type,
+    PistaStatusModel? status,
   }) : super(
           id: id,
           name: name,
@@ -20,6 +22,7 @@ class PistaModel extends PistaEntity {
           availability: availability,
           type: type,
           status: status,
+          reservations: reservations,
         );
 
   factory PistaModel.fromJson(Map<String, dynamic> json) {
@@ -31,6 +34,9 @@ class PistaModel extends PistaEntity {
       availability: AvailabilityModel.fromJson(json['availability']),
       type: PistaTypeModel.fromJson(json['type']),
       status: PistaStatusModel.fromJson(json['status']),
+      reservations: (json['reservations'] as List<dynamic>?)
+          ?.map((e) => ReservationModel.fromJson(e))
+          .toList(),
     );
   }
 
@@ -43,6 +49,9 @@ class PistaModel extends PistaEntity {
       'availability': (availability as AvailabilityModel).toJson(),
       'type': (type as PistaTypeModel).toJson(),
       'status': (status as PistaStatusModel).toJson(),
+      'reservations': (reservations as List<ReservationModel>?)
+          ?.map((e) => e.toJson())
+          .toList(),
     };
   }
 }

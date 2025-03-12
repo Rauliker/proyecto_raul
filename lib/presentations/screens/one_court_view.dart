@@ -1,5 +1,6 @@
-import 'package:bidhub/presentations/bloc/getCourt%20copy/get_one_court_bloc.dart';
-import 'package:bidhub/presentations/bloc/getCourt%20copy/get_one_court_status.dart';
+import 'package:bidhub/domain/entities/availability.dart';
+import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
+import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_status.dart';
 import 'package:bidhub/presentations/controllers/one_court_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,57 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
     super.dispose();
   }
 
+  Widget buildAvailabilitySchedule(AvailabilityEntity availability) {
+    List<Widget> dayWidgets = [];
+    List<String> daysOfWeek = [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday"
+    ];
+
+    for (var day in daysOfWeek) {
+      final dayName = daysOfWeek[day.indexOf(day)];
+      var dayAvalability = [];
+      switch (dayName) {
+        case 'monday':
+          dayAvalability = availability.monday;
+          break;
+        case 'tuesday':
+          dayAvalability = availability.tuesday;
+          break;
+        case 'wednesday':
+          dayAvalability = availability.wednesday;
+          break;
+        case 'thursday':
+          dayAvalability = availability.thursday;
+          break;
+        case 'friday':
+          dayAvalability = availability.friday;
+          break;
+        case 'saturday':
+          dayAvalability = availability.saturday;
+          break;
+        case 'sunday':
+          dayAvalability = availability.sunday;
+          break;
+      }
+      dayWidgets.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text(
+            "${day[0].toUpperCase() + day.substring(1)}: ${dayAvalability?.join(", ") ?? "No disponible"}",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+        ),
+      );
+    }
+    return Column(children: dayWidgets);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,13 +93,15 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
       ),
       body: MultiBlocListener(
         listeners: _controller.buildBlocListeners(),
-        child: BlocBuilder<CourtOneBloc, CourtOneState>(
-          builder: (context, state) {
-            if (state is CourtOneLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is CourtOneSuccess) {
-              final court = state.courtOne;
-              return Padding(
+        child:
+            BlocBuilder<CourtOneBloc, CourtOneState>(builder: (context, state) {
+          if (state is CourtOneLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CourtOneSuccess) {
+            final court = state.courtOne;
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
                   child: Column(
@@ -66,8 +120,10 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                           style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 8),
-                      Text("Tipo de pista: ${court.type.name}"),
+                      Text("Tipo de pista: ${court.type?.name}"),
                       Text("Precio por hora: ${court.price}"),
+                      const SizedBox(height: 16),
+                      buildAvailabilitySchedule(court.availability),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _controller.dateController,
@@ -110,13 +166,13 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                     ],
                   ),
                 ),
-              );
-            } else if (state is CourtOneFailure) {
-              return Center(child: Text(state.message));
-            }
-            return const Center(child: Text("No hay información disponible"));
-          },
-        ),
+              ),
+            );
+          } else if (state is CourtOneFailure) {
+            return Center(child: Text(state.message));
+          }
+          return const Center(child: Text("No hay información disponible"));
+        }),
       ),
     );
   }

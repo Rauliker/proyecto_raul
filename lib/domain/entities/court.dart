@@ -1,6 +1,7 @@
 import 'package:bidhub/domain/entities/availability.dart';
 import 'package:bidhub/domain/entities/court_status.dart';
 import 'package:bidhub/domain/entities/court_type.dart';
+import 'package:bidhub/domain/entities/reservation.dart';
 
 class PistaEntity {
   final int id;
@@ -8,8 +9,9 @@ class PistaEntity {
   final int price;
   final String? imageUrl;
   final AvailabilityEntity availability;
-  final PistaTypeEntity type;
-  final PistaStatusEntity status;
+  final PistaTypeEntity? type;
+  final PistaStatusEntity? status;
+  final List<ReservationEntity>? reservations;
 
   PistaEntity({
     required this.id,
@@ -17,7 +19,8 @@ class PistaEntity {
     required this.price,
     this.imageUrl,
     required this.availability,
-    required this.type,
-    required this.status,
+    this.type,
+    this.status,
+    this.reservations,
   });
 }

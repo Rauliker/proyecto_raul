@@ -83,7 +83,7 @@ class _AllCourtViewState extends State<AllCourtView> {
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Tipo de pista: ${court.type.name}"),
+                              Text("Tipo de pista: ${court.type?.name}"),
                               Text("Precio por hora: ${court.price}"),
                             ],
                           ),
