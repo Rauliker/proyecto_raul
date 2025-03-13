@@ -64,6 +64,8 @@ Future<void> init() async {
   sl.registerCachedFactory(() => CourtBloc(sl()));
   sl.registerCachedFactory(() => CourtOneBloc(sl()));
   sl.registerCachedFactory(() => ReservationBloc(sl()));
+  sl.registerCachedFactory(() => GetAllReservation(sl()));
+  sl.registerCachedFactory(() => CancelReservation(sl()));
 
   // External
   sl.registerLazySingleton(() => http.Client());
