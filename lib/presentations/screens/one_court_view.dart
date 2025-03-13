@@ -244,7 +244,7 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.toNamed("/home");
+                            Get.offAllNamed("/home");
                           },
                           child: const Text("Cancelar"),
                         ),

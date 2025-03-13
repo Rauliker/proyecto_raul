@@ -114,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage>
             FooterText(
               label: '¿Ya tienes una cuenta? ',
               labelWithFunction: 'Inicia sesión',
-              ontap: () => Get.toNamed('/login'),
+              ontap: () => Get.offAllNamed('/login'),
             ),
           ],
         ),

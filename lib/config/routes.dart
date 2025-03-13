@@ -1,4 +1,6 @@
 import 'package:bidhub/injection_container.dart' as di;
+import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
@@ -36,6 +38,12 @@ final List<GetPage> routes = [
         ),
         BlocProvider(
           create: (context) => di.sl<CourtBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<CancelReservationBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<GetAllReservationBloc>(),
         ),
       ],
       child: const HomePage(),

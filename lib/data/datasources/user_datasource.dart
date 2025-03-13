@@ -55,7 +55,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         final token = json['token'];
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
-        await prefs.setString('emailSearch', token);
+        await prefs.setString('emailSearch', email);
 
         final url2 = Uri.parse('$_baseUrl/users');
         final responseUser = await client.get(url2, headers: {

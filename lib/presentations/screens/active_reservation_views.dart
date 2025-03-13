@@ -1,6 +1,6 @@
-import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
-import 'package:bidhub/presentations/bloc/getCourt/get_court_status.dart';
-import 'package:bidhub/presentations/controllers/all_court_controllers.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_state.dart';
+import 'package:bidhub/presentations/controllers/active_reservaton_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,21 +12,22 @@ class ActiveReservationView extends StatefulWidget {
 }
 
 class _ActiveReservationViewState extends State<ActiveReservationView> {
-  late AllCourtController _controller;
+  late ReservationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AllCourtController(context);
+    _controller = ReservationController(context);
     _controller.initialize();
   }
+
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            const Text("Booked Fields", style: TextStyle(color: Colors.black)),
+        title: const Text("Acctivas", style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
       body: MultiBlocListener(
@@ -34,78 +35,76 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
         child: Column(
           children: [
             Expanded(
-              child: BlocBuilder<CourtBloc, CourtState>(
+              child: BlocBuilder<GetAllReservationBloc, GetAllReservationState>(
                 builder: (context, state) {
-                  if (state is CourtLoading) {
+                  if (state is GetAllReservationLoading) {
                     return const Center(child: CircularProgressIndicator());
-                  } else if (state is CourtSuccess) {
+                  } else if (state is GetAllReservationSuccess) {
                     return ListView.builder(
-                      itemCount: state.court.length,
+                      itemCount: state.message.length,
                       itemBuilder: (context, index) {
-                        final court = state.court[index];
+                        final reservation = state.message[index];
                         return Card(
-                          margin: const EdgeInsets.all(8.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Booking ID: ${court.id}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold)),
-                                Text(court.name,
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.grey)),
-                                Text("Rp. ${court.price}",
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.blue)),
-                                const SizedBox(height: 8),
-                                Image.network(
-                                  _controller.getCourtImageUrl(court.imageUrl),
-                                  width: double.infinity,
-                                  height: 150,
+                          margin: const EdgeInsets.all(8),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: Image.network(
+                                  _controller.getCourtImageUrl(
+                                      reservation.court?.imageUrl),
+                                  width: 100,
+                                  height: 100,
                                   fit: BoxFit.cover,
                                 ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                        "📅 ${DateTime.now().toLocal().toString().split(' ')[0]}",
-                                        style: const TextStyle(fontSize: 14)),
-                                    Text("Rp. ${court.price}",
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.orange)),
-                                  ],
+                                title: Text(reservation.court!.name),
+                                subtitle:
+                                    Text("Precio: ${reservation.court!.price}"),
+                                trailing: IconButton(
+                                  icon: Icon(
+                                    _isExpanded
+                                        ? Icons.expand_less
+                                        : Icons.expand_more,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isExpanded = !_isExpanded;
+                                    });
+                                  },
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text("Schedule: 10:00 - 18:00",
-                                        style: TextStyle(fontSize: 14)),
-                                    ElevatedButton(
-                                      onPressed: () => print('Hola'),
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.red),
-                                      child: const Text("Cancel",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                    ),
-                                  ],
+                              ),
+                              if (_isExpanded)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Text(
+                                      //     "Tipo de pista: ${reservation.court?.type?.name}"),
+                                      Text("Horario: 10:00 - 11:00"),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          ElevatedButton(
+                                            onPressed: () => print('hola'),
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.red),
+                                            child: const Text("Cancelar"),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
+                            ],
                           ),
                         );
                       },
                     );
-                  } else if (state is CourtFailure) {
+                  } else if (state is GetAllReservationFailure) {
                     return Center(child: Text(state.message));
                   }
                   return const Center(child: Text("No hay pistas disponibles"));

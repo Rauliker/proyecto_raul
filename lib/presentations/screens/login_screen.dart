@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage>
               FooterText(
                 label: "¿No tienes una cuenta? ",
                 labelWithFunction: 'Unete',
-                ontap: () => Get.toNamed('/register'),
+                ontap: () => Get.offAllNamed('/register'),
               ),
             ],
           ),

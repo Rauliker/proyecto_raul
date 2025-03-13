@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:bidhub/data/datasources/user_datasource.dart';
 import 'package:bidhub/data/models/resrvation_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -52,15 +51,12 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
   @override
   Future<List<ReservationModel>> getAll(String type) async {
     try {
-      final userRemoteDataSource = UserRemoteDataSourceImpl(client);
-      await userRemoteDataSource.autoLogin();
-
       final headers = {'Content-Type': 'application/json'};
       final prefs = await SharedPreferences.getInstance();
       final token = await prefs.getString('token') ?? '';
 
       final email = await prefs.getString('emailSearch') ?? '';
-      final urlRequest = '$_baseUrl/$type/$email';
+      final urlRequest = '$_baseUrl/reservation/$type/$email';
       final url = Uri.parse(urlRequest);
       final response = await client.get(url, headers: {
         ...headers,

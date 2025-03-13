@@ -14,6 +14,8 @@ import 'package:bidhub/domain/usercase/court_type_usecase.dart';
 import 'package:bidhub/domain/usercase/court_usecase.dart';
 import 'package:bidhub/domain/usercase/reservation_usecase.dart';
 import 'package:bidhub/domain/usercase/user_usecase.dart';
+import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
@@ -56,6 +58,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAllPista(sl()));
   sl.registerLazySingleton(() => GetOnePista(sl()));
   sl.registerLazySingleton(() => CreateReservation(sl()));
+  sl.registerLazySingleton(() => GetAllReservation(sl()));
+  sl.registerLazySingleton(() => CancelReservation(sl()));
   // Blocs
   sl.registerFactory(() => LanguageBloc());
   sl.registerFactory(() => LoginBloc(sl()));
@@ -64,8 +68,8 @@ Future<void> init() async {
   sl.registerCachedFactory(() => CourtBloc(sl()));
   sl.registerCachedFactory(() => CourtOneBloc(sl()));
   sl.registerCachedFactory(() => ReservationBloc(sl()));
-  sl.registerCachedFactory(() => GetAllReservation(sl()));
-  sl.registerCachedFactory(() => CancelReservation(sl()));
+  sl.registerCachedFactory(() => GetAllReservationBloc(sl()));
+  sl.registerCachedFactory(() => CancelReservationBloc(sl()));
 
   // External
   sl.registerLazySingleton(() => http.Client());
