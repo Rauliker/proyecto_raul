@@ -7,6 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class UserRemoteDataSource {
+  Future<UserModel> updateUser(
+      String email, String username, String name, String phone);
+
   Future<UserModel> login(String email, String password);
 
   Future<UserModel> createUser(String email, String password, String username,
@@ -20,6 +23,35 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final http.Client client;
 
   UserRemoteDataSourceImpl(this.client);
+  @override
+  Future<UserModel> updateUser(
+      String email, String username, String name, String phone) async {
+    try {
+      final url = Uri.parse('$_baseUrl/users');
+      final body = jsonEncode({
+        'email': email,
+        'username': username,
+        'name': name,
+        'phone': phone,
+      });
+
+      final headers = {'Content-Type': 'application/json'};
+
+      final response = await client.put(url, body: body, headers: headers);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        return UserModel.fromJson(jsonResponse);
+      } else {
+        final jsonResponse = jsonDecode(response.body);
+        final errorMessage = jsonResponse['message'] ?? 'Error desconocido';
+        throw Exception(errorMessage);
+      }
+    } on http.ClientException {
+      throw Exception('Error de conexión con el servidor');
+    }
+  }
+
   Future<UserModel> autoLogin() async {
     try {
       final email = await _secureStorage.readData('email');

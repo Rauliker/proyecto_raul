@@ -2,7 +2,8 @@ import 'package:bidhub/domain/entities/users.dart';
 
 class UserModel extends User {
   UserModel(
-      {required super.email,
+      {required super.id,
+      required super.email,
       required super.username,
       required super.password,
       required super.name,
@@ -10,6 +11,7 @@ class UserModel extends User {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+      id: json['id'],
       email: json['email'] ?? '',
       username: json['username'] ?? '',
       password: json['password'] ?? '',
@@ -20,6 +22,7 @@ class UserModel extends User {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'email': email,
       'username': username,
       'password': password,
