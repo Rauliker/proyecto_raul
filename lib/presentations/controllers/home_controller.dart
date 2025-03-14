@@ -1,5 +1,6 @@
 import 'package:bidhub/presentations/screens/active_reservation_views.dart';
 import 'package:bidhub/presentations/screens/all_court_views.dart';
+import 'package:bidhub/presentations/screens/historial_reservation.views.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +14,11 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  List<Widget> pages = [const AllCourtView(), const ActiveReservationView()];
+  List<Widget> pages = [
+    const AllCourtView(),
+    const ActiveReservationView(),
+    const HistorialReservationView()
+  ];
 
   void changePageBySlide(int index) {
     pageIndex.value = index;

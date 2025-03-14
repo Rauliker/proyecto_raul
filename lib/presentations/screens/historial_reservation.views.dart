@@ -4,14 +4,15 @@ import 'package:bidhub/presentations/controllers/actives_reservaton_controllers.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ActiveReservationView extends StatefulWidget {
-  const ActiveReservationView({super.key});
+class HistorialReservationView extends StatefulWidget {
+  const HistorialReservationView({super.key});
 
   @override
-  State<ActiveReservationView> createState() => _ActiveReservationViewState();
+  State<HistorialReservationView> createState() =>
+      _HistorialReservationViewState();
 }
 
-class _ActiveReservationViewState extends State<ActiveReservationView> {
+class _HistorialReservationViewState extends State<HistorialReservationView> {
   late ReservationController _controller;
   late List<bool> _isExpandedList;
 
@@ -19,7 +20,7 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
   void initState() {
     super.initState();
     _controller = ReservationController(context);
-    _controller.initialize("actives");
+    _controller.initialize("historial");
     _isExpandedList = [];
   }
 
@@ -27,7 +28,7 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Activas", style: TextStyle(color: Colors.black)),
+        title: const Text("Historial", style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
       body: MultiBlocListener(
@@ -39,20 +40,15 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                 builder: (context, state) {
                   if (state is GetAllReservationLoading) {
                     return const Center(child: CircularProgressIndicator());
-                  } else if (state is GetAllReservationSuccess) {
-                    if (state.message.isEmpty) {
-                      return const Center(
-                          child: Text("No hay reservas disponibles"));
-                    }
-
-                    // Initialize the expansion list based on the number of reservations
+                  } else if (state is GetAllReservationHistorialSuccess) {
+                    print(state.message);
+                    // Inicializa la lista de expansiones según el número de reservas solo si está vacía
                     if (_isExpandedList.isEmpty) {
                       _isExpandedList = List.generate(
-                        state.message.length,
-                        (index) => index < _isExpandedList.length
-                            ? _isExpandedList[index]
-                            : false,
-                      );
+                          state.message.length,
+                          (index) => _isExpandedList.length > index
+                              ? _isExpandedList[index]
+                              : false);
                     }
 
                     return ListView.builder(
@@ -99,19 +95,6 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                       ),
                                       Text(
                                           "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.endTime}"),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          ElevatedButton(
-                                            onPressed: () => _controller.delete(
-                                                context, reservation.id),
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.red),
-                                            child: const Text("Cancelar"),
-                                          ),
-                                        ],
-                                      ),
                                     ],
                                   ),
                                 ),

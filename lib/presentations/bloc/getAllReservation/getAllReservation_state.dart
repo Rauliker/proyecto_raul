@@ -21,6 +21,15 @@ class GetAllReservationSuccess extends GetAllReservationState {
   List<Object?> get props => [message];
 }
 
+class GetAllReservationHistorialSuccess extends GetAllReservationState {
+  final List<ReservationEntity> message;
+
+  const GetAllReservationHistorialSuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
 class GetAllReservationFailure extends GetAllReservationState {
   final String message;
 

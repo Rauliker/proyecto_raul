@@ -13,7 +13,11 @@ class GetAllReservationBloc
       emit(GetAllReservationLoading());
       try {
         final message = await getAllReservation(event.type);
-        emit(GetAllReservationSuccess(message));
+        if (event.type == "historial") {
+          emit(GetAllReservationHistorialSuccess(message));
+        } else {
+          emit(GetAllReservationSuccess(message));
+        }
       } catch (e) {
         emit(GetAllReservationFailure(e.toString()));
       }

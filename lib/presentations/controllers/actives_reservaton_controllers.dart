@@ -16,16 +16,41 @@ class ReservationController {
 
   ReservationController(this.context);
 
-  void initialize() {
+  void initialize(String type) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchGetAllReservation();
+      _fetchGetAllReservation(type);
     });
   }
 
-  void _fetchGetAllReservation() {
+  int calculatePrice(int price, String startTime, String endTime) {
+    final start = TimeOfDay(
+      hour: int.parse(startTime.split(":")[0]),
+      minute: int.parse(startTime.split(":")[1]),
+    );
+    final end = TimeOfDay(
+      hour: int.parse(endTime.split(":")[0]),
+      minute: int.parse(endTime.split(":")[1]),
+    );
+
+    final startMinutes = start.hour * 60 + start.minute;
+    final endMinutes = end.hour * 60 + end.minute;
+    final durationMinutes = endMinutes - startMinutes;
+
+    final durationHours = durationMinutes / 60;
+    return (price * durationHours).ceil();
+  }
+
+  void _fetchGetAllReservation(String type) {
+    if (type.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Tipo de reserva no válido")),
+      );
+      return;
+    }
+
     context
         .read<GetAllReservationBloc>()
-        .add(const GetAllReservationCreate(type: "actives"));
+        .add(GetAllReservationCreate(type: type));
   }
 
   List<BlocListener> buildBlocListeners() {
@@ -57,7 +82,7 @@ class ReservationController {
           title: 'Success',
           message: 'Reserva cancelada correctamente',
         );
-        _fetchGetAllReservation();
+        _fetchGetAllReservation("actives");
         return;
       }
     });
