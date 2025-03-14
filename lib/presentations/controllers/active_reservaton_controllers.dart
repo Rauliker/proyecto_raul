@@ -1,3 +1,7 @@
+import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
+import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_event.dart';
+import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_state.dart';
 import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_event.dart';
 import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_state.dart';
@@ -36,6 +40,27 @@ class ReservationController {
         },
       ),
     ];
+  }
+
+  void delete(BuildContext context, int id) {
+    final userBloc = BlocProvider.of<CancelReservationBloc>(context);
+    userBloc.add(CancelReservationCreate(id: id));
+    userBloc.stream.listen((state) {
+      if (state is CancelReservationFailure) {
+        CustomSnackbar.failedSnackbar(
+          title: 'Failed',
+          message: 'Error al cancelar',
+        );
+        return;
+      } else if (state is CancelReservationSuccess) {
+        CustomSnackbar.successSnackbar(
+          title: 'Success',
+          message: 'Reserva cancelada correctamente',
+        );
+        _fetchGetAllReservation();
+        return;
+      }
+    });
   }
 
   String getCourtImageUrl(String? imageUrl) {

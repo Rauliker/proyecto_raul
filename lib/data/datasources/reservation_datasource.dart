@@ -71,6 +71,7 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
         throw Exception('Error al obtener datos  de las pistas.');
       }
     } catch (e) {
+      print(e);
       throw Exception('Error inesperado al iniciar sesión: $e');
     }
   }
@@ -81,9 +82,9 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
       final headers = {'Content-Type': 'application/json'};
       final prefs = await SharedPreferences.getInstance();
       final token = await prefs.getString('token') ?? '';
-      final urlRequest = '$_baseUrl/$id';
+      final urlRequest = '$_baseUrl/reservation/$id';
       final url = Uri.parse(urlRequest);
-      final response = await client.get(url, headers: {
+      final response = await client.delete(url, headers: {
         ...headers,
         'Authorization': 'Bearer $token',
       });

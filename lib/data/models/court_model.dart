@@ -6,19 +6,15 @@ import 'package:bidhub/domain/entities/court.dart';
 
 class PistaModel extends PistaEntity {
   PistaModel({
-    required int id,
-    required String name,
-    required int price,
-    String? imageUrl,
+    required super.id,
+    required super.name,
+    required super.price,
+    super.imageUrl,
     required AvailabilityModel availability,
     List<ReservationModel>? reservations,
     PistaTypeModel? type,
     PistaStatusModel? status,
   }) : super(
-          id: id,
-          name: name,
-          price: price,
-          imageUrl: imageUrl,
           availability: availability,
           type: type,
           status: status,
@@ -27,13 +23,15 @@ class PistaModel extends PistaEntity {
 
   factory PistaModel.fromJson(Map<String, dynamic> json) {
     return PistaModel(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'Unknown',
       imageUrl: json['imageUrl'],
-      price: json['price'],
-      availability: AvailabilityModel.fromJson(json['availability']),
-      type: PistaTypeModel.fromJson(json['type']),
-      status: PistaStatusModel.fromJson(json['status']),
+      price: json['price'] ?? 0,
+      availability: AvailabilityModel.fromJson(json['availability'] ?? {}),
+      type: json['type'] != null ? PistaTypeModel.fromJson(json['type']) : null,
+      status: json['status'] != null
+          ? PistaStatusModel.fromJson(json['status'])
+          : null,
       reservations: (json['reservations'] as List<dynamic>?)
           ?.map((e) => ReservationModel.fromJson(e))
           .toList(),
@@ -47,11 +45,10 @@ class PistaModel extends PistaEntity {
       'price': price,
       'imageUrl': imageUrl,
       'availability': (availability as AvailabilityModel).toJson(),
-      'type': (type as PistaTypeModel).toJson(),
-      'status': (status as PistaStatusModel).toJson(),
-      'reservations': (reservations as List<ReservationModel>?)
-          ?.map((e) => e.toJson())
-          .toList(),
+      'type': type != null ? (type as PistaTypeModel).toJson() : null,
+      'status': status != null ? (status as PistaStatusModel).toJson() : null,
+      'reservations':
+          reservations?.map((e) => (e as ReservationModel).toJson()).toList(),
     };
   }
 }

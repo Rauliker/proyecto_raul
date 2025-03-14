@@ -49,13 +49,6 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                           child: Column(
                             children: [
                               ListTile(
-                                leading: Image.network(
-                                  _controller.getCourtImageUrl(
-                                      reservation.court?.imageUrl),
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
                                 title: Text(reservation.court!.name),
                                 subtitle:
                                     Text("Precio: ${reservation.court!.price}"),
@@ -81,15 +74,22 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      // Text(
-                                      //     "Tipo de pista: ${reservation.court?.type?.name}"),
-                                      Text("Horario: 10:00 - 11:00"),
+                                      Image.network(
+                                        _controller.getCourtImageUrl(
+                                            reservation.court?.imageUrl),
+                                        width: 200,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Text(
+                                          "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.startTime}"),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
                                           ElevatedButton(
-                                            onPressed: () => print('hola'),
+                                            onPressed: () => _controller.delete(
+                                                context, reservation.id),
                                             style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.red),
                                             child: const Text("Cancelar"),

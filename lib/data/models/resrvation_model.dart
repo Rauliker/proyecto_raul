@@ -1,3 +1,4 @@
+import 'package:bidhub/data/models/court_model.dart';
 import 'package:bidhub/domain/entities/reservation.dart';
 
 class ReservationModel extends ReservationEntity {
@@ -14,14 +15,14 @@ class ReservationModel extends ReservationEntity {
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     return ReservationModel(
-      id: json['id'],
-      date: json['date'],
-      startTime: json['startTime'],
-      endTime: json['endTime'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      status: json['status'],
-      court: json['court'],
+      id: json['id'] ?? 0,
+      date: json['date'] ?? '',
+      startTime: json['startTime'] ?? '',
+      endTime: json['endTime'] ?? '',
+      createdAt: json['createdAt'] ?? '',
+      updatedAt: json['updatedAt'] ?? '',
+      status: json['status'] ?? '',
+      court: json['court'] != null ? PistaModel.fromJson(json['court']) : null,
     );
   }
 
@@ -34,7 +35,7 @@ class ReservationModel extends ReservationEntity {
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'status': status,
-      'court': court,
+      'court': court != null ? (court as PistaModel).toJson() : null,
     };
   }
 }
