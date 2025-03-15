@@ -15,14 +15,16 @@ import 'package:bidhub/domain/usercase/court_usecase.dart';
 import 'package:bidhub/domain/usercase/reservation_usecase.dart';
 import 'package:bidhub/domain/usercase/user_usecase.dart';
 import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_bloc.dart';
-import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
+import 'package:bidhub/presentations/bloc/getUser/get_user_bloc.dart';
 import 'package:bidhub/presentations/bloc/language/language_bloc.dart';
 import 'package:bidhub/presentations/bloc/login/login_bloc.dart';
 import 'package:bidhub/presentations/bloc/register/register_bloc.dart';
 import 'package:bidhub/presentations/bloc/reservation/reservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/updateUser/update_user_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,6 +62,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => CreateReservation(sl()));
   sl.registerLazySingleton(() => GetAllReservation(sl()));
   sl.registerLazySingleton(() => CancelReservation(sl()));
+  sl.registerLazySingleton(() => GetUserInfo(sl()));
+  sl.registerLazySingleton(() => UpdateUserInfo(sl()));
   // Blocs
   sl.registerFactory(() => LanguageBloc());
   sl.registerFactory(() => LoginBloc(sl()));
@@ -70,6 +74,8 @@ Future<void> init() async {
   sl.registerCachedFactory(() => ReservationBloc(sl()));
   sl.registerCachedFactory(() => GetAllReservationBloc(sl()));
   sl.registerCachedFactory(() => CancelReservationBloc(sl()));
+  sl.registerCachedFactory(() => GetUserBloc(sl()));
+  sl.registerCachedFactory(() => UpdateUserBloc(sl()));
 
   // External
   sl.registerLazySingleton(() => http.Client());

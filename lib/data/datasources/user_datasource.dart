@@ -8,12 +8,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class UserRemoteDataSource {
   Future<UserModel> updateUser(
-      String email, String username, String name, String phone);
+    int id,
+    String username,
+    String name,
+    String phone,
+    String address,
+  );
 
   Future<UserModel> login(String email, String password);
 
   Future<UserModel> createUser(String email, String password, String username,
       String name, String phone, String address);
+  Future<UserModel> autoLogin();
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -23,21 +29,36 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final http.Client client;
 
   UserRemoteDataSourceImpl(this.client);
+
+  Future<UserModel> getUserInfo() async {
+    try {
+      return autoLogin();
+    } on http.ClientException {
+      throw Exception('Error de conexión con el servidor');
+    }
+  }
+
   @override
-  Future<UserModel> updateUser(
-      String email, String username, String name, String phone) async {
+  Future<UserModel> updateUser(int id, String username, String name,
+      String phone, String address) async {
     try {
       final url = Uri.parse('$_baseUrl/users');
       final body = jsonEncode({
-        'email': email,
         'username': username,
         'name': name,
         'phone': phone,
+        'adrress': address,
       });
+      final prefs = await SharedPreferences.getInstance();
+
+      final token = await prefs.getString('token') ?? '';
 
       final headers = {'Content-Type': 'application/json'};
 
-      final response = await client.put(url, body: body, headers: headers);
+      final response = await client.put(url, body: body, headers: {
+        ...headers,
+        'Authorization': 'Bearer $token',
+      });
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);

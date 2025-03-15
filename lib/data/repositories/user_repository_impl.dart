@@ -18,4 +18,26 @@ class UserRepositoryImpl implements UserRepository {
     return await remoteDataSource.createUser(
         email, password, username, name, phone, address);
   }
+
+  @override
+  Future<User> getUser() async {
+    return await remoteDataSource.autoLogin();
+  }
+
+  @override
+  Future<User> updateUser(
+    int id,
+    String username,
+    String name,
+    String phone,
+    String address,
+  ) async {
+    return await remoteDataSource.updateUser(
+      id,
+      username,
+      name,
+      phone,
+      address,
+    );
+  }
 }

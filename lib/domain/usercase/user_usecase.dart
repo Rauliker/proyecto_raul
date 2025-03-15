@@ -29,3 +29,32 @@ class CreateUser {
     return userInfo;
   }
 }
+
+class GetUserInfo {
+  final UserRepository repository;
+
+  GetUserInfo(this.repository);
+
+  Future<User> call() async {
+    User userInfo = await repository.getUser();
+    return userInfo;
+  }
+}
+
+class UpdateUserInfo {
+  final UserRepository repository;
+
+  UpdateUserInfo(this.repository);
+
+  Future<User> call(
+    int id,
+    String username,
+    String name,
+    String phone,
+    String address,
+  ) async {
+    User userInfo =
+        await repository.updateUser(id, username, name, phone, address);
+    return userInfo;
+  }
+}

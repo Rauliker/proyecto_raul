@@ -1,5 +1,5 @@
-import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_bloc.dart';
-import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_state.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_state.dart';
 import 'package:bidhub/presentations/controllers/actives_reservaton_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

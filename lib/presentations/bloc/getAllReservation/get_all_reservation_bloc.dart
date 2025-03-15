@@ -1,6 +1,6 @@
 import 'package:bidhub/domain/usercase/reservation_usecase.dart';
-import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_event.dart';
-import 'package:bidhub/presentations/bloc/getAllReservation/getAllReservation_state.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/get_all_aeservation_event.dart';
+import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GetAllReservationBloc

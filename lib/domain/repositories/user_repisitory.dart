@@ -9,4 +9,12 @@ abstract class UserRepository {
       final String name,
       final String phone,
       final String address);
+  Future<User> getUser();
+  Future<User> updateUser(
+    int id,
+    String username,
+    String name,
+    String phone,
+    String address,
+  );
 }

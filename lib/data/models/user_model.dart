@@ -6,6 +6,7 @@ class UserModel extends User {
       required super.email,
       required super.username,
       required super.password,
+      required super.address,
       required super.name,
       required super.phone});
 
@@ -15,6 +16,7 @@ class UserModel extends User {
       email: json['email'] ?? '',
       username: json['username'] ?? '',
       password: json['password'] ?? '',
+      address: json['address'] ?? '',
       name: json['name'] ?? '',
       phone: json['phone'] ?? '',
     );
@@ -26,6 +28,7 @@ class UserModel extends User {
       'email': email,
       'username': username,
       'password': password,
+      'address': address,
       'name': name,
       'phone': phone
     };
