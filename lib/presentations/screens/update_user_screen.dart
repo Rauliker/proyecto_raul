@@ -13,10 +13,6 @@ class UpdateUserScreen extends StatefulWidget {
 
 class UpdateUserScreenState extends State<UpdateUserScreen> {
   final _formKey = GlobalKey<FormState>();
-  String email = '';
-  String username = '';
-  String name = '';
-  String phone = '';
 
   late UpdateUserController _controller;
 
@@ -45,55 +41,74 @@ class UpdateUserScreenState extends State<UpdateUserScreen> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state is GetUserSuccess) {
+                _controller.id = state.message.id;
+                _controller.emailController.text = state.message.email;
+                _controller.usernameController.text = state.message.username;
+                _controller.fullNameController.text = state.message.name;
+                _controller.phoneNumberController.text = state.message.phone;
+                _controller.addressController.text = state.message.address;
+                _controller.passwordController.text = state.message.password;
+
                 return Column(
                   children: [
                     TextFormField(
-                      initialValue: email,
+                      initialValue: _controller.emailController.text,
                       decoration: const InputDecoration(labelText: 'Email'),
-                      onChanged: (value) => email = value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        }
-                        return null;
-                      },
+                      onChanged: (value) =>
+                          _controller.emailController.text = value,
+                      enabled: false,
                     ),
                     TextFormField(
-                      initialValue: username,
+                      initialValue: _controller.usernameController.text,
                       decoration: const InputDecoration(labelText: 'Username'),
-                      onChanged: (value) => username = value,
+                      onChanged: (value) =>
+                          _controller.emailController.text = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your username';
+                          return 'Pon tu nombre de usuario';
                         }
                         return null;
                       },
                     ),
                     TextFormField(
-                      initialValue: name,
-                      decoration: const InputDecoration(labelText: 'Name'),
-                      onChanged: (value) => name = value,
+                      initialValue: _controller.fullNameController.text,
+                      decoration: const InputDecoration(labelText: 'Nombre'),
+                      onChanged: (value) =>
+                          _controller.fullNameController.text = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
+                          return 'Pon tu nombre';
                         }
                         return null;
                       },
                     ),
                     TextFormField(
-                      initialValue: phone,
-                      decoration: const InputDecoration(labelText: 'Phone'),
-                      onChanged: (value) => phone = value,
+                      initialValue: _controller.phoneNumberController.text,
+                      decoration: const InputDecoration(labelText: 'Telefono'),
+                      onChanged: (value) =>
+                          _controller.phoneNumberController.text = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your phone number';
+                          return 'pon un numero de telofono';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      initialValue: _controller.addressController.text,
+                      decoration: const InputDecoration(labelText: 'Direccion'),
+                      onChanged: (value) =>
+                          _controller.addressController.text = value,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Pon una direccoin';
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => _controller.handleUpdateUser(context),
                       child: const Text('Update'),
                     ),
                   ],

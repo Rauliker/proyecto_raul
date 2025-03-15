@@ -42,7 +42,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<UserModel> updateUser(int id, String username, String name,
       String phone, String address) async {
     try {
-      final url = Uri.parse('$_baseUrl/users');
+      final url = Uri.parse('$_baseUrl/users/$id');
       final body = jsonEncode({
         'username': username,
         'name': name,
@@ -60,7 +60,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         'Authorization': 'Bearer $token',
       });
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final jsonResponse = jsonDecode(response.body);
         return UserModel.fromJson(jsonResponse);
       } else {
@@ -138,7 +138,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         "password": password,
         "username": username,
         "phone": phone,
-        "address": address
+        "adrress": address
       });
 
       final headers = {'Content-Type': 'application/json'};

@@ -1,7 +1,9 @@
+import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
 import 'package:bidhub/presentations/bloc/getUser/get_user_bloc.dart';
 import 'package:bidhub/presentations/bloc/getUser/get_user_event.dart';
 import 'package:bidhub/presentations/bloc/getUser/get_user_state.dart';
 import 'package:bidhub/presentations/bloc/updateUser/update_user_bloc.dart';
+import 'package:bidhub/presentations/bloc/updateUser/update_user_event.dart';
 import 'package:bidhub/presentations/bloc/updateUser/update_user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +17,7 @@ class UpdateUserController extends GetxController with StateMixin {
   late final TextEditingController emailController;
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
+  late int id;
 
   UpdateUserController(this.context);
   @override
@@ -33,6 +36,7 @@ class UpdateUserController extends GetxController with StateMixin {
   }
 
   void initializeController() {
+    id = 0;
     fullNameController = TextEditingController();
     addressController = TextEditingController();
     phoneNumberController = TextEditingController();
@@ -120,55 +124,55 @@ class UpdateUserController extends GetxController with StateMixin {
       ),
     ];
   }
-  // void handleUpdateUser(
-  //   BuildContext context,
-  // ) async {
-  //   if (isAnyEmptyField()) {
-  //     CustomSnackbar.failedSnackbar(
-  //       title: 'Error de Registro',
-  //       message: 'Por favor llene todos los campos',
-  //     );
-  //     return;
-  //   }
 
-  //   if (!isAllFieldValid()) {
-  //     CustomSnackbar.failedSnackbar(
-  //       title: 'Error de Registro',
-  //       message: 'Datos invalidos',
-  //     );
-  //     return;
-  //   }
+  void handleUpdateUser(
+    BuildContext context,
+  ) async {
+    if (isAnyEmptyField()) {
+      CustomSnackbar.failedSnackbar(
+        title: 'Error de Registro',
+        message: 'Por favor llene todos los campos',
+      );
+      return;
+    }
 
-  //   final name = fullNameController.text;
-  //   final address = addressController.text;
-  //   final phoneNumber = getFormattedPhoneNumber();
-  //   final email = emailController.text;
-  //   final username = usernameController.text;
-  //   final password = passwordController.text;
-  //   final userBloc = BlocProvider.of<UpdateUserBloc>(context);
-  //   userBloc.add(UpdateUserRequested(
-  //     name: name,
-  //     address: address,
-  //     phone: phoneNumber,
-  //     email: email,
-  //     username: username,
-  //     password: password,
-  //   ));
-  //   userBloc.stream.listen((state) {
-  //     if (state is UpdateUserFailure) {
-  //       CustomSnackbar.failedSnackbar(
-  //         title: 'Failed',
-  //         message: state.message.replaceAll('Exception:', ''),
-  //       );
-  //       return;
-  //     } else if (state is UpdateUserSuccess) {
-  //       Get.toNamed('/login');
-  //       CustomSnackbar.successSnackbar(
-  //         title: 'Success',
-  //         message: 'Login Correcto',
-  //       );
-  //       return;
-  //     }
-  //   });
-  // }
+    if (!isAllFieldValid()) {
+      CustomSnackbar.failedSnackbar(
+        title: 'Error de Registro',
+        message: 'Datos invalidos',
+      );
+      return;
+    }
+    final name = fullNameController.text;
+    final address = addressController.text;
+    final phoneNumber = getFormattedPhoneNumber();
+    final email = emailController.text;
+    final username = usernameController.text;
+    final password = passwordController.text;
+    final userBloc = BlocProvider.of<UpdateUserBloc>(context);
+    userBloc.add(UpdateUserCreate(
+      id: id,
+      name: name,
+      address: address,
+      phone: phoneNumber,
+      username: username,
+      // password: password,
+    ));
+    userBloc.stream.listen((state) {
+      if (state is UpdateUserFailure) {
+        CustomSnackbar.failedSnackbar(
+          title: 'Failed',
+          message: state.message.replaceAll('Exception:', ''),
+        );
+        return;
+      } else if (state is UpdateUserSuccess) {
+        CustomSnackbar.successSnackbar(
+          title: 'Success',
+          message: 'Datos auctualizados',
+        );
+        _fetchUserInfo();
+        return;
+      }
+    });
+  }
 }

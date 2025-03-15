@@ -16,7 +16,7 @@ class UserModel extends User {
       email: json['email'] ?? '',
       username: json['username'] ?? '',
       password: json['password'] ?? '',
-      address: json['address'] ?? '',
+      address: json['adrress'] ?? '',
       name: json['name'] ?? '',
       phone: json['phone'] ?? '',
     );

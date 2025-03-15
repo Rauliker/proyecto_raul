@@ -19,7 +19,7 @@ class HomeController extends GetxController {
     const AllCourtView(),
     const ActiveReservationView(),
     const HistorialReservationView(),
-    UpdateUserScreen()
+    const UpdateUserScreen()
   ];
 
   void changePageBySlide(int index) {
