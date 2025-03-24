@@ -46,13 +46,45 @@ This project is designed to [insert brief description of the project's purpose a
 
 ### Usage
 
-<img src="assets/images/image_home.png" alt="home" width=150/>
-<img src="assets/images/image_register.png" alt="home" width=150/>
-<img src="assets/images/image_active.png" alt="home" width=150/>
-<img src="assets/images/image_historial.png" alt="home" width=150/>
-<img src="assets/images/image_menu_user.png" alt="home" width=150/>
-<img src="assets/images/image_update.png" alt="home" width=150/>
-<img src="assets/images/image_login.png" alt="home" width=150/>
-<img src="assets/images/image_sigin.png" alt="home" width=150/>
+### Tutorial
+
+A continuación, se muestra un tutorial paso a paso utilizando capturas de pantalla para guiarte a través del uso de la aplicación.
+
+1. **Pantalla de Inicio de Sesión**
+   ![Inicio de Sesión](assets/images/image_sigin.png)
+
+- Ingresa tus credenciales para acceder a la aplicación.
+
+2. **Pantalla de Registro**
+   ![Registro](assets/images/image_register.png)
+
+- Completa el formulario de registro para crear una nueva cuenta.
+
+3. **Pantalla de Inicio**
+   ![Inicio](assets/images/image_home.png)
+
+- Una vez que hayas iniciado sesión, serás dirigido a la pantalla de inicio.
+
+4. **Pantalla de Activación**
+   ![Activación](assets/images/image_active.png)
+
+- Activa tu cuenta siguiendo las instrucciones en esta pantalla.
+
+5. **Pantalla de Historial**
+   ![Historial](assets/images/image_historial.png)
+
+- Consulta el historial de tus actividades en esta sección.
+
+6. **Menú de Usuario**
+   ![Menú de Usuario](assets/images/image_menu_user.png)
+
+- Accede al menú de usuario para gestionar tu perfil y configuraciones.
+
+7. **Pantalla de Actualización**
+   ![Actualización](assets/images/image_update.png)
+
+- Actualiza tu información personal en esta pantalla.
+
+Para ejecutar el proyecto, utiliza el comando `flutter run`.
 
 - Para ejecutar el pryecto `flutter run`
