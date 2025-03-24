@@ -1,4 +1,6 @@
+import 'package:bidhub/core/values/colors.dart';
 import 'package:bidhub/presentations/controllers/user_menu_controller.dart';
+import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
 import 'package:bidhub/presentations/global_widgets/footer_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,16 +39,22 @@ class _UpdateUserMenuScreenState extends State<UpdateUserMenuScreen> {
             ? Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Get.offAllNamed('/update');
-                    },
-                    child: const Text('Actualizar datos de usuario'),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: CustomMediumButton(
+                      color: blue,
+                      label: 'Actualizar datos de usuario',
+                      onTap: () => Get.offAllNamed('/update'),
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () => controller.logout(),
-                    child: const Text('Cerrar sesión'),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: CustomMediumButton(
+                      color: red,
+                      label: 'Cerrar sesión',
+                      onTap: () => controller.logout(),
+                    ),
                   ),
                 ],
               )
