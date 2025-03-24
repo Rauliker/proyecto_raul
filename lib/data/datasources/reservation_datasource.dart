@@ -28,8 +28,11 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
         'endTime': endTime,
         "status": "created"
       });
-      final headers = {'Content-Type': 'application/json'};
       final prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('token') == null) {
+        throw Exception("inicia sesion");
+      }
+      final headers = {'Content-Type': 'application/json'};
       final token = await prefs.getString('token') ?? '';
       final urlRequest = '$_baseUrl/reservation';
       final url = Uri.parse(urlRequest);
@@ -53,6 +56,9 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
     try {
       final headers = {'Content-Type': 'application/json'};
       final prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('token') == null) {
+        return [];
+      }
       final token = await prefs.getString('token') ?? '';
 
       final email = await prefs.getString('emailSearch') ?? '';

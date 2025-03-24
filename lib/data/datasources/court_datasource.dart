@@ -21,10 +21,13 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
   Future<List<PistaModel>> getAll(int? idType) async {
     try {
       final userRemoteDataSource = UserRemoteDataSourceImpl(client);
-      await userRemoteDataSource.autoLogin();
+
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('token') != null) {
+        await userRemoteDataSource.autoLogin();
+      }
 
       final headers = {'Content-Type': 'application/json'};
-      final prefs = await SharedPreferences.getInstance();
       final token = await prefs.getString('token') ?? '';
       final urlRequest =
           idType != null ? '$_baseUrl/court?type=$idType' : '$_baseUrl/court';
@@ -49,10 +52,13 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
   Future<PistaModel> getOne(int id) async {
     try {
       final userRemoteDataSource = UserRemoteDataSourceImpl(client);
-      await userRemoteDataSource.autoLogin();
+
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('token') != null) {
+        await userRemoteDataSource.autoLogin();
+      }
 
       final headers = {'Content-Type': 'application/json'};
-      final prefs = await SharedPreferences.getInstance();
       final token = await prefs.getString('token') ?? '';
       final urlRequest = '$_baseUrl/court/$id';
       final url = Uri.parse(urlRequest);

@@ -3,6 +3,7 @@ import 'package:bidhub/presentations/bloc/getUser/get_user_state.dart';
 import 'package:bidhub/presentations/controllers/update_user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class UpdateUserScreen extends StatefulWidget {
   const UpdateUserScreen({super.key});
@@ -27,7 +28,7 @@ class UpdateUserScreenState extends State<UpdateUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Info user'),
+        title: const Text('Info usuario'),
       ),
       body: MultiBlocListener(
         listeners: _controller.buildBlocListeners(),
@@ -109,7 +110,11 @@ class UpdateUserScreenState extends State<UpdateUserScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () => _controller.handleUpdateUser(context),
-                      child: const Text('Update'),
+                      child: const Text('Actualizar'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () => Get.offAllNamed('/home'),
+                      child: const Text('Volver'),
                     ),
                   ],
                 );

@@ -22,6 +22,8 @@ class OneCourtController {
 
   OneCourtController(this.context, this.id);
 
+  bool hasToken = true;
+
   void initialize() {
     selectedCourtType = 'Todos';
     WidgetsBinding.instance.addPostFrameCallback((_) {

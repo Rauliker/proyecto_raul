@@ -27,7 +27,8 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Activas", style: TextStyle(color: Colors.black)),
+        title: const Text("Reservas Activas",
+            style: TextStyle(color: Colors.black)),
         centerTitle: true,
       ),
       body: MultiBlocListener(
@@ -45,7 +46,6 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                           child: Text("No hay reservas disponibles"));
                     }
 
-                    // Initialize the expansion list based on the number of reservations
                     if (_isExpandedList.isEmpty) {
                       _isExpandedList = List.generate(
                         state.message.length,

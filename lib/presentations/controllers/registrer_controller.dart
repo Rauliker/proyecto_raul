@@ -130,7 +130,7 @@ class RegisterController extends GetxController with StateMixin {
         );
         return;
       } else if (state is RegisterSuccess) {
-        Get.toNamed('/login');
+        Get.offAllNamed('/login');
         CustomSnackbar.successSnackbar(
           title: 'Success',
           message: 'Login Correcto',

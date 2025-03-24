@@ -1,7 +1,7 @@
 import 'package:bidhub/presentations/screens/active_reservation_views.dart';
 import 'package:bidhub/presentations/screens/all_court_views.dart';
 import 'package:bidhub/presentations/screens/historial_reservation.views.dart';
-import 'package:bidhub/presentations/screens/update_user_screen.dart';
+import 'package:bidhub/presentations/screens/user_menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +19,7 @@ class HomeController extends GetxController {
     const AllCourtView(),
     const ActiveReservationView(),
     const HistorialReservationView(),
-    const UpdateUserScreen()
+    const UpdateUserMenuScreen()
   ];
 
   void changePageBySlide(int index) {

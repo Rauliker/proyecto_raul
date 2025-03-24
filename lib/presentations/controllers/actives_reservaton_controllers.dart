@@ -8,8 +8,11 @@ import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ReservationController {
+  var hasToken = true.obs;
   final BuildContext context;
   final String _baseUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000';
   String? selectedCourtType;
@@ -20,6 +23,7 @@ class ReservationController {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchGetAllReservation(type);
     });
+    _checkToken();
   }
 
   int calculatePrice(int price, String startTime, String endTime) {
@@ -38,6 +42,12 @@ class ReservationController {
 
     final durationHours = durationMinutes / 60;
     return (price * durationHours).ceil();
+  }
+
+  Future<void> _checkToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    hasToken.value = token != null && token.isNotEmpty;
   }
 
   void _fetchGetAllReservation(String type) {

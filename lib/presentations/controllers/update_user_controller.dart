@@ -91,11 +91,8 @@ class UpdateUserController extends GetxController with StateMixin {
     final isValidPhoneNumber =
         int.tryParse(phoneNumberController.text.replaceAll(' ', '')) != null &&
             phoneNumberController.text.replaceAll(' ', '').length == 9;
-    final isValidEmail = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-    ).hasMatch(emailController.text);
 
-    return isValidEmail && isValidPhoneNumber && !isNameContainNumber;
+    return isValidPhoneNumber && !isNameContainNumber;
   }
 
   String getFormattedPhoneNumber() {
@@ -146,7 +143,6 @@ class UpdateUserController extends GetxController with StateMixin {
     final name = fullNameController.text;
     final address = addressController.text;
     final phoneNumber = getFormattedPhoneNumber();
-    final email = emailController.text;
     final username = usernameController.text;
     final password = passwordController.text;
     final userBloc = BlocProvider.of<UpdateUserBloc>(context);

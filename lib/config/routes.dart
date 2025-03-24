@@ -13,6 +13,7 @@ import 'package:bidhub/presentations/screens/home_screen.dart';
 import 'package:bidhub/presentations/screens/login_screen.dart';
 import 'package:bidhub/presentations/screens/one_court_view.dart';
 import 'package:bidhub/presentations/screens/register_screen.dart';
+import 'package:bidhub/presentations/screens/update_user_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
@@ -29,6 +30,20 @@ final List<GetPage> routes = [
     page: () => BlocProvider(
       create: (context) => di.sl<RegisterBloc>(),
       child: const RegisterPage(),
+    ),
+  ),
+  GetPage(
+    name: '/update',
+    page: () => MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => di.sl<GetUserBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<UpdateUserBloc>(),
+        ),
+      ],
+      child: const UpdateUserScreen(),
     ),
   ),
   GetPage(

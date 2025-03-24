@@ -6,7 +6,7 @@ import 'package:bidhub/presentations/bloc/theme/theme_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get/get.dart'; // Importa GetX
+import 'package:get/get.dart';
 
 import 'injection_container.dart' as injection_container;
 
@@ -56,7 +56,7 @@ class MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             theme: themeState.currentTheme.getTheme(),
             getPages: routes,
-            initialRoute: '/login',
+            initialRoute: '/home',
           );
         },
       ),
