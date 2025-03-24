@@ -12,12 +12,11 @@ import 'package:get/get.dart';
 class AllCourtController {
   final BuildContext context;
   final String _baseUrl = dotenv.env['API_URL'] ?? 'http://localhost:3000';
-  String? selectedCourtType;
+  String? selectedCourtType = 'Todos';
 
   AllCourtController(this.context);
 
   void initialize() {
-    selectedCourtType = 'Todos';
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchCourtTypeData();
       _fetchCourtData();

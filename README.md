@@ -46,5 +46,6 @@ This project is designed to [insert brief description of the project's purpose a
 
 ### Usage
 
-- To run the project, use: `flutter run`
-- [Add any additional usage instructions or examples here.]
+![alt text](image.png)
+
+- prar ejecutar el pryecto `flutter run`

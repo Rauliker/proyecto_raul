@@ -46,7 +46,7 @@ class _AllCourtViewState extends State<AllCourtView> {
                   return Row(
                     children: [
                       Text(
-                        _controller.selectedCourtType ?? "Todos",
+                        "Tipo de pista${_controller.selectedCourtType ?? "Todos"}",
                         style: const TextStyle(color: Colors.orange),
                       ),
                       const Spacer(),
@@ -54,7 +54,9 @@ class _AllCourtViewState extends State<AllCourtView> {
                         hint: const Text("Selecciona el tipo de pista"),
                         value: _controller.selectedCourtType,
                         items: _controller.buildDropdownItems(state),
-                        onChanged: _controller.onCourtTypeChanged,
+                        onChanged: (value) {
+                          setState(() => _controller.onCourtTypeChanged(value));
+                        },
                       ),
                     ],
                   );
