@@ -3,18 +3,37 @@ import 'package:bidhub/presentations/global_widgets/footer_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UpdateUserMenuScreen extends StatelessWidget {
+class UpdateUserMenuScreen extends StatefulWidget {
   const UpdateUserMenuScreen({super.key});
 
   @override
+  State<UpdateUserMenuScreen> createState() => _UpdateUserMenuScreenState();
+}
+
+class _UpdateUserMenuScreenState extends State<UpdateUserMenuScreen> {
+  late UpdateUserMenuController controller;
+  late bool hasToken;
+  @override
+  void initState() {
+    super.initState();
+    controller = UpdateUserMenuController(context);
+    controller.onInit();
+
+    controller.checkToken().then((value) {
+      setState(() {
+        hasToken = value;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final controller = Get.put(UpdateUserMenuController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Info user'),
       ),
       body: Center(
-        child: controller.hasToken.value
+        child: hasToken
             ? Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

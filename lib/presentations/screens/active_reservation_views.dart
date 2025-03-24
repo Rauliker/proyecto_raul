@@ -107,7 +107,9 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                             onPressed: () => _controller.delete(
                                                 context, reservation.id),
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.red),
+                                                backgroundColor: Colors.red,
+                                                side: const BorderSide(
+                                                    color: Colors.red)),
                                             child: const Text("Cancelar"),
                                           ),
                                         ],

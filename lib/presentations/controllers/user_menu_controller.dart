@@ -1,21 +1,25 @@
 import 'package:bidhub/config/secure_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateUserMenuController extends GetxController {
-  var hasToken = false.obs;
+  var hasToken = false;
   final SecureStorageService _secureStorage = SecureStorageService();
+
+  UpdateUserMenuController(BuildContext context);
 
   @override
   void onInit() {
     super.onInit();
-    _checkToken();
+    checkToken();
   }
 
-  Future<void> _checkToken() async {
+  Future<bool> checkToken() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
-    hasToken.value = token != null && token.isNotEmpty;
+    hasToken = token != null && token.isNotEmpty;
+    return hasToken;
   }
 
   Future<void> logout() async {
