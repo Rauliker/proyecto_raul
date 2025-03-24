@@ -46,6 +46,13 @@ This project is designed to [insert brief description of the project's purpose a
 
 ### Usage
 
-![alt text](image.png)
+<img src="assets/images/image_home.png" alt="home" width=150/>
+<img src="assets/images/image_register.png" alt="home" width=150/>
+<img src="assets/images/image_active.png" alt="home" width=150/>
+<img src="assets/images/image_historial.png" alt="home" width=150/>
+<img src="assets/images/image_menu_user.png" alt="home" width=150/>
+<img src="assets/images/image_update.png" alt="home" width=150/>
+<img src="assets/images/image_login.png" alt="home" width=150/>
+<img src="assets/images/image_sigin.png" alt="home" width=150/>
 
-- prar ejecutar el pryecto `flutter run`
+- Para ejecutar el pryecto `flutter run`

@@ -56,7 +56,7 @@ class MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             theme: themeState.currentTheme.getTheme(),
             getPages: routes,
-            initialRoute: '/home',
+            initialRoute: '/login',
           );
         },
       ),

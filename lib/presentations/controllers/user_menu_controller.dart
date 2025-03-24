@@ -27,7 +27,7 @@ class UpdateUserMenuController extends GetxController {
     await prefs.remove('token');
     await _secureStorage.deleteData('email');
     await _secureStorage.deleteData('password');
-    Get.offAllNamed('/home');
+    Get.offAllNamed('/login');
     Get.reset();
   }
 }
