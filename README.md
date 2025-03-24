@@ -38,7 +38,7 @@ This project is designed to [insert brief description of the project's purpose a
      - google_fonts: ^6.2.1
      - http: ^1.2.2
      - http_parser: ^4.0.2
-     - image_picker: ^0.8.5+3
+     - image_picker: ^0.8.5+3 q
      - intl: any
      - pull_to_refresh: ^2.0.0
      - shared_preferences: ^2.3.2
