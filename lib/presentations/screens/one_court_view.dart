@@ -2,6 +2,7 @@ import 'package:bidhub/domain/entities/availability.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_status.dart';
 import 'package:bidhub/presentations/controllers/one_court_controllers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -35,23 +36,23 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
 
   Widget buildAvailabilitySchedule(AvailabilityEntity availability) {
     List<String> daysOfWeek = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
     ];
 
     Map<String, List<String>> availabilityMap = {
-      "Monday": availability.monday,
-      "Tuesday": availability.tuesday,
-      "Wednesday": availability.wednesday,
-      "Thursday": availability.thursday,
-      "Friday": availability.friday,
-      "Saturday": availability.saturday,
-      "Sunday": availability.sunday,
+      "Lunes": availability.monday,
+      "Martes": availability.tuesday,
+      "Miércoles": availability.wednesday,
+      "Jueves": availability.thursday,
+      "Viernes": availability.friday,
+      "Sábado": availability.saturday,
+      "Domingo": availability.sunday,
     };
 
     String selectedDay = daysOfWeek.first;
@@ -121,14 +122,22 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                         child: court.imageUrl != null
                             ? Image.network(
                                 _controller.getCourtImageUrl(court.imageUrl),
-                                width: 400,
-                                height: 200,
+                                width: kIsWeb
+                                    ? 400
+                                    : MediaQuery.of(context).size.width,
+                                height: kIsWeb
+                                    ? 260
+                                    : MediaQuery.of(context).size.height * 0.2,
                                 fit: BoxFit.cover,
                               )
                             : Image.asset(
                                 'assets/hero_onboarding.png',
-                                width: 400,
-                                height: 200,
+                                width: kIsWeb
+                                    ? 400
+                                    : MediaQuery.of(context).size.width,
+                                height: kIsWeb
+                                    ? 260
+                                    : MediaQuery.of(context).size.height * 0.2,
                                 fit: BoxFit.cover,
                               ),
                       ),

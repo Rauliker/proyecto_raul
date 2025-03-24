@@ -1,6 +1,7 @@
 import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_state.dart';
 import 'package:bidhub/presentations/controllers/actives_reservaton_controllers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -94,14 +95,32 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                           ? Image.network(
                                               _controller.getCourtImageUrl(
                                                   reservation.court?.imageUrl),
-                                              width: 200,
-                                              height: 100,
+                                              width: kIsWeb
+                                                  ? 400
+                                                  : MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                              height: kIsWeb
+                                                  ? 260
+                                                  : MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.2,
                                               fit: BoxFit.cover,
                                             )
                                           : Image.asset(
                                               'assets/hero_onboarding.png',
-                                              width: 200,
-                                              height: 100,
+                                              width: kIsWeb
+                                                  ? 400
+                                                  : MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                              height: kIsWeb
+                                                  ? 260
+                                                  : MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.2,
                                               fit: BoxFit.cover,
                                             ),
                                       Text(
