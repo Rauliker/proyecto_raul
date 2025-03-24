@@ -12,7 +12,7 @@ class UpdateUserMenuScreen extends StatefulWidget {
 
 class _UpdateUserMenuScreenState extends State<UpdateUserMenuScreen> {
   late UpdateUserMenuController controller;
-  late bool hasToken;
+  late bool hasToken = false;
   @override
   void initState() {
     super.initState();

@@ -90,13 +90,20 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Image.network(
-                                        _controller.getCourtImageUrl(
-                                            reservation.court?.imageUrl),
-                                        width: 200,
-                                        height: 100,
-                                        fit: BoxFit.cover,
-                                      ),
+                                      reservation.court?.imageUrl != null
+                                          ? Image.network(
+                                              _controller.getCourtImageUrl(
+                                                  reservation.court?.imageUrl),
+                                              width: 200,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              'assets/hero_onboarding.png',
+                                              width: 200,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            ),
                                       Text(
                                           "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.endTime}"),
                                       Row(

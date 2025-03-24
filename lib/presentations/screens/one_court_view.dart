@@ -118,12 +118,19 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Image.network(
-                          _controller.getCourtImageUrl(court.imageUrl),
-                          width: 400,
-                          height: 200,
-                          fit: BoxFit.cover,
-                        ),
+                        child: court.imageUrl != null
+                            ? Image.network(
+                                _controller.getCourtImageUrl(court.imageUrl),
+                                width: 400,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/hero_onboarding.png',
+                                width: 400,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       const SizedBox(height: 16),
                       Text("Nombre: ${court.name}",

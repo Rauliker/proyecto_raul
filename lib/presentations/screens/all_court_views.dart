@@ -73,12 +73,19 @@ class _AllCourtViewState extends State<AllCourtView> {
                       itemBuilder: (context, index) {
                         final court = state.court[index];
                         return ListTile(
-                          leading: Image.network(
-                            _controller.getCourtImageUrl(court.imageUrl),
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
+                          leading: court?.imageUrl != null
+                              ? Image.network(
+                                  _controller.getCourtImageUrl(court?.imageUrl),
+                                  width: 200,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/hero_onboarding.png',
+                                  width: 200,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
                           title: Text(court.name),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

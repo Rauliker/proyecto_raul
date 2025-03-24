@@ -90,14 +90,6 @@ class _HistorialReservationViewState extends State<HistorialReservationView> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Image.network(
-                                                _controller.getCourtImageUrl(
-                                                    reservation
-                                                        .court?.imageUrl),
-                                                width: 200,
-                                                height: 100,
-                                                fit: BoxFit.cover,
-                                              ),
                                               Text(
                                                   "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.endTime}"),
                                             ],
