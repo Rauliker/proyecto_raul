@@ -1,7 +1,10 @@
+import 'package:bidhub/core/values/colors.dart';
 import 'package:bidhub/domain/entities/availability.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_status.dart';
 import 'package:bidhub/presentations/controllers/one_court_controllers.dart';
+import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -35,23 +38,23 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
 
   Widget buildAvailabilitySchedule(AvailabilityEntity availability) {
     List<String> daysOfWeek = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
     ];
 
     Map<String, List<String>> availabilityMap = {
-      "Monday": availability.monday,
-      "Tuesday": availability.tuesday,
-      "Wednesday": availability.wednesday,
-      "Thursday": availability.thursday,
-      "Friday": availability.friday,
-      "Saturday": availability.saturday,
-      "Sunday": availability.sunday,
+      "Lunes": availability.monday,
+      "Martes": availability.tuesday,
+      "Miércoles": availability.wednesday,
+      "Jueves": availability.thursday,
+      "Viernes": availability.friday,
+      "Sábado": availability.saturday,
+      "Domingo": availability.sunday,
     };
 
     String selectedDay = daysOfWeek.first;
@@ -118,12 +121,27 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Image.network(
-                          _controller.getCourtImageUrl(court.imageUrl),
-                          width: 400,
-                          height: 200,
-                          fit: BoxFit.cover,
-                        ),
+                        child: court.imageUrl != null
+                            ? Image.network(
+                                _controller.getCourtImageUrl(court.imageUrl),
+                                width: kIsWeb
+                                    ? 400
+                                    : MediaQuery.of(context).size.width,
+                                height: kIsWeb
+                                    ? 260
+                                    : MediaQuery.of(context).size.height * 0.2,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/hero_onboarding.png',
+                                width: kIsWeb
+                                    ? 400
+                                    : MediaQuery.of(context).size.width,
+                                height: kIsWeb
+                                    ? 260
+                                    : MediaQuery.of(context).size.height * 0.2,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                       const SizedBox(height: 16),
                       Text("Nombre: ${court.name}",
@@ -235,18 +253,24 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                         ],
                       ),
                       Center(
-                        child: ElevatedButton(
-                          onPressed: _controller.submitForm,
-                          child: const Text("Reservar"),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: CustomMediumButton(
+                            color: green,
+                            label: 'Reservar',
+                            onTap: () => _controller.submitForm(),
+                          ),
                         ),
                       ),
                       const Padding(padding: EdgeInsets.only(top: 20)),
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.offAllNamed("/home");
-                          },
-                          child: const Text("Cancelar"),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: CustomMediumButton(
+                            color: red,
+                            label: 'Cancelar',
+                            onTap: () => Get.offAllNamed("/home"),
+                          ),
                         ),
                       ),
                     ],

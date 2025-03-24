@@ -1,8 +1,11 @@
+import 'package:bidhub/core/values/colors.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_status.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_status.dart';
 import 'package:bidhub/presentations/controllers/all_court_controllers.dart';
+import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -73,25 +76,53 @@ class _AllCourtViewState extends State<AllCourtView> {
                       itemBuilder: (context, index) {
                         final court = state.court[index];
                         return ListTile(
-                          leading: Image.network(
-                            _controller.getCourtImageUrl(court.imageUrl),
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                          title: Text(court.name),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Tipo de pista: ${court.type?.name}"),
-                              Text("Precio por hora: ${court.price}"),
-                            ],
-                          ),
-                          trailing: ElevatedButton(
-                            onPressed: () {
-                              Get.offAllNamed('/court-detail/${court.id}');
-                            },
-                            child: const Text("Reservar"),
+                          title: Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                court.imageUrl != null
+                                    ? Image.network(
+                                        _controller
+                                            .getCourtImageUrl(court.imageUrl),
+                                        width: kIsWeb
+                                            ? 400
+                                            : MediaQuery.of(context).size.width,
+                                        height: kIsWeb
+                                            ? 260
+                                            : MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.2,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        'assets/hero_onboarding.png',
+                                        width: kIsWeb
+                                            ? 400
+                                            : MediaQuery.of(context).size.width,
+                                        height: kIsWeb
+                                            ? 260
+                                            : MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.2,
+                                        fit: BoxFit.cover,
+                                      ),
+                                Text(court.name),
+                                Text("Tipo de pista: ${court.type?.name}"),
+                                Text("Precio por hora: ${court.price}"),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  child: CustomMediumButton(
+                                    color: blue,
+                                    label: 'Reservar',
+                                    onTap: () => Get.offAllNamed(
+                                        '/court-detail/${court.id}'),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           onTap: () {
                             Get.offAllNamed('/court-detail/${court.id}');

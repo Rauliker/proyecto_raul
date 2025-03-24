@@ -1,6 +1,8 @@
+import 'package:bidhub/core/values/colors.dart';
 import 'package:bidhub/presentations/bloc/getUser/get_user_bloc.dart';
 import 'package:bidhub/presentations/bloc/getUser/get_user_state.dart';
 import 'package:bidhub/presentations/controllers/update_user_controller.dart';
+import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -108,13 +110,22 @@ class UpdateUserScreenState extends State<UpdateUserScreen> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () => _controller.handleUpdateUser(context),
-                      child: const Text('Actualizar'),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: CustomMediumButton(
+                        color: green,
+                        label: 'Actualizar',
+                        onTap: () => _controller.handleUpdateUser(context),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: () => Get.offAllNamed('/home'),
-                      child: const Text('Volver'),
+                    const Padding(padding: EdgeInsets.only(top: 20)),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: CustomMediumButton(
+                        color: red,
+                        label: 'Cancelar',
+                        onTap: () => Get.offAllNamed('/home'),
+                      ),
                     ),
                   ],
                 );
