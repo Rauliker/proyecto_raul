@@ -46,7 +46,7 @@ class _AllCourtViewState extends State<AllCourtView> {
                   return Row(
                     children: [
                       Text(
-                        "Tipo de pista${_controller.selectedCourtType ?? "Todos"}",
+                        "Tipo de pista ${_controller.selectedCourtType ?? "Todos"}",
                         style: const TextStyle(color: Colors.orange),
                       ),
                       const Spacer(),
