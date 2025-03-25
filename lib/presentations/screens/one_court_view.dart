@@ -151,6 +151,7 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                       Text("Tipo de pista: ${court.type?.name}"),
                       Text("Precio por hora: ${court.price}"),
                       const SizedBox(height: 16),
+                      const Text("Horario"),
                       buildAvailabilitySchedule(court.availability),
                       const SizedBox(height: 16),
                       TextFormField(
