@@ -138,7 +138,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         "password": password,
         "username": username,
         "phone": phone,
-        "address": address
+        "adrress": address
       });
 
       final headers = {'Content-Type': 'application/json'};

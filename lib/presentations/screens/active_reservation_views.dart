@@ -153,7 +153,7 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                                   0.3,
                                               child: CustomMediumButton(
                                                 color: red,
-                                                label: 'Reservar',
+                                                label: 'Cancelar',
                                                 onTap: () => _controller.delete(
                                                     context, reservation.id),
                                               ),

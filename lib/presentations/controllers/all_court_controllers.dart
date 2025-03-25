@@ -28,7 +28,13 @@ class AllCourtController {
   }
 
   void _fetchCourtData({int? idType}) {
-    context.read<CourtBloc>().add(CourtEventRequested(idType));
+    final courtBloc = context.read<CourtBloc>();
+    if (!courtBloc.isClosed) {
+      courtBloc.add(CourtEventRequested(idType));
+    } else {
+      print('⚠️ CourtBloc ya está cerrado. Reiniciando...');
+      context.read<CourtBloc>().add(CourtEventRequested(idType));
+    }
   }
 
   List<DropdownMenuItem<String>> buildDropdownItems(CourtTypeSuccess state) {

@@ -92,7 +92,7 @@ class UpdateUserController extends GetxController with StateMixin {
         int.tryParse(phoneNumberController.text.replaceAll(' ', '')) != null &&
             phoneNumberController.text.replaceAll(' ', '').length == 9;
 
-    return isValidPhoneNumber && !isNameContainNumber;
+    return isValidPhoneNumber && isNameContainNumber;
   }
 
   String getFormattedPhoneNumber() {

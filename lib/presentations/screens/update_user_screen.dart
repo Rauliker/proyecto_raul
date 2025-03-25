@@ -65,7 +65,7 @@ class UpdateUserScreenState extends State<UpdateUserScreen> {
                       initialValue: _controller.usernameController.text,
                       decoration: const InputDecoration(labelText: 'Username'),
                       onChanged: (value) =>
-                          _controller.emailController.text = value,
+                          _controller.usernameController.text = value,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Pon tu nombre de usuario';
