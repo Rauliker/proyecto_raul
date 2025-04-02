@@ -107,21 +107,29 @@ class ReservationController {
   }
 
   void delete(BuildContext context, int id) {
+    int i = 0;
     final userBloc = BlocProvider.of<CancelReservationBloc>(context);
     userBloc.add(CancelReservationCreate(id: id));
     userBloc.stream.listen((state) {
       if (state is CancelReservationFailure) {
-        CustomSnackbar.failedSnackbar(
-          title: 'Failed',
-          message: 'Error al cancelar',
-        );
+        if (i == 0) {
+          CustomSnackbar.failedSnackbar(
+            title: 'Failed',
+            message: 'Error al cancelar la reserva',
+          );
+          i++;
+        }
         return;
       } else if (state is CancelReservationSuccess) {
-        CustomSnackbar.successSnackbar(
-          title: 'Success',
-          message: 'Reserva cancelada correctamente',
-        );
-        _fetchGetAllReservation("actives");
+        if (i == 0) {
+          CustomSnackbar.successSnackbar(
+            title: 'Success',
+            message: 'Reserva cancelada correctamente',
+          );
+          i++;
+
+          _fetchGetAllReservation("actives");
+        }
         return;
       }
     });
