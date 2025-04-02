@@ -19,12 +19,26 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
   late OneCourtController _controller;
 
   final int id = int.tryParse(Get.parameters['id'] ?? '') ?? 0;
+  List<String> daysOfWeek = [
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+    "Domingo"
+  ];
+
+  late String selectedDay;
 
   @override
   void initState() {
     super.initState();
     _controller = OneCourtController(context, id);
     _controller.initialize();
+    selectedDay = DateTime.now().weekday == 7
+        ? daysOfWeek[0]
+        : daysOfWeek[DateTime.now().weekday - 1];
   }
 
   @override
@@ -36,16 +50,6 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
   }
 
   Widget buildAvailabilitySchedule(AvailabilityEntity availability) {
-    List<String> daysOfWeek = [
-      "Lunes",
-      "Martes",
-      "Miércoles",
-      "Jueves",
-      "Viernes",
-      "Sábado",
-      "Domingo"
-    ];
-
     Map<String, List<String>> availabilityMap = {
       "Lunes": availability.monday,
       "Martes": availability.tuesday,
@@ -55,9 +59,6 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
       "Sábado": availability.saturday,
       "Domingo": availability.sunday,
     };
-
-    String selectedDay = daysOfWeek.first;
-
     return StatefulBuilder(
       builder: (context, setState) => Column(
         children: [
@@ -87,7 +88,12 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
             spacing: 8,
             children: availabilityMap[selectedDay]!.isNotEmpty
                 ? availabilityMap[selectedDay]!
-                    .map((hour) => Chip(label: Text(hour)))
+                    .map((hour) => GestureDetector(
+                          onTap: () {
+                            _controller.fetchDataForm(data: hour);
+                          },
+                          child: Chip(label: Text(hour)),
+                        ))
                     .toList()
                 : [const Text("No hay horarios disponibles")],
           ),
@@ -140,15 +146,24 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                         onTap: () async {
                           DateTime? pickedDate = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate:
+                                _controller.dateController.text.isNotEmpty
+                                    ? DateTime.parse(
+                                        _controller.dateController.text)
+                                    : DateTime.now(),
                             firstDate: DateTime.now(),
                             lastDate: DateTime(2101),
+                            locale: const Locale('es', 'ES'),
                           );
 
                           if (pickedDate != null) {
                             String formattedDate =
                                 "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
                             _controller.dateController.text = formattedDate;
+                            setState(() {
+                              selectedDay =
+                                  daysOfWeek[pickedDate.weekday % 7 - 1];
+                            });
                           }
                         },
                       ),

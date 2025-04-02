@@ -202,8 +202,14 @@ class OneCourtController {
         return;
       }
     });
+  }
 
-    // Aquí puedes manejar la lógica de envío del formulario
-    // Por ejemplo, enviar los datos a un servidor o almacenarlos localmente
+  Future<void> fetchDataForm({required String data}) async {
+    final timeRange = data.split('-');
+    if (timeRange.length == 2) {
+      startTimeController.text = timeRange[0].trim();
+      endTimeController.text = timeRange[1].trim();
+    }
+    print(data);
   }
 }
