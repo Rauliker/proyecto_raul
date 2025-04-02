@@ -138,9 +138,10 @@ class UpdateUserMenuController extends GetxController {
       phone: getFormattedPhoneNumber(),
       username: usernameController.text,
     ));
+
+    int i = 0;
     userBloc.stream.listen((state) {
       if (state is UpdateUserFailure) {
-        int i = 0;
         if (i == 0) {
           CustomSnackbar.failedSnackbar(
             title: 'Failed',
@@ -149,7 +150,6 @@ class UpdateUserMenuController extends GetxController {
           i++;
         }
       } else if (state is UpdateUserSuccess) {
-        int i = 0;
         if (i == 0) {
           CustomSnackbar.successSnackbar(
             title: 'Success',
