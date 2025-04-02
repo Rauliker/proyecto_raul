@@ -63,27 +63,27 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                             child: Text("No hay reservas disponibles"));
                       }
 
-                      if (_isExpandedList.isEmpty) {
+                      if (_isExpandedList.length != state.message.length) {
                         _isExpandedList = List.generate(
-                          state.message.length,
-                          (index) => index < _isExpandedList.length
-                              ? _isExpandedList[index]
-                              : false,
-                        );
+                            state.message.length, (index) => false);
                       }
 
                       return ListView.builder(
                         itemCount: state.message.length,
                         itemBuilder: (context, index) {
                           final reservation = state.message[index];
+                          final int price = _controller.calculatePrice(
+                              reservation.court!.price,
+                              reservation.startTime,
+                              reservation.endTime);
+
                           return Card(
                             margin: const EdgeInsets.all(8),
                             child: Column(
                               children: [
                                 ListTile(
                                   title: Text(reservation.court!.name),
-                                  subtitle: Text(
-                                      "Precio: ${_controller.calculatePrice(reservation.court!.price, reservation.startTime, reservation.endTime)}€"),
+                                  subtitle: Text("Precio: ${price}€"),
                                   trailing: IconButton(
                                     icon: Icon(
                                       _isExpandedList[index]
@@ -142,7 +142,7 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                               ),
                                         Text(
                                             "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.endTime}"),
-                                        reservation.court?.status == "created"
+                                        reservation?.status == "created"
                                             ? Column(
                                                 children: [
                                                   Row(
@@ -188,10 +188,12 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                                           label:
                                                               'Pagar ${reservation.court!.price}€',
                                                           onTap: () =>
-                                                              _controller.delete(
+                                                              _controller.payment(
                                                                   context,
                                                                   reservation
-                                                                      .id),
+                                                                      .court!
+                                                                      .id,
+                                                                  price),
                                                         ),
                                                       ),
                                                     ],

@@ -56,7 +56,7 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
   Future<String> payment(int id, int amount) async {
     try {
       final body = jsonEncode({
-        'courtId': id,
+        'id': id,
         'currency': "eur",
         'amount': amount,
       });

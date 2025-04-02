@@ -16,10 +16,3 @@ class PaymentRequested extends PaymentEvent {
   @override
   List<Object?> get props => [id, amount];
 }
-
-class LogoutRequested extends PaymentEvent {
-  const LogoutRequested();
-
-  @override
-  List<Object?> get props => [];
-}

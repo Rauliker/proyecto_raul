@@ -5,6 +5,9 @@ import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_s
 import 'package:bidhub/presentations/bloc/getAllReservation/get_all_aeservation_event.dart';
 import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_state.dart';
+import 'package:bidhub/presentations/bloc/payment/payment_bloc.dart';
+import 'package:bidhub/presentations/bloc/payment/payment_event.dart';
+import 'package:bidhub/presentations/bloc/payment/payment_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -82,20 +85,20 @@ class ReservationController {
     ];
   }
 
-  void payment(BuildContext context, int id) {
-    final userBloc = BlocProvider.of<CancelReservationBloc>(context);
-    userBloc.add(CancelReservationCreate(id: id));
+  void payment(BuildContext context, int id, int amount) {
+    final userBloc = BlocProvider.of<PaymentBloc>(context);
+    userBloc.add(PaymentRequested(id: id, amount: amount));
     userBloc.stream.listen((state) {
-      if (state is CancelReservationFailure) {
+      if (state is PaymentFailure) {
         CustomSnackbar.failedSnackbar(
           title: 'Failed',
-          message: 'Error al cancelar',
+          message: 'Error al hacer el pago',
         );
         return;
-      } else if (state is CancelReservationSuccess) {
+      } else if (state is PaymentSuccess) {
         CustomSnackbar.successSnackbar(
           title: 'Success',
-          message: 'Reserva cancelada correctamente',
+          message: 'Pago realizado correctamente',
         );
         _fetchGetAllReservation("actives");
         return;
