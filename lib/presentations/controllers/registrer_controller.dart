@@ -122,19 +122,26 @@ class RegisterController extends GetxController with StateMixin {
       username: username,
       password: password,
     ));
+
+    int i = 0;
     userBloc.stream.listen((state) {
       if (state is RegisterFailure) {
-        CustomSnackbar.failedSnackbar(
-          title: 'Failed',
-          message: state.message.replaceAll('Exception:', ''),
-        );
+        if (i == 0) {
+          CustomSnackbar.failedSnackbar(
+            title: 'Failed',
+            message: state.message.replaceAll('Exception:', ''),
+          );
+        }
         return;
       } else if (state is RegisterSuccess) {
         Get.offAllNamed('/login');
-        CustomSnackbar.successSnackbar(
-          title: 'Success',
-          message: 'Registro Correcto',
-        );
+        if (i == 0) {
+          CustomSnackbar.successSnackbar(
+            title: 'Success',
+            message: 'Registro Correcto',
+          );
+          i++;
+        }
         return;
       }
     });

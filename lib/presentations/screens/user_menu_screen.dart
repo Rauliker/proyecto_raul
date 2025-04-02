@@ -138,14 +138,6 @@ class _UpdateUserMenuScreenState extends State<UpdateUserMenuScreen> {
                               ),
                             ),
                             const Padding(padding: EdgeInsets.only(top: 20)),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              child: CustomMediumButton(
-                                color: red,
-                                label: 'Cancelar',
-                                onTap: () => Get.offAllNamed('/home'),
-                              ),
-                            ),
                           ],
                         );
                       }

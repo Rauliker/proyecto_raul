@@ -140,16 +140,25 @@ class UpdateUserMenuController extends GetxController {
     ));
     userBloc.stream.listen((state) {
       if (state is UpdateUserFailure) {
-        CustomSnackbar.failedSnackbar(
-          title: 'Failed',
-          message: state.message.replaceAll('Exception:', ''),
-        );
+        int i = 0;
+        if (i == 0) {
+          CustomSnackbar.failedSnackbar(
+            title: 'Failed',
+            message: state.message.replaceAll('Exception:', ''),
+          );
+          i++;
+        }
       } else if (state is UpdateUserSuccess) {
-        CustomSnackbar.successSnackbar(
-          title: 'Success',
-          message: 'Datos actualizados',
-        );
-        _fetchUserInfo();
+        int i = 0;
+        if (i == 0) {
+          CustomSnackbar.successSnackbar(
+            title: 'Success',
+            message: 'Datos actualizados',
+          );
+
+          _fetchUserInfo();
+          i++;
+        }
       }
     });
   }

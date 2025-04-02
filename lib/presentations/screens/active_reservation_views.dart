@@ -208,7 +208,7 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                                   onTap: () =>
                                                       _controller.payment(
                                                           context,
-                                                          reservation.court!.id,
+                                                          reservation.id,
                                                           price),
                                                 ),
                                               ),

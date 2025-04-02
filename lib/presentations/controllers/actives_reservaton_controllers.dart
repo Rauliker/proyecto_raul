@@ -90,16 +90,24 @@ class ReservationController {
     userBloc.add(PaymentRequested(id: id, amount: amount));
     userBloc.stream.listen((state) {
       if (state is PaymentFailure) {
-        CustomSnackbar.failedSnackbar(
-          title: 'Failed',
-          message: 'Error al hacer el pago',
-        );
+        int i = 0;
+        if (i == 0) {
+          CustomSnackbar.failedSnackbar(
+            title: 'Failed',
+            message: 'Error al realizar el pago',
+          );
+          i++;
+        }
         return;
       } else if (state is PaymentSuccess) {
-        CustomSnackbar.successSnackbar(
-          title: 'Success',
-          message: 'Pago realizado correctamente',
-        );
+        int i = 0;
+        if (i == 0) {
+          CustomSnackbar.successSnackbar(
+            title: 'Success',
+            message: 'Pago realizado correctamente',
+          );
+          i++;
+        }
         _fetchGetAllReservation("actives");
         return;
       }

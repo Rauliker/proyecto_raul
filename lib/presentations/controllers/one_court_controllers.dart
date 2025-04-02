@@ -187,18 +187,25 @@ class OneCourtController {
       startTime: formattedStartTime,
       endTime: formattedEndTime,
     ));
+
+    int i = 0;
     courtBloc.stream.listen((state) {
       if (state is ReservationFailure) {
-        CustomSnackbar.failedSnackbar(
-          title: 'Failed',
-          message: state.message.replaceAll('Exception: ', ''),
-        );
+        if (i == 0) {
+          CustomSnackbar.failedSnackbar(
+            title: 'Failed',
+            message: state.message.replaceAll('Exception: ', ''),
+          );
+        }
+
         return;
       } else if (state is ReservationSuccess) {
-        CustomSnackbar.successSnackbar(
-          title: 'Success',
-          message: state.message,
-        );
+        if (i == 0) {
+          CustomSnackbar.successSnackbar(
+            title: 'Success',
+            message: state.message,
+          );
+        }
         return;
       }
     });
