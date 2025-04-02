@@ -160,6 +160,24 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                             ),
                                           ],
                                         ),
+                                        reservation.court?.status != "created"
+                                            ? SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.3,
+                                                child: CustomMediumButton(
+                                                  color: const Color.fromRGBO(
+                                                      31, 53, 255, 1),
+                                                  label:
+                                                      'Pagar ${reservation.court!.price}€',
+                                                  onTap: () =>
+                                                      _controller.delete(
+                                                          context,
+                                                          reservation.id),
+                                                ),
+                                              )
+                                            : const SizedBox(),
                                       ],
                                     ),
                                   ),

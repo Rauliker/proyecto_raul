@@ -49,6 +49,7 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
     }
   }
 
+  @override
   Future<PistaModel> getOne(int id) async {
     try {
       final userRemoteDataSource = UserRemoteDataSourceImpl(client);

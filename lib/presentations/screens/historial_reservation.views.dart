@@ -91,6 +91,8 @@ class _HistorialReservationViewState extends State<HistorialReservationView> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
+                                              Text(
+                                                  "Estado: ${reservation.court?.status == "confirmed" ? "Reservado" : reservation.court?.status == "finished" ? "Finalizado" : "Cancelado"}"),
                                               reservation.court?.imageUrl !=
                                                       null
                                                   ? Image.network(
