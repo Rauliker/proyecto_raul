@@ -82,7 +82,7 @@ class ReservationController {
     ];
   }
 
-  void paiment(BuildContext context, int id) {
+  void payment(BuildContext context, int id) {
     final userBloc = BlocProvider.of<CancelReservationBloc>(context);
     userBloc.add(CancelReservationCreate(id: id));
     userBloc.stream.listen((state) {

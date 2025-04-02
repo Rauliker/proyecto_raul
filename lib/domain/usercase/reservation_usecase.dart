@@ -24,6 +24,17 @@ class GetAllReservation {
   }
 }
 
+class Payment {
+  final ReservationRepository repository;
+
+  Payment(this.repository);
+
+  Future<String> call(int id, int amount) async {
+    String court = await repository.payment(id, amount);
+    return court;
+  }
+}
+
 class CancelReservation {
   final ReservationRepository repository;
 

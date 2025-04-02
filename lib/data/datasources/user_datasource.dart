@@ -73,6 +73,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     }
   }
 
+  @override
   Future<UserModel> autoLogin() async {
     try {
       final email = await _secureStorage.readData('email');

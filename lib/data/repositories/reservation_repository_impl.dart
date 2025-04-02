@@ -22,4 +22,9 @@ class ReservationRepositoryImpl implements ReservationRepository {
   Future<bool> cancel(int id) async {
     return await remoteDataSource.cancel(id);
   }
+
+  @override
+  Future<String> payment(int id, int amount) async {
+    return await remoteDataSource.payment(id, amount);
+  }
 }

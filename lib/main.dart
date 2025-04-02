@@ -9,6 +9,7 @@ import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getUser/get_user_bloc.dart';
 import 'package:bidhub/presentations/bloc/language/language_bloc.dart';
 import 'package:bidhub/presentations/bloc/login/login_bloc.dart';
+import 'package:bidhub/presentations/bloc/payment/payment_bloc.dart';
 import 'package:bidhub/presentations/bloc/register/register_bloc.dart';
 import 'package:bidhub/presentations/bloc/reservation/reservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/theme/theme_bloc.dart';
@@ -60,6 +61,9 @@ class MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (context) => ThemeBloc()),
         BlocProvider(create: (context) => LanguageBloc()),
+        BlocProvider(
+          create: (context) => di.sl<PaymentBloc>(),
+        ),
         BlocProvider(
           create: (context) => di.sl<LoginBloc>(),
         ),

@@ -142,40 +142,61 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                               ),
                                         Text(
                                             "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.endTime}"),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.3,
-                                              child: CustomMediumButton(
-                                                color: red,
-                                                label: 'Cancelar',
-                                                onTap: () => _controller.delete(
-                                                    context, reservation.id),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        reservation.court?.status != "created"
-                                            ? SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.3,
-                                                child: CustomMediumButton(
-                                                  color: const Color.fromRGBO(
-                                                      31, 53, 255, 1),
-                                                  label:
-                                                      'Pagar ${reservation.court!.price}€',
-                                                  onTap: () =>
-                                                      _controller.delete(
-                                                          context,
-                                                          reservation.id),
-                                                ),
+                                        reservation.court?.status == "created"
+                                            ? Column(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.3,
+                                                        child:
+                                                            CustomMediumButton(
+                                                          color: red,
+                                                          label: 'Cancelar',
+                                                          onTap: () =>
+                                                              _controller.delete(
+                                                                  context,
+                                                                  reservation
+                                                                      .id),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.3,
+                                                        child:
+                                                            CustomMediumButton(
+                                                          color: const Color
+                                                              .fromRGBO(
+                                                              31, 53, 255, 1),
+                                                          label:
+                                                              'Pagar ${reservation.court!.price}€',
+                                                          onTap: () =>
+                                                              _controller.delete(
+                                                                  context,
+                                                                  reservation
+                                                                      .id),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               )
                                             : const SizedBox(),
                                       ],

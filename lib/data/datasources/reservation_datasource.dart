@@ -9,6 +9,7 @@ abstract class ReservationRemoteDataSource {
   Future<String> create(int id, String data, String startTime, String endTime);
   Future<List<ReservationModel>> getAll(String type);
   Future<bool> cancel(int id);
+  Future<String> payment(int id, int amount);
 }
 
 class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
@@ -42,6 +43,37 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
       });
       if (response.statusCode == 201) {
         return "Reserva Creada de manera exitosa";
+      } else {
+        final responseBody = jsonDecode(response.body);
+        throw Exception(responseBody["message"]);
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<String> payment(int id, int amount) async {
+    try {
+      final body = jsonEncode({
+        'courtId': id,
+        'currency': "eur",
+        'amount': amount,
+      });
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('token') == null) {
+        throw Exception("inicia sesion");
+      }
+      final headers = {'Content-Type': 'application/json'};
+      final token = await prefs.getString('token') ?? '';
+      final urlRequest = '$_baseUrl/reservation/payment';
+      final url = Uri.parse(urlRequest);
+      final response = await client.post(url, body: body, headers: {
+        ...headers,
+        'Authorization': 'Bearer $token',
+      });
+      if (response.statusCode == 201) {
+        return "Pago realizado de manera exitosa";
       } else {
         final responseBody = jsonDecode(response.body);
         throw Exception(responseBody["message"]);
