@@ -107,103 +107,116 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        reservation.court?.imageUrl != null
-                                            ? Image.network(
-                                                _controller.getCourtImageUrl(
-                                                    reservation
-                                                        .court?.imageUrl),
-                                                width: kIsWeb
-                                                    ? 400
-                                                    : MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                height: kIsWeb
-                                                    ? 260
-                                                    : MediaQuery.of(context)
-                                                            .size
-                                                            .height *
-                                                        0.2,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.asset(
-                                                'assets/hero_onboarding.png',
-                                                width: kIsWeb
-                                                    ? 400
-                                                    : MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                height: kIsWeb
-                                                    ? 260
-                                                    : MediaQuery.of(context)
-                                                            .size
-                                                            .height *
-                                                        0.2,
-                                                fit: BoxFit.cover,
-                                              ),
-                                        Text(
-                                            "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.endTime}"),
-                                        reservation?.status == "created"
-                                            ? Column(
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child:
+                                                  reservation.court?.imageUrl !=
+                                                          null
+                                                      ? Image.network(
+                                                          _controller
+                                                              .getCourtImageUrl(
+                                                                  reservation
+                                                                      .court
+                                                                      ?.imageUrl),
+                                                          width: kIsWeb
+                                                              ? 150
+                                                              : MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.3,
+                                                          height: kIsWeb
+                                                              ? 150
+                                                              : MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.3,
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : Image.asset(
+                                                          'assets/hero_onboarding.png',
+                                                          width: kIsWeb
+                                                              ? 150
+                                                              : MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.3,
+                                                          height: kIsWeb
+                                                              ? 150
+                                                              : MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.3,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                            ),
+                                            const SizedBox(width: 16.0),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.3,
-                                                        child:
-                                                            CustomMediumButton(
-                                                          color: red,
-                                                          label: 'Cancelar',
-                                                          onTap: () =>
-                                                              _controller.delete(
-                                                                  context,
-                                                                  reservation
-                                                                      .id),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.3,
-                                                        child:
-                                                            CustomMediumButton(
-                                                          color: const Color
-                                                              .fromRGBO(
-                                                              31, 53, 255, 1),
-                                                          label:
-                                                              'Pagar ${reservation.court!.price}€',
-                                                          onTap: () =>
-                                                              _controller.payment(
-                                                                  context,
-                                                                  reservation
-                                                                      .court!
-                                                                      .id,
-                                                                  price),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                  Text(
+                                                    "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.endTime}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
                                                   ),
                                                 ],
-                                              )
-                                            : const SizedBox(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 16.0),
+                                        if (reservation?.status == "created")
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.4,
+                                                child: CustomMediumButton(
+                                                  color: red,
+                                                  label: 'Cancelar',
+                                                  onTap: () =>
+                                                      _controller.delete(
+                                                          context,
+                                                          reservation.id),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.4,
+                                                child: CustomMediumButton(
+                                                  color: const Color.fromRGBO(
+                                                      31, 53, 255, 1),
+                                                  label:
+                                                      'Pagar ${reservation.court!.price}€',
+                                                  onTap: () =>
+                                                      _controller.payment(
+                                                          context,
+                                                          reservation.court!.id,
+                                                          price),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                       ],
                                     ),
-                                  ),
+                                  )
                               ],
                             ),
                           );

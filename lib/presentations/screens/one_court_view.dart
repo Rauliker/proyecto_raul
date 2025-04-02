@@ -162,7 +162,7 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                             _controller.dateController.text = formattedDate;
                             setState(() {
                               selectedDay =
-                                  daysOfWeek[pickedDate.weekday % 7 - 1];
+                                  daysOfWeek[(pickedDate.weekday - 1) % 7];
                             });
                           }
                         },
