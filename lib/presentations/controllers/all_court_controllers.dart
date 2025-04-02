@@ -24,7 +24,12 @@ class AllCourtController {
   }
 
   void _fetchCourtTypeData() {
-    context.read<CourtTypeBloc>().add(const CourtTypeEventRequested());
+    final courtTypeBloc = context.read<CourtTypeBloc>();
+    if (!courtTypeBloc.isClosed) {
+      courtTypeBloc.add(const CourtTypeEventRequested());
+    } else {
+      context.read<CourtTypeBloc>().add(const CourtTypeEventRequested());
+    }
   }
 
   void _fetchCourtData({int? idType}) {
@@ -32,7 +37,6 @@ class AllCourtController {
     if (!courtBloc.isClosed) {
       courtBloc.add(CourtEventRequested(idType));
     } else {
-      print('⚠️ CourtBloc ya está cerrado. Reiniciando...');
       context.read<CourtBloc>().add(CourtEventRequested(idType));
     }
   }

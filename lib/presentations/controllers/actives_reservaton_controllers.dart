@@ -58,9 +58,14 @@ class ReservationController {
       return;
     }
 
-    context
-        .read<GetAllReservationBloc>()
-        .add(GetAllReservationCreate(type: type));
+    final bloc = context.read<GetAllReservationBloc>();
+    if (!bloc.isClosed) {
+      bloc.add(GetAllReservationCreate(type: type));
+    } else {
+      context
+          .read<GetAllReservationBloc>()
+          .add(GetAllReservationCreate(type: type));
+    }
   }
 
   List<BlocListener> buildBlocListeners() {

@@ -1,8 +1,11 @@
 import 'package:bidhub/core/values/colors.dart';
+import 'package:bidhub/presentations/bloc/getUser/get_user_bloc.dart';
+import 'package:bidhub/presentations/bloc/getUser/get_user_state.dart';
 import 'package:bidhub/presentations/controllers/user_menu_controller.dart';
 import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
 import 'package:bidhub/presentations/global_widgets/footer_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 class UpdateUserMenuScreen extends StatefulWidget {
@@ -13,6 +16,8 @@ class UpdateUserMenuScreen extends StatefulWidget {
 }
 
 class _UpdateUserMenuScreenState extends State<UpdateUserMenuScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   late UpdateUserMenuController controller;
   late bool hasToken = false;
   @override
@@ -39,13 +44,113 @@ class _UpdateUserMenuScreenState extends State<UpdateUserMenuScreen> {
             ? Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: CustomMediumButton(
-                      color: blue,
-                      label: 'Actualizar datos de usuario',
-                      onTap: () => Get.offAllNamed('/update'),
-                    ),
+                  Form(
+                    key: _formKey,
+                    child: BlocBuilder<GetUserBloc, GetUserState>(
+                        builder: (context, state) {
+                      if (state is GetUserLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (state is GetUserSuccess) {
+                        controller.id = state.message.id;
+                        controller.emailController.text = state.message.email;
+                        controller.usernameController.text =
+                            state.message.username;
+                        controller.fullNameController.text = state.message.name;
+                        controller.phoneNumberController.text =
+                            state.message.phone;
+                        controller.addressController.text =
+                            state.message.address;
+                        controller.passwordController.text =
+                            state.message.password;
+
+                        return Column(
+                          children: [
+                            TextFormField(
+                              initialValue: controller.emailController.text,
+                              decoration:
+                                  const InputDecoration(labelText: 'Email'),
+                              onChanged: (value) =>
+                                  controller.emailController.text = value,
+                              enabled: false,
+                            ),
+                            TextFormField(
+                              initialValue: controller.usernameController.text,
+                              decoration:
+                                  const InputDecoration(labelText: 'Username'),
+                              onChanged: (value) =>
+                                  controller.usernameController.text = value,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Pon tu nombre de usuario';
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              initialValue: controller.fullNameController.text,
+                              decoration:
+                                  const InputDecoration(labelText: 'Nombre'),
+                              onChanged: (value) =>
+                                  controller.fullNameController.text = value,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Pon tu nombre';
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              initialValue:
+                                  controller.phoneNumberController.text,
+                              decoration:
+                                  const InputDecoration(labelText: 'Telefono'),
+                              onChanged: (value) =>
+                                  controller.phoneNumberController.text = value,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'pon un numero de telofono';
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              initialValue: controller.addressController.text,
+                              decoration:
+                                  const InputDecoration(labelText: 'Direccion'),
+                              onChanged: (value) =>
+                                  controller.addressController.text = value,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Pon una direccoin';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: CustomMediumButton(
+                                color: green,
+                                label: 'Actualizar',
+                                onTap: () =>
+                                    controller.handleUpdateUser(context),
+                              ),
+                            ),
+                            const Padding(padding: EdgeInsets.only(top: 20)),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: CustomMediumButton(
+                                color: red,
+                                label: 'Cancelar',
+                                onTap: () => Get.offAllNamed('/home'),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    }),
                   ),
                   const SizedBox(height: 16),
                   SizedBox(

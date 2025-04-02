@@ -5,7 +5,6 @@ import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.d
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_status.dart';
 import 'package:bidhub/presentations/controllers/all_court_controllers.dart';
 import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -77,58 +76,52 @@ class _AllCourtViewState extends State<AllCourtView> {
                       itemCount: state.court.length,
                       itemBuilder: (context, index) {
                         final court = state.court[index];
-                        return ListTile(
-                          title: Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                court.imageUrl != null
-                                    ? Image.network(
-                                        _controller
-                                            .getCourtImageUrl(court.imageUrl),
-                                        width: kIsWeb
-                                            ? 400
-                                            : MediaQuery.of(context).size.width,
-                                        height: kIsWeb
-                                            ? 260
-                                            : MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.2,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        'assets/hero_onboarding.png',
-                                        width: kIsWeb
-                                            ? 400
-                                            : MediaQuery.of(context).size.width,
-                                        height: kIsWeb
-                                            ? 260
-                                            : MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.2,
-                                        fit: BoxFit.cover,
-                                      ),
-                                Text(court.name),
-                                Text("Tipo de pista: ${court.type?.name}"),
-                                Text("Precio por hora: ${court.price}"),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.3,
-                                  child: CustomMediumButton(
-                                    color: blue,
-                                    label: 'Reservar',
-                                    onTap: () => Get.offAllNamed(
-                                        '/court-detail/${court.id}'),
-                                  ),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              court.imageUrl != null
+                                  ? Image.network(
+                                      _controller
+                                          .getCourtImageUrl(court.imageUrl),
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      'assets/hero_onboarding.png',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(court.name,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    Text("Tipo de pista: ${court.type?.name}"),
+                                    Text("Precio por hora: ${court.price}"),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(width: 16),
+                              SizedBox(
+                                width: 140,
+                                child: CustomMediumButton(
+                                  color: blue,
+                                  label: 'Reservar',
+                                  onTap: () =>
+                                      Get.toNamed('/court-detail/${court.id}'),
+                                ),
+                              ),
+                            ],
                           ),
-                          onTap: () {
-                            Get.offAllNamed('/court-detail/${court.id}');
-                          },
                         );
                       },
                     );

@@ -4,7 +4,6 @@ import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_status.dart';
 import 'package:bidhub/presentations/controllers/one_court_controllers.dart';
 import 'package:bidhub/presentations/global_widgets/custom_medium_button.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -120,29 +119,6 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: court.imageUrl != null
-                            ? Image.network(
-                                _controller.getCourtImageUrl(court.imageUrl),
-                                width: kIsWeb
-                                    ? 400
-                                    : MediaQuery.of(context).size.width,
-                                height: kIsWeb
-                                    ? 260
-                                    : MediaQuery.of(context).size.height * 0.2,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset(
-                                'assets/hero_onboarding.png',
-                                width: kIsWeb
-                                    ? 400
-                                    : MediaQuery.of(context).size.width,
-                                height: kIsWeb
-                                    ? 260
-                                    : MediaQuery.of(context).size.height * 0.2,
-                                fit: BoxFit.cover,
-                              ),
-                      ),
                       const SizedBox(height: 16),
                       Text("Nombre: ${court.name}",
                           style: const TextStyle(
@@ -269,7 +245,7 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: CustomMediumButton(
                             color: red,
-                            label: 'Cancelar',
+                            label: 'Atras',
                             onTap: () => Get.offAllNamed("/home"),
                           ),
                         ),
