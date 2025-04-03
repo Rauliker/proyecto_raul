@@ -144,7 +144,6 @@ class UpdateUserController extends GetxController with StateMixin {
     final address = addressController.text;
     final phoneNumber = getFormattedPhoneNumber();
     final username = usernameController.text;
-    final password = passwordController.text;
     final userBloc = BlocProvider.of<UpdateUserBloc>(context);
     userBloc.add(UpdateUserCreate(
       id: id,
@@ -152,20 +151,26 @@ class UpdateUserController extends GetxController with StateMixin {
       address: address,
       phone: phoneNumber,
       username: username,
-      // password: password,
     ));
+    int i = 0;
     userBloc.stream.listen((state) {
       if (state is UpdateUserFailure) {
-        CustomSnackbar.failedSnackbar(
-          title: 'Failed',
-          message: state.message.replaceAll('Exception:', ''),
-        );
+        if (i == 0) {
+          CustomSnackbar.failedSnackbar(
+            title: 'Failed',
+            message: state.message.replaceAll('Exception:', ''),
+          );
+          i++;
+        }
         return;
       } else if (state is UpdateUserSuccess) {
-        CustomSnackbar.successSnackbar(
-          title: 'Success',
-          message: 'Datos auctualizados',
-        );
+        if (i == 0) {
+          CustomSnackbar.successSnackbar(
+            title: 'Success',
+            message: 'Datos actualizados',
+          );
+          i++;
+        }
         _fetchUserInfo();
         return;
       }

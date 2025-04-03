@@ -217,6 +217,5 @@ class OneCourtController {
       startTimeController.text = timeRange[0].trim();
       endTimeController.text = timeRange[1].trim();
     }
-    print(data);
   }
 }

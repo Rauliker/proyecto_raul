@@ -88,9 +88,9 @@ class ReservationController {
   void payment(BuildContext context, int id, int amount) {
     final userBloc = BlocProvider.of<PaymentBloc>(context);
     userBloc.add(PaymentRequested(id: id, amount: amount));
+    int i = 0;
     userBloc.stream.listen((state) {
       if (state is PaymentFailure) {
-        int i = 0;
         if (i == 0) {
           CustomSnackbar.failedSnackbar(
             title: 'Failed',
@@ -100,7 +100,6 @@ class ReservationController {
         }
         return;
       } else if (state is PaymentSuccess) {
-        int i = 0;
         if (i == 0) {
           CustomSnackbar.successSnackbar(
             title: 'Success',

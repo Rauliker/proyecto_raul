@@ -129,14 +129,14 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                                                           context)
                                                                       .size
                                                                       .width *
-                                                                  0.3,
+                                                                  0.5,
                                                           height: kIsWeb
                                                               ? 150
                                                               : MediaQuery.of(
                                                                           context)
                                                                       .size
                                                                       .width *
-                                                                  0.3,
+                                                                  0.5,
                                                           fit: BoxFit.cover,
                                                         )
                                                       : Image.asset(
@@ -147,14 +147,14 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                                                           context)
                                                                       .size
                                                                       .width *
-                                                                  0.3,
+                                                                  0.5,
                                                           height: kIsWeb
                                                               ? 150
                                                               : MediaQuery.of(
                                                                           context)
                                                                       .size
                                                                       .width *
-                                                                  0.3,
+                                                                  0.5,
                                                           fit: BoxFit.cover,
                                                         ),
                                             ),
@@ -165,7 +165,7 @@ class _ActiveReservationViewState extends State<ActiveReservationView> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Fecha de reserva ${reservation.date} ${reservation.startTime} - ${reservation.endTime}",
+                                                    "Fecha de reserva \n ${reservation.date} ${reservation.startTime} - ${reservation.endTime}",
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .bodyMedium,
