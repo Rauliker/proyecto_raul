@@ -1,5 +1,6 @@
 import 'package:bidhub/domain/entities/reservation.dart';
 import 'package:bidhub/domain/repositories/reservation_repository.dart';
+import 'package:flutter/material.dart';
 
 class CreateReservation {
   final ReservationRepository repository;
@@ -29,8 +30,8 @@ class Payment {
 
   Payment(this.repository);
 
-  Future<String> call(int id, int amount) async {
-    String court = await repository.payment(id, amount);
+  Future<String> call(BuildContext context, int id, int amount) async {
+    String court = await repository.payment(context, id, amount);
     return court;
   }
 }

@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:bidhub/data/models/resrvation_model.dart';
+import 'package:bidhub/presentations/global_widgets/loading_button.dart';
+import 'package:bidhub/presentations/global_widgets/plataform_paymed_method.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +12,7 @@ abstract class ReservationRemoteDataSource {
   Future<String> create(int id, String data, String startTime, String endTime);
   Future<List<ReservationModel>> getAll(String type);
   Future<bool> cancel(int id);
-  Future<String> payment(int id, int amount);
+  Future<String> payment(BuildContext context, int id, int amount);
 }
 
 class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
@@ -53,7 +56,7 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
   }
 
   @override
-  Future<String> payment(int id, int amount) async {
+  Future<String> payment(BuildContext context, int id, int amount) async {
     try {
       final body = jsonEncode({
         'id': id,
@@ -73,7 +76,53 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
         'Authorization': 'Bearer $token',
       });
       if (response.statusCode == 201) {
-        return "Pago realizado de manera exitosa";
+        final responseBody = jsonDecode(response.body);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Pago realizado'),
+              content: PlatformPaymentElement(responseBody['clientSecret']),
+              actions: const <Widget>[
+                LoadingButton(
+                  onPressed: pay,
+                  text: 'Pagar',
+                ),
+              ],
+            );
+          },
+        );
+        return responseBody['clientSecret'];
+      } else {
+        final responseBody = jsonDecode(response.body);
+        throw Exception(responseBody["message"]);
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<String> createPaymentIntent(int id, int amount) async {
+    try {
+      final body = jsonEncode({
+        'id': id,
+        'currency': "eur",
+        'amount': amount,
+      });
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('token') == null) {
+        throw Exception("inicia sesion");
+      }
+      final headers = {'Content-Type': 'application/json'};
+      final token = await prefs.getString('token') ?? '';
+      final urlRequest = '$_baseUrl/reservation/payment';
+      final url = Uri.parse(urlRequest);
+      final response = await client.post(url, body: body, headers: {
+        ...headers,
+        'Authorization': 'Bearer $token',
+      });
+      if (response.statusCode == 201) {
+        return jsonDecode(response.body);
       } else {
         final responseBody = jsonDecode(response.body);
         throw Exception(responseBody["message"]);
@@ -109,7 +158,6 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
         throw Exception('Error al obtener datos  de las pistas.');
       }
     } catch (e) {
-      print(e);
       throw Exception('Error inesperado al iniciar sesión: $e');
     }
   }

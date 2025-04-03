@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 
 import 'injection_container.dart' as injection_container;
@@ -29,7 +30,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Future.delayed(const Duration(seconds: 3));
   await dotenv.load(fileName: ".env");
-
+  Stripe.publishableKey = dotenv.env['STRIPE_PUBLIC']!;
   await injection_container.init();
   runApp(const MyApp());
 }

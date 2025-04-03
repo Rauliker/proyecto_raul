@@ -1,6 +1,7 @@
 import 'package:bidhub/data/datasources/reservation_datasource.dart';
 import 'package:bidhub/domain/entities/reservation.dart';
 import 'package:bidhub/domain/repositories/reservation_repository.dart';
+import 'package:flutter/material.dart';
 
 class ReservationRepositoryImpl implements ReservationRepository {
   final ReservationRemoteDataSource remoteDataSource;
@@ -24,7 +25,7 @@ class ReservationRepositoryImpl implements ReservationRepository {
   }
 
   @override
-  Future<String> payment(int id, int amount) async {
-    return await remoteDataSource.payment(id, amount);
+  Future<String> payment(BuildContext context, int id, int amount) async {
+    return await remoteDataSource.payment(context, id, amount);
   }
 }

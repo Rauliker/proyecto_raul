@@ -87,7 +87,7 @@ class ReservationController {
 
   void payment(BuildContext context, int id, int amount) {
     final userBloc = BlocProvider.of<PaymentBloc>(context);
-    userBloc.add(PaymentRequested(id: id, amount: amount));
+    userBloc.add(PaymentRequested(context: context, id: id, amount: amount));
     int i = 0;
     userBloc.stream.listen((state) {
       if (state is PaymentFailure) {
@@ -133,6 +133,7 @@ class ReservationController {
             title: 'Success',
             message: 'Reserva cancelada correctamente',
           );
+
           i++;
 
           _fetchGetAllReservation("actives");
