@@ -103,7 +103,7 @@ class ReservationController {
         if (i == 0) {
           CustomSnackbar.successSnackbar(
             title: 'Success',
-            message: 'Pago realizado correctamente',
+            message: state.message,
           );
           i++;
         }

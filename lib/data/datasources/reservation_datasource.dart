@@ -58,6 +58,7 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
   @override
   Future<String> payment(BuildContext context, int id, int amount) async {
     try {
+      amount = amount * 100;
       final body = jsonEncode({
         'id': id,
         'currency': "eur",
@@ -77,22 +78,26 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
       });
       if (response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Pago realizado'),
-              content: PlatformPaymentElement(responseBody['clientSecret']),
-              actions: const <Widget>[
-                LoadingButton(
-                  onPressed: pay,
-                  text: 'Pagar',
-                ),
-              ],
-            );
-          },
-        );
-        return responseBody['clientSecret'];
+        return await showDialog<String>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  contentPadding: const EdgeInsets.all(16.0),
+                  title: const Text('Pago realizado'),
+                  content: PlatformPaymentElement(responseBody['clientSecret']),
+                  actions: <Widget>[
+                    LoadingButton(
+                      onPressed: () async {
+                        await updateConfirmed(id);
+                        Navigator.of(context).pop("Pago confirmado");
+                      },
+                      text: 'Pagar',
+                    ),
+                  ],
+                );
+              },
+            ) ??
+            "Pago Cancelado";
       } else {
         final responseBody = jsonDecode(response.body);
         throw Exception(responseBody["message"]);
@@ -102,12 +107,10 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
     }
   }
 
-  Future<String> createPaymentIntent(int id, int amount) async {
+  Future<String> updateConfirmed(int id) async {
     try {
       final body = jsonEncode({
         'id': id,
-        'currency': "eur",
-        'amount': amount,
       });
       final prefs = await SharedPreferences.getInstance();
       if (prefs.getString('token') == null) {
@@ -115,14 +118,15 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
       }
       final headers = {'Content-Type': 'application/json'};
       final token = await prefs.getString('token') ?? '';
-      final urlRequest = '$_baseUrl/reservation/payment';
+      final urlRequest = '$_baseUrl/reservation/confirm';
       final url = Uri.parse(urlRequest);
       final response = await client.post(url, body: body, headers: {
         ...headers,
         'Authorization': 'Bearer $token',
       });
       if (response.statusCode == 201) {
-        return jsonDecode(response.body);
+        final responseBody = jsonDecode(response.body);
+        return responseBody['clientSecret'];
       } else {
         final responseBody = jsonDecode(response.body);
         throw Exception(responseBody["message"]);
