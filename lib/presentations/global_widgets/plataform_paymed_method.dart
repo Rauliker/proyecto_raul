@@ -1,20 +1,41 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_stripe_web/flutter_stripe_web.dart';
-import 'package:web/web.dart' as web;
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:flutter_stripe_web/flutter_stripe_web.dart'
+    if (dart.library.io) 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:web/web.dart' as web if (dart.library.io) 'dart:io';
 
-String getUrlPort() => web.window.location.port;
-
-String getReturnUrl() => web.window.location.href;
-
-Future<void> pay() async {
-  await WebStripe.instance.confirmPaymentElement(
-    ConfirmPaymentElementOptions(
-      confirmParams: ConfirmPaymentParams(return_url: getReturnUrl()),
-    ),
-  );
+String getUrlPort() {
+  if (kIsWeb) {
+    return web.window.location.port;
+  } else {
+    // En Android o plataformas móviles, no es necesario obtener el puerto de esta manera
+    return '';
+  }
 }
 
+String getReturnUrl() {
+  if (kIsWeb) {
+    return web.window.location.href;
+  } else {
+    // Aquí puedes poner la lógica específica para Android si es necesario
+    return '';
+  }
+}
+
+Future<void> pay(String? clientSecret) async {
+  if (kIsWeb) {
+    await WebStripe.instance.confirmPaymentElement(
+      ConfirmPaymentElementOptions(
+        confirmParams: ConfirmPaymentParams(return_url: getReturnUrl()),
+      ),
+    );
+  } else {
+    // Aquí implementas la lógica de pago para Android o dispositivos móviles
+    await Stripe.instance.confirmPayment(paymentIntentClientSecret: clientSecret! );
+  }
+}
 class PlatformPaymentElement extends StatelessWidget {
   const PlatformPaymentElement(this.clientSecret);
 

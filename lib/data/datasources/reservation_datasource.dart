@@ -88,6 +88,7 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
                   actions: <Widget>[
                     LoadingButton(
                       onPressed: () async {
+                        pay(responseBody['clientSecret']);
                         await updateConfirmed(id);
                         Navigator.of(context).pop("Pago confirmado");
                       },
