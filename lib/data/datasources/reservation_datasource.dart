@@ -82,9 +82,19 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  contentPadding: const EdgeInsets.all(16.0),
-                  title: const Text('Pago realizado'),
-                  content: PlatformPaymentElement(responseBody['clientSecret']),
+                  title: const Text('Ingreasa los datos de pago'),
+                  content: SingleChildScrollView(
+                    child: SizedBox(
+                      width: 400,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          PlatformPaymentElement(responseBody['clientSecret']),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    ),
+                  ),
                   actions: <Widget>[
                     LoadingButton(
                       onPressed: () async {
