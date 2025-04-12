@@ -31,6 +31,10 @@ void main() async {
   await Future.delayed(const Duration(seconds: 3));
   await dotenv.load(fileName: ".env");
   Stripe.publishableKey = dotenv.env['STRIPE_PUBLIC']!;
+  Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  Stripe.urlScheme = 'flutterstripe';
+  await Stripe.instance.applySettings();
+
   await injection_container.init();
   runApp(const MyApp());
 }

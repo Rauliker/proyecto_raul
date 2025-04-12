@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:bidhub/data/models/resrvation_model.dart';
-import 'package:bidhub/presentations/global_widgets/loading_button.dart';
-import 'package:bidhub/presentations/global_widgets/plataform_paymed_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -77,21 +76,17 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
       });
       if (response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Pago realizado'),
-              content: PlatformPaymentElement(responseBody['clientSecret']),
-              actions: const <Widget>[
-                LoadingButton(
-                  onPressed: pay,
-                  text: 'Pagar',
-                ),
-              ],
-            );
-          },
+        final clientSecret = responseBody['clientSecret'];
+        await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+            merchantDisplayName: 'Test Merchant', // Nombre del comerciante
+            paymentIntentClientSecret:
+                clientSecret, // Secreto del intent de pago
+            style: ThemeMode.dark, // Estilo de la interfaz (oscuro)
+          ),
         );
+        await Stripe.instance.presentPaymentSheet();
+
         return responseBody['clientSecret'];
       } else {
         final responseBody = jsonDecode(response.body);
