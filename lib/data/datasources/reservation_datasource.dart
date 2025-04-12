@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:bidhub/data/models/resrvation_model.dart';
-import 'package:bidhub/presentations/global_widgets/loading_button.dart';
-import 'package:bidhub/presentations/global_widgets/plataform_paymed_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -78,37 +77,31 @@ class ReservationRemoteDataSourceImpl implements ReservationRemoteDataSource {
       });
       if (response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
-        return await showDialog<String>(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Ingreasa los datos de pago'),
-                  content: SingleChildScrollView(
-                    child: SizedBox(
-                      width: 400,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          PlatformPaymentElement(responseBody['clientSecret']),
-                          const SizedBox(height: 20),
-                        ],
-                      ),
-                    ),
-                  ),
-                  actions: <Widget>[
-                    LoadingButton(
-                      onPressed: () async {
-                        pay(responseBody['clientSecret']);
-                        await updateConfirmed(id);
-                        Navigator.of(context).pop("Pago confirmado");
-                      },
-                      text: 'Pagar',
-                    ),
-                  ],
-                );
-              },
-            ) ??
-            "Pago Cancelado";
+        final clientSecret = responseBody['clientSecret'];
+
+        await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+            merchantDisplayName: 'Test Merchant', // Nombre del comerciante
+            paymentIntentClientSecret:
+                clientSecret, // Secreto del intent de pago
+            style: ThemeMode.dark, // Estilo de la interfaz (oscuro)
+          ),
+        );
+
+        try {
+          await Stripe.instance.presentPaymentSheet();
+
+          await updateConfirmed(id);
+          return "Pago correcto";
+        } on StripeException catch (e) {
+          if (e.error.code == FailureCode.Canceled) {
+            return "Pago cerrado";
+          } else {
+            return "Pago incorrecto";
+          }
+        } catch (e) {
+          return "Pago incorrecto";
+        }
       } else {
         final responseBody = jsonDecode(response.body);
         throw Exception(responseBody["message"]);
