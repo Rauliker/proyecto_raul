@@ -59,46 +59,46 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
       "Sábado": availability.saturday,
       "Domingo": availability.sunday,
     };
-    return StatefulBuilder(
-      builder: (context, setState) => Column(
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: daysOfWeek.map((day) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: ChoiceChip(
-                    label: Text(day),
-                    selected: selectedDay == day,
-                    onSelected: (bool selected) {
-                      if (selected) {
-                        setState(() => selectedDay = day);
-                      }
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
+    return Column(
+      children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: daysOfWeek.map((day) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: ChoiceChip(
+                  label: Text(day),
+                  selected: selectedDay == day,
+                  onSelected: (bool selected) {
+                    if (selected) {
+                      setState(() {
+                        selectedDay = day;
+                      });
+                    }
+                  },
+                ),
+              );
+            }).toList(),
           ),
-          const SizedBox(height: 8),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 8,
-            children: availabilityMap[selectedDay]!.isNotEmpty
-                ? availabilityMap[selectedDay]!
-                    .map((hour) => GestureDetector(
-                          onTap: () {
-                            _controller.fetchDataForm(data: hour);
-                          },
-                          child: Chip(label: Text(hour)),
-                        ))
-                    .toList()
-                : [const Text("No hay horarios disponibles")],
-          ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 8,
+          children: availabilityMap[selectedDay]!.isNotEmpty
+              ? availabilityMap[selectedDay]!
+                  .map((hour) => GestureDetector(
+                        onTap: () {
+                          _controller.fetchDataForm(data: hour);
+                        },
+                        child: Chip(label: Text(hour)),
+                      ))
+                  .toList()
+              : [const Text("No hay horarios disponibles")],
+        ),
+      ],
     );
   }
 
@@ -135,6 +135,10 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                       const SizedBox(height: 16),
                       const Text("Horario"),
                       buildAvailabilitySchedule(court.availability),
+                      const SizedBox(height: 16),
+                      const Text("Reservas"),
+                      _controller.watchReservations(
+                          court.reservations, selectedDay),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _controller.dateController,
@@ -173,76 +177,32 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                         readOnly: true,
                         decoration:
                             const InputDecoration(labelText: 'Hora de inicio'),
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "Horas",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: () => _controller
-                                .decrementHour(_controller.startTimeController),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () => _controller
-                                .incrementHour(_controller.startTimeController),
-                          ),
-                          const Text(
-                            "Minutos",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: () => _controller.decrementMinutes(
-                                _controller.startTimeController),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () => _controller.incrementMinutes(
-                                _controller.startTimeController),
-                          ),
-                        ],
+                        onTap: () async {
+                          final TimeOfDay? picked = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+                          if (picked != null) {
+                            _controller.startTimeController.text =
+                                picked.format(context);
+                          }
+                        },
                       ),
                       TextField(
                         controller: _controller.endTimeController,
                         readOnly: true,
                         decoration:
                             const InputDecoration(labelText: 'Hora de fin'),
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "Horas",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: () => _controller
-                                .decrementHour(_controller.endTimeController),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () => _controller
-                                .incrementHour(_controller.endTimeController),
-                          ),
-                          const Text(
-                            "Minutos",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: () => _controller.decrementMinutes(
-                                _controller.endTimeController),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: () => _controller.incrementMinutes(
-                                _controller.endTimeController),
-                          ),
-                        ],
+                        onTap: () async {
+                          final TimeOfDay? picked = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+                          if (picked != null) {
+                            _controller.endTimeController.text =
+                                picked.format(context);
+                          }
+                        },
                       ),
                       Center(
                         child: SizedBox(

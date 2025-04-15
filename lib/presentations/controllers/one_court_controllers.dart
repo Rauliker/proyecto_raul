@@ -1,4 +1,5 @@
 import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
+import 'package:bidhub/domain/entities/reservation.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_event.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_status.dart';
@@ -91,6 +92,37 @@ class OneCourtController {
         currentTime.replacing(minute: (currentTime.minute + 15) % 60);
     controller.text =
         "${incrementedTime.hour.toString().padLeft(2, '0')}:${incrementedTime.minute.toString().padLeft(2, '0')}";
+  }
+
+  Widget watchReservations(
+      List<ReservationEntity>? reservations, String selectedDay) {
+    if (reservations == null || reservations.isEmpty) {
+      return const Text("No hay reservas disponibles.");
+    }
+    final filteredReservations = reservations.where((reservation) {
+      final formattedReservationDate =
+          DateTime.parse(reservation.date).toLocal().toString().split(' ')[0];
+      return formattedReservationDate == dateController.text &&
+          reservation.status != 'rejected';
+    }).toList();
+    if (filteredReservations.isEmpty) {
+      return const Text("No hay reservas disponibles.");
+    }
+    return Column(
+      children: filteredReservations.map((filteredReservations) {
+        return ListTile(
+          title: Text(
+            "Inicio: ${filteredReservations.startTime}, Fin: ${filteredReservations.endTime}",
+          ),
+          subtitle: Text(
+            "Status: ${filteredReservations.status}",
+          ),
+          tileColor: filteredReservations.status == 'created'
+              ? const Color.fromARGB(123, 244, 133, 54)
+              : const Color.fromARGB(110, 34, 255, 0),
+        );
+      }).toList(),
+    );
   }
 
   void decrementMinutes(TextEditingController controller) {
