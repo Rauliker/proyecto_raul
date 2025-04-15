@@ -1,3 +1,5 @@
+import 'package:bidhub/presentations/screens/all_court_views_admin.dart';
+import 'package:bidhub/presentations/screens/create_court_screen.dart';
 import 'package:bidhub/presentations/screens/home_screen.dart';
 import 'package:bidhub/presentations/screens/login_screen.dart';
 import 'package:bidhub/presentations/screens/one_court_view.dart';
@@ -20,5 +22,13 @@ final List<GetPage> routes = [
   GetPage(
     name: '/court-detail/:id',
     page: () => const OneCourtOneView(),
+  ),
+  GetPage(
+    name: '/admin',
+    page: () => const AllCourtViewAdmin(),
+  ),
+  GetPage(
+    name: '/create-court',
+    page: () => const CrearPistaForm(),
   ),
 ];

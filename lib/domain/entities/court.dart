@@ -1,5 +1,4 @@
 import 'package:bidhub/domain/entities/availability.dart';
-import 'package:bidhub/domain/entities/court_status.dart';
 import 'package:bidhub/domain/entities/court_type.dart';
 import 'package:bidhub/domain/entities/reservation.dart';
 
@@ -10,7 +9,7 @@ class PistaEntity {
   final String? imageUrl;
   final AvailabilityEntity availability;
   final PistaTypeEntity? type;
-  final PistaStatusEntity? status;
+  final String status;
   final List<ReservationEntity>? reservations;
 
   PistaEntity({
@@ -20,7 +19,7 @@ class PistaEntity {
     this.imageUrl,
     required this.availability,
     this.type,
-    this.status,
+    required this.status,
     this.reservations,
   });
 }

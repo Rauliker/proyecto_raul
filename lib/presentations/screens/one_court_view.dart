@@ -51,13 +51,13 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
 
   Widget buildAvailabilitySchedule(AvailabilityEntity availability) {
     Map<String, List<String>> availabilityMap = {
-      "Lunes": availability.monday,
-      "Martes": availability.tuesday,
-      "Miércoles": availability.wednesday,
-      "Jueves": availability.thursday,
-      "Viernes": availability.friday,
-      "Sábado": availability.saturday,
-      "Domingo": availability.sunday,
+      "Lunes": availability.monday ?? [],
+      "Martes": availability.tuesday ?? [],
+      "Miércoles": availability.wednesday ?? [],
+      "Jueves": availability.thursday ?? [],
+      "Viernes": availability.friday ?? [],
+      "Sábado": availability.saturday ?? [],
+      "Domingo": availability.sunday ?? [],
     };
     return Column(
       children: [

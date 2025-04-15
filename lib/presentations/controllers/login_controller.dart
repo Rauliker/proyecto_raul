@@ -48,7 +48,11 @@ class LoginController extends GetxController with StateMixin {
         }
         return;
       } else if (state is LoginSuccess) {
-        Get.offAllNamed('/home');
+        if (state.user.role == "admin") {
+          Get.offAllNamed('/admin');
+        } else if (state.user.role == "user") {
+          Get.offAllNamed('/home');
+        }
         if (i == 0) {
           CustomSnackbar.successSnackbar(
             title: 'Success',

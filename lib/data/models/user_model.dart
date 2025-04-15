@@ -8,7 +8,8 @@ class UserModel extends User {
       required super.password,
       required super.address,
       required super.name,
-      required super.phone});
+      required super.phone,
+      required super.role});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -19,6 +20,7 @@ class UserModel extends User {
       address: json['adrress'] ?? '',
       name: json['name'] ?? '',
       phone: json['phone'] ?? '',
+      role: json['role'] ?? '',
     );
   }
 
@@ -30,7 +32,8 @@ class UserModel extends User {
       'password': password,
       'address': address,
       'name': name,
-      'phone': phone
+      'phone': phone,
+      'role': role
     };
   }
 }

@@ -6,6 +6,7 @@ class User {
   final String password;
   final String address;
   final String phone;
+  final String role;
 
   User(
       {required this.id,
@@ -14,5 +15,6 @@ class User {
       required this.username,
       required this.address,
       required this.password,
-      required this.phone});
+      required this.phone,
+      required this.role});
 }
