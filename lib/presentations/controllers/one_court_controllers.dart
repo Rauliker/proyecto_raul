@@ -115,11 +115,11 @@ class OneCourtController {
             "Inicio: ${filteredReservations.startTime}, Fin: ${filteredReservations.endTime}",
           ),
           subtitle: Text(
-            "Status: ${filteredReservations.status}",
+            "Status: ${filteredReservations.status == 'created' ? 'Creado' : filteredReservations.status == 'confirmed' ? 'Confirmada' : filteredReservations.status}",
           ),
           tileColor: filteredReservations.status == 'created'
-              ? const Color.fromARGB(123, 244, 133, 54)
-              : const Color.fromARGB(110, 34, 255, 0),
+              ? const Color.fromARGB(122, 240, 170, 120)
+              : const Color.fromARGB(108, 255, 128, 128),
         );
       }).toList(),
     );
