@@ -8,6 +8,8 @@ import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_status
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_event.dart';
 import 'package:bidhub/presentations/bloc/getOneCourt/get_one_court_status.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -27,6 +29,7 @@ class _UpdatePistaFormState extends State<UpdatePistaForm> {
   int? typeId;
   String? status;
   double? price;
+  List<PlatformFile> imagenes = [];
 
   final nameController = TextEditingController();
   final priceController = TextEditingController();
@@ -62,6 +65,33 @@ class _UpdatePistaFormState extends State<UpdatePistaForm> {
       final slots = data.availability.getDay(day) ?? ["", ""];
       availabilityControllers[day]![0].text = slots[0];
       availabilityControllers[day]![1].text = slots[1];
+    }
+  }
+
+  Future<void> _pickImages() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: true,
+      );
+
+      if (result != null) {
+        if (imagenes.length + result.files.length > 1) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No puedes seleccionar más de una imagen'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        } else {
+          setState(() {
+            imagenes.addAll(result.files);
+          });
+        }
+      }
+    } catch (e) {
+      // print('Error al seleccionar imágenes: $e');
     }
   }
 
@@ -182,6 +212,15 @@ class _UpdatePistaFormState extends State<UpdatePistaForm> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    Wrap(
+                      spacing: 8.0,
+                      children: imagenes.map((file) {
+                        return kIsWeb
+                            ? Image.memory(file.bytes!,
+                                height: 100, width: 100, fit: BoxFit.cover)
+                            : Text(file.name);
+                      }).toList(),
+                    ),
                     TextFormField(
                       controller: nameController,
                       decoration: const InputDecoration(
@@ -246,6 +285,13 @@ class _UpdatePistaFormState extends State<UpdatePistaForm> {
                     const SizedBox(height: 8),
                     ...days.map(_buildAvailabilityInputs),
                     const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _pickImages,
+                      child: Text(
+                        "Seleccionar imágenes",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
                     ElevatedButton(
                       onPressed: _guardarFormulario,
                       child: const Text('Guardar'),

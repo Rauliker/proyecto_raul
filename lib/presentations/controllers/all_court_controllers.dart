@@ -97,7 +97,9 @@ class AllCourtController {
 
   String getCourtImageUrl(String? imageUrl) {
     return imageUrl != null
-        ? Uri.parse("$_baseUrl$imageUrl").toString()
+        ? Uri.parse(
+                "$_baseUrl/$imageUrl?timestamp=${DateTime.now().millisecondsSinceEpoch}")
+            .toString()
         : 'assets/hero_onboarding.png';
   }
 }
