@@ -13,8 +13,13 @@ class CreateCourtEventRequested extends CreateCourtEvent {
   final String status;
   final double price;
   final Map<String, List<String>> availability;
-  const CreateCourtEventRequested(
-      this.typeId, this.name, this.status, this.price, this.availability);
+  const CreateCourtEventRequested({
+    required this.name,
+    required this.typeId,
+    required this.status,
+    required this.price,
+    required this.availability,
+  });
 
   @override
   List<Object?> get props => [];

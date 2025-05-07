@@ -1,6 +1,10 @@
-import 'dart:convert';
-
+import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
+import 'package:bidhub/presentations/bloc/createCourt/get_court_bloc.dart';
+import 'package:bidhub/presentations/bloc/createCourt/get_court_event.dart';
+import 'package:bidhub/presentations/bloc/createCourt/get_court_status.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class CrearPistaForm extends StatefulWidget {
   const CrearPistaForm({super.key});
@@ -69,8 +73,37 @@ class _CrearPistaFormState extends State<CrearPistaForm> {
         'availability': availability,
       };
 
-      final jsonPista = jsonEncode(pista);
-      print(jsonPista);
+      final createBloc = BlocProvider.of<CreateCourtBloc>(context);
+      createBloc.add(CreateCourtEventRequested(
+        name: name,
+        typeId: typeId!,
+        status: status!,
+        price: price!,
+        availability: availability,
+      ));
+
+      int i = 0;
+      createBloc.stream.listen((state) {
+        if (state is CreateCourtFailure) {
+          if (i == 0) {
+            CustomSnackbar.failedSnackbar(
+              title: 'Failed',
+              message: state.message.replaceAll('Exception:', ''),
+            );
+          }
+          return;
+        } else if (state is CreateCourtSuccess) {
+          Get.offAllNamed('/admin');
+          if (i == 0) {
+            CustomSnackbar.successSnackbar(
+              title: 'Success',
+              message: 'Registro Correcto',
+            );
+            i++;
+          }
+          return;
+        }
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Pista creada correctamente')),
       );
