@@ -35,3 +35,16 @@ class CreatePista {
     return courtTypes;
   }
 }
+
+class UpdatePista {
+  final PistaRepository repository;
+
+  UpdatePista(this.repository);
+
+  Future<String> call(String name, int typeId, String status, double price,
+      Map<String, List<String>> availability) async {
+    String courtTypes =
+        await repository.update(name, typeId, status, price, availability);
+    return courtTypes;
+  }
+}

@@ -2,6 +2,9 @@ import 'package:bidhub/core/themes/custom_snackbar_theme.dart';
 import 'package:bidhub/presentations/bloc/createCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/createCourt/get_court_event.dart';
 import 'package:bidhub/presentations/bloc/createCourt/get_court_status.dart';
+import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
+import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_event.dart';
+import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -32,10 +35,19 @@ class _CrearPistaFormState extends State<CrearPistaForm> {
   ];
 
   final Map<String, List<TextEditingController>> availabilityControllers = {};
+  void _fetchCourtTypeData() {
+    final courtTypeBloc = context.read<CourtTypeBloc>();
+    if (!courtTypeBloc.isClosed) {
+      courtTypeBloc.add(const CourtTypeEventRequested());
+    } else {
+      context.read<CourtTypeBloc>().add(const CourtTypeEventRequested());
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _fetchCourtTypeData();
     for (var day in days) {
       availabilityControllers[day] = [
         TextEditingController(),
@@ -156,11 +168,33 @@ class _CrearPistaFormState extends State<CrearPistaForm> {
                 onSaved: (value) => name = value ?? '',
                 validator: (value) => value!.isEmpty ? 'Requerido' : null,
               ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'ID Tipo'),
-                keyboardType: TextInputType.number,
-                onSaved: (value) => typeId = int.tryParse(value ?? ''),
-                validator: (value) => value!.isEmpty ? 'Requerido' : null,
+              BlocBuilder<CourtTypeBloc, CourtTypeState>(
+                builder: (context, state) {
+                  if (state is CourtTypeLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is CourtTypeSuccess) {
+                    return DropdownButtonFormField<int>(
+                      decoration:
+                          const InputDecoration(labelText: 'Tipo de pista'),
+                      value: typeId,
+                      items: state.courtType.map((type) {
+                        return DropdownMenuItem<int>(
+                          value: type.id,
+                          child: Text(type.name),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() => typeId = value);
+                      },
+                      validator: (value) =>
+                          value == null ? 'Seleccione un tipo' : null,
+                    );
+                  } else if (state is CourtTypeFailure) {
+                    return Center(child: Text("Error: ${state.message}"));
+                  }
+                  return const Center(
+                      child: Text("No hay tipos de pistas disponibles"));
+                },
               ),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(labelText: 'Estado'),

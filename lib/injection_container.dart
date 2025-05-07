@@ -68,6 +68,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateUserInfo(sl()));
   sl.registerLazySingleton(() => Payment(sl()));
   sl.registerLazySingleton(() => CreatePista(sl()));
+  sl.registerLazySingleton(() => UpdatePista(sl()));
+
   // Blocs
   sl.registerFactory(() => LanguageBloc());
   sl.registerFactory(() => LoginBloc(sl()));
@@ -81,7 +83,7 @@ Future<void> init() async {
   sl.registerCachedFactory(() => GetUserBloc(sl()));
   sl.registerCachedFactory(() => UpdateUserBloc(sl()));
   sl.registerFactory(() => PaymentBloc(sl()));
-  sl.registerFactory(() => CreateCourtBloc(sl()));
+  sl.registerFactory(() => CreateCourtBloc(sl(), sl()));
 
   // External
   sl.registerLazySingleton(() => http.Client());

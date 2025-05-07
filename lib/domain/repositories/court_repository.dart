@@ -5,4 +5,6 @@ abstract class PistaRepository {
   Future<PistaEntity> getOne(int id);
   Future<String> create(String name, int typeId, String status, double price,
       Map<String, List<String>> availability);
+  Future<String> update(String name, int typeId, String status, double price,
+      Map<String, List<String>> availability);
 }

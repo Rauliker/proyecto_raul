@@ -4,6 +4,7 @@ import 'package:bidhub/presentations/screens/home_screen.dart';
 import 'package:bidhub/presentations/screens/login_screen.dart';
 import 'package:bidhub/presentations/screens/one_court_view.dart';
 import 'package:bidhub/presentations/screens/register_screen.dart';
+import 'package:bidhub/presentations/screens/update_court.dart';
 import 'package:get/get.dart';
 
 final List<GetPage> routes = [
@@ -30,5 +31,9 @@ final List<GetPage> routes = [
   GetPage(
     name: '/create-court',
     page: () => const CrearPistaForm(),
+  ),
+  GetPage(
+    name: '/update-court/:id',
+    page: () => const UpdatePistaForm(),
   ),
 ];

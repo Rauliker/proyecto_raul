@@ -115,9 +115,9 @@ class _AllCourtViewAdminState extends State<AllCourtViewAdmin> {
                                 width: 140,
                                 child: CustomMediumButton(
                                   color: blue,
-                                  label: 'Reservar',
+                                  label: 'Cambiar',
                                   onTap: () =>
-                                      Get.toNamed('/court-detail/${court.id}'),
+                                      Get.toNamed('/update-court/${court.id}'),
                                 ),
                               ),
                             ],
