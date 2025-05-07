@@ -16,4 +16,11 @@ class PistaRepositoryImpl implements PistaRepository {
   Future<PistaEntity> getOne(int id) async {
     return await remoteDataSource.getOne(id);
   }
+
+  @override
+  Future<String> create(String name, int typeId, String status, double price,
+      Map<String, List<String>> availability) async {
+    return await remoteDataSource.create(
+        name, typeId, status, price, availability);
+  }
 }

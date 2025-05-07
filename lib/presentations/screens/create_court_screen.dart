@@ -70,7 +70,7 @@ class _CrearPistaFormState extends State<CrearPistaForm> {
       };
 
       final jsonPista = jsonEncode(pista);
-      print(jsonPista); // Puedes enviarlo a tu backend en lugar de imprimirlo
+      print(jsonPista);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Pista creada correctamente')),
       );

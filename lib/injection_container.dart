@@ -15,6 +15,7 @@ import 'package:bidhub/domain/usercase/court_usecase.dart';
 import 'package:bidhub/domain/usercase/reservation_usecase.dart';
 import 'package:bidhub/domain/usercase/user_usecase.dart';
 import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/createCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
@@ -66,6 +67,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetUserInfo(sl()));
   sl.registerLazySingleton(() => UpdateUserInfo(sl()));
   sl.registerLazySingleton(() => Payment(sl()));
+  sl.registerLazySingleton(() => CreatePista(sl()));
   // Blocs
   sl.registerFactory(() => LanguageBloc());
   sl.registerFactory(() => LoginBloc(sl()));
@@ -79,6 +81,7 @@ Future<void> init() async {
   sl.registerCachedFactory(() => GetUserBloc(sl()));
   sl.registerCachedFactory(() => UpdateUserBloc(sl()));
   sl.registerFactory(() => PaymentBloc(sl()));
+  sl.registerFactory(() => CreateCourtBloc(sl()));
 
   // External
   sl.registerLazySingleton(() => http.Client());

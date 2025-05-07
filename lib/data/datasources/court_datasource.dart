@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class PistaRemoteDataSource {
   Future<List<PistaModel>> getAll(int? idType);
   Future<PistaModel> getOne(int id);
+  Future<String> create(String name, int typeId, String status, double price,
+      Map<String, List<String>> availability);
 }
 
 class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
@@ -17,6 +19,41 @@ class PistaRemoteDataSourceImpl implements PistaRemoteDataSource {
   final http.Client client;
 
   PistaRemoteDataSourceImpl(this.client);
+
+  @override
+  Future<String> create(String name, int typeId, String status, double price,
+      Map<String, List<String>> availability) async {
+    try {
+      final body = jsonEncode({
+        'name': name,
+        'typeId': typeId,
+        'statusId': status,
+        'price': price,
+        'availability': availability,
+      });
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getString('token') == null) {
+        throw Exception("inicia sesion");
+      }
+      final headers = {'Content-Type': 'application/json'};
+      final token = await prefs.getString('token') ?? '';
+      final urlRequest = '$_baseUrl/court';
+      final url = Uri.parse(urlRequest);
+      final response = await client.post(url, body: body, headers: {
+        ...headers,
+        'Authorization': 'Bearer $token',
+      });
+      if (response.statusCode == 201) {
+        return "Pista creada de manera exitosa";
+      } else {
+        final responseBody = jsonDecode(response.body);
+        throw Exception(responseBody["message"]);
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   @override
   Future<List<PistaModel>> getAll(int? idType) async {
     try {
