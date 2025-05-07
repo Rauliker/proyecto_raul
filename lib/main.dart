@@ -2,6 +2,7 @@ import 'package:bidhub/config/notifications/notification_service.dart';
 import 'package:bidhub/config/routes.dart';
 import 'package:bidhub/injection_container.dart' as di;
 import 'package:bidhub/presentations/bloc/cancelReservation/cancel_reservation_bloc.dart';
+import 'package:bidhub/presentations/bloc/createCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getAllReservation/get_all_reservation_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourt/get_court_bloc.dart';
 import 'package:bidhub/presentations/bloc/getCourtType/get_all_court_type_bloc.dart';
@@ -98,6 +99,9 @@ class MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => di.sl<ReservationBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => di.sl<CreateCourtBloc>(),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
