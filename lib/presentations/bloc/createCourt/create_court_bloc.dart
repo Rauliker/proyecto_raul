@@ -1,6 +1,6 @@
 import 'package:bidhub/domain/usercase/court_usecase.dart';
-import 'package:bidhub/presentations/bloc/createCourt/get_court_event.dart';
-import 'package:bidhub/presentations/bloc/createCourt/get_court_status.dart';
+import 'package:bidhub/presentations/bloc/createCourt/create_court_event.dart';
+import 'package:bidhub/presentations/bloc/createCourt/create_court_status.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateCourtBloc extends Bloc<CreateCourtEvent, CreateCourtState> {

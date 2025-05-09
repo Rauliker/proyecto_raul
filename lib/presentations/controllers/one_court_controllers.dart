@@ -99,29 +99,51 @@ class OneCourtController {
     if (reservations == null || reservations.isEmpty) {
       return const Text("No hay reservas disponibles.");
     }
+
     final filteredReservations = reservations.where((reservation) {
       final formattedReservationDate =
           DateTime.parse(reservation.date).toLocal().toString().split(' ')[0];
       return formattedReservationDate == dateController.text &&
           reservation.status != 'rejected';
     }).toList();
+
     if (filteredReservations.isEmpty) {
       return const Text("No hay reservas disponibles.");
     }
-    return Column(
-      children: filteredReservations.map((filteredReservations) {
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: filteredReservations.length,
+      itemBuilder: (context, index) {
+        final reservation = filteredReservations[index];
+        final statusText = reservation.status == 'created'
+            ? 'Creado'
+            : reservation.status == 'confirmed'
+                ? 'Confirmada'
+                : reservation.status;
+
         return ListTile(
+          dense: true,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           title: Text(
-            "Inicio: ${filteredReservations.startTime}, Fin: ${filteredReservations.endTime}",
+            "Inicio: ${reservation.startTime}, Fin: ${reservation.endTime}",
+            style: const TextStyle(fontSize: 13),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            "Status: ${filteredReservations.status == 'created' ? 'Creado' : filteredReservations.status == 'confirmed' ? 'Confirmada' : filteredReservations.status}",
+            "Estado: $statusText",
+            style: const TextStyle(fontSize: 12),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          tileColor: filteredReservations.status == 'created'
+          tileColor: reservation.status == 'created'
               ? const Color.fromARGB(122, 240, 170, 120)
               : const Color.fromARGB(108, 255, 128, 128),
         );
-      }).toList(),
+      },
     );
   }
 
