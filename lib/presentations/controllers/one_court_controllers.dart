@@ -250,6 +250,7 @@ class OneCourtController {
             title: 'Failed',
             message: state.message.replaceAll('Exception: ', ''),
           );
+          i++;
         }
 
         return;
@@ -259,6 +260,8 @@ class OneCourtController {
             title: 'Success',
             message: state.message,
           );
+          _fetchCourtData(id);
+          i++;
         }
         return;
       }
