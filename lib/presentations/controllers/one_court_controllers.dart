@@ -140,8 +140,8 @@ class OneCourtController {
             overflow: TextOverflow.ellipsis,
           ),
           tileColor: reservation.status == 'created'
-              ? const Color.fromARGB(122, 240, 170, 120)
-              : const Color.fromARGB(108, 255, 128, 128),
+              ? const Color.fromARGB(121, 255, 201, 163)
+              : const Color.fromARGB(108, 255, 171, 171),
         );
       },
     );

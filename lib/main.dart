@@ -120,7 +120,7 @@ class MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             theme: themeState.currentTheme.getTheme(),
             getPages: routes,
-            initialRoute: '/login',
+            initialRoute: '/home',
           );
         },
       ),

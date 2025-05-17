@@ -52,82 +52,87 @@ class UpdateUserScreenState extends State<UpdateUserScreen> {
                 _controller.addressController.text = state.message.address;
                 _controller.passwordController.text = state.message.password;
 
-                return Column(
-                  children: [
-                    TextFormField(
-                      initialValue: _controller.emailController.text,
-                      decoration: const InputDecoration(labelText: 'Email'),
-                      onChanged: (value) =>
-                          _controller.emailController.text = value,
-                      enabled: false,
-                    ),
-                    TextFormField(
-                      initialValue: _controller.usernameController.text,
-                      decoration: const InputDecoration(labelText: 'Username'),
-                      onChanged: (value) =>
-                          _controller.usernameController.text = value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Pon tu nombre de usuario';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      initialValue: _controller.fullNameController.text,
-                      decoration: const InputDecoration(labelText: 'Nombre'),
-                      onChanged: (value) =>
-                          _controller.fullNameController.text = value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Pon tu nombre';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      initialValue: _controller.phoneNumberController.text,
-                      decoration: const InputDecoration(labelText: 'Telefono'),
-                      onChanged: (value) =>
-                          _controller.phoneNumberController.text = value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'pon un numero de telofono';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      initialValue: _controller.addressController.text,
-                      decoration: const InputDecoration(labelText: 'Direccion'),
-                      onChanged: (value) =>
-                          _controller.addressController.text = value,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Pon una direccoin';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: CustomMediumButton(
-                        color: green,
-                        label: 'Actualizar',
-                        onTap: () => _controller.handleUpdateUser(context),
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        initialValue: _controller.emailController.text,
+                        decoration: const InputDecoration(labelText: 'Email'),
+                        onChanged: (value) =>
+                            _controller.emailController.text = value,
+                        enabled: false,
                       ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 20)),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: CustomMediumButton(
-                        color: red,
-                        label: 'Cancelar',
-                        onTap: () => Get.offAllNamed('/home'),
+                      TextFormField(
+                        initialValue: _controller.usernameController.text,
+                        decoration:
+                            const InputDecoration(labelText: 'Username'),
+                        onChanged: (value) =>
+                            _controller.usernameController.text = value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Pon tu nombre de usuario';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                  ],
+                      TextFormField(
+                        initialValue: _controller.fullNameController.text,
+                        decoration: const InputDecoration(labelText: 'Nombre'),
+                        onChanged: (value) =>
+                            _controller.fullNameController.text = value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Pon tu nombre';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _controller.phoneNumberController.text,
+                        decoration:
+                            const InputDecoration(labelText: 'Telefono'),
+                        onChanged: (value) =>
+                            _controller.phoneNumberController.text = value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'pon un numero de telofono';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        initialValue: _controller.addressController.text,
+                        decoration:
+                            const InputDecoration(labelText: 'Direccion'),
+                        onChanged: (value) =>
+                            _controller.addressController.text = value,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Pon una direccoin';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: CustomMediumButton(
+                          color: green,
+                          label: 'Actualizar',
+                          onTap: () => _controller.handleUpdateUser(context),
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.only(top: 20)),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: CustomMediumButton(
+                          color: red,
+                          label: 'Cancelar',
+                          onTap: () => Get.offAllNamed('/home'),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
               return const SizedBox.shrink();

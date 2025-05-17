@@ -206,7 +206,7 @@ class _OneCourtOneViewState extends State<OneCourtOneView> {
                       ),
                       Center(
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.5,
                           child: CustomMediumButton(
                             color: green,
                             label: 'Reservar',
